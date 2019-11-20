@@ -1,0 +1,354 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/vhrmLayoutBlock.cshtml";
+}
+
+<style>
+    .k-edit-form-container {
+        width: 600px;
+    }
+    /* Notifications */
+    .k-notification h3 {
+        padding: 30px 10px 5px;
+        font-size: 1em;
+        line-height: normal;
+    }
+
+    .k-notification img {
+        margin: 20px;
+        float: left;
+    }
+
+
+    /* Info template */
+    .new-mail {
+        width: 300px;
+        height: 100px;
+    }
+
+    /* Error template */
+    .wrong-pass {
+        width: 300px;
+        height: 100px;
+    }
+
+    /* Success template */
+    .upload-success {
+        width: 300px;
+        height: 100px;
+    }
+
+
+    /* For Bootstrap v4 theme */
+    .k-bootstrap-v4 .k-notification h3 {
+        padding: 10px 10px 5px;
+    }
+
+    .k-bootstrap-v4 .k-notification img {
+        margin: 10px 20px 0 0;
+    }
+
+    .k-bootstrap-v4 .new-mail,
+    .k-bootstrap-v4 .wrong-pass,
+    .k-bootstrap-v4 .upload-success {
+        width: calc( 300px - 2.5rem );
+        height: calc( 100px - 1.5rem );
+    }
+
+
+    /* For Material v2 theme */
+    .k-material-v2 .k-notification h3 {
+        padding: 10px 10px 5px;
+    }
+
+    .k-material-v2 .k-notification img {
+        margin: 10px 20px 0 0;
+    }
+
+    .k-material-v2 .new-mail,
+    .k-material-v2 .wrong-pass,
+    .k-material-v2 .upload-success {
+        width: 270px;
+        height: 70px;
+    }
+</style>
+
+@(Html.Kendo().Notification()
+    .Name("notification")
+    .Position(p => p.Pinned(true).Top(30).Right(30))
+    .Stacking(NotificationStackingSettings.Down)
+    .AutoHideAfter(1000)
+    .Templates(t =>
+    {
+        //t.Add().Type("info").ClientTemplateID("emailTemplate");
+        t.Add().Type("error").ClientTemplateID("errorTemplate");
+        t.Add().Type("success").ClientTemplateID("successTemplate");
+    })
+)
+
+<script id="successTemplate" type="text/x-kendo-template">
+    <div class="upload-success">
+        <h3>#= message #</h3>
+    </div>
+</script>
+
+<script id="errorTemplate" type="text/x-kendo-template">
+    <div class="wrong-pass">
+        <h3>#= message #</h3>
+    </div>
+</script>
+
+<div style="width: 1550px;">
+    <div class="k-content" style="float:left; overflow: auto;width: 500px; max-height: 650px;">
+        @(Html.Kendo().TreeView()
+            .Name("treeViewDept")
+            .DataTextField("Name")
+            .DataSource(dataSource => dataSource
+                .Read(read => read
+                    //.Action("getDeptTree", "GeoReportConfig")
+                    .Action("getDeptTreeVer2", "OrgConfig")
+                )
+            )
+            .Events(evs =>
+            {
+                //evs.Change("trvMenuChange");
+                evs.Select("trvMenuSelect");
+                evs.DataBound("trvDeptBound");
+            })
+            .HighlightPath(true)
+        )
+    </div>
+
+    <div style="float: left; margin-left: 20px; width: 1000px">
+        <div class="row" style="margin-top: 5px;">
+            <div class="col-sm">
+                <div class="form-group" style="width: 300px;">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" readonly id="dept_name" name="FormID" placeholder="Department">
+                        <input type="hidden" class="form-control" id="dept_code" />
+                        <div class="input-group-append">
+                            @*<button class="btn btn-outline-primary" type="button" onclick="review()">Review</button>*@
+                            @*<button class="btn btn-outline-primary" type="button" onclick="review()"><i class="fa fa-search"></i></button>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 5px">
+            @(Html.Kendo().Grid<vhrm.FrameWork.Entity.eGeoReportItem>()
+                .Name("reportGrid")
+                .AutoBind(false)
+                .Columns(columns =>
+                {
+                    //columns.Command(command => command.Custom("ViewDetails").Click("showDetails").Text("dkm")).Width(20);
+                    //columns.Template(t => { }).ClientTemplate("#= renderNumber(data) #").Title("NO.").Width(20);
+                    //columns.Bound(c => c.GEOREPORTCD).Width(120).Title("CODE");
+                    //columns.Bound(c => c.DEPTCODE).Width(120).Title("DEPT");
+                    //columns.Bound(c => c.SYS_EMPID).Width(100).Title("EMPID");
+                    //columns.Bound(c => c.EMPNAME).Width(200);
+                    //columns.Bound(c => c.SYS_EMPID).Width(100);
+                    columns.Bound(c => c.EMPNAME).Width(250);
+                    columns.Bound(c => c.APPLYDATE).Width(150).Title("VALID DATE").Format("{0:MM/dd/yyyy}");
+                    //columns.Bound(c => c.ISACTIVE).Width(80).Title("ACTIVED").Filterable(false);
+                    columns.Bound(c => c.ISACTIVE).Width(80).Title("ACTIVED").Filterable(false).ClientTemplate("#= ISACTIVE ? 'Yes' : 'No' #");
+                    columns.Command(command =>
+                    {
+                        command.Edit();
+                    }).Width(50);
+                })
+                .ToolBar(toolbar =>
+                {
+                    toolbar.Create();
+                })
+                .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("GeoReportItemEditor"))
+                .HtmlAttributes(new { style = "height: 920px;" })
+                .Scrollable()
+                .Pageable(pageable => pageable
+                    .Refresh(true)
+                    .PageSizes(false)
+                    .ButtonCount(5))
+                .Selectable(slt => slt
+                    .Mode(GridSelectionMode.Single))
+                .Events(evs =>
+                {
+                    //.Change("onSelectGridItem")
+                    //.DataBound("onDataGridBound")
+                    //.DataBinding("onDataBinding")
+                    //.Page("onPaging")
+                    //.Edit("onEditForm")
+                    //.Save("onSave")
+                })
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Read(read => read.Action("getGeoReportByDept", "GeoReportConfig").Data("addDitionalQuery"))
+                    .ServerOperation(false)
+                    .PageSize(20)
+                    .Model(model => model.Id(p => p.GEOREPORTCD))
+                    //.Update("updateGeoReporter", "GeoReportConfig")
+                    .Update(update =>
+                    {
+                        update.Action("updateGeoReporter", "GeoReportConfig");
+                        update.Data("addDitionalQuery");
+                    })
+                    .Create(create => {
+                        create.Action("createGeoReporter", "GeoReportConfig");
+                        create.Data("addDitionalQuery");
+                    })
+                    .Events(e => {
+                        e.RequestEnd("endGeoReportRequest");
+                    })
+                )
+            )
+        </div>
+    </div>
+</div>
+
+@(Html.Kendo().Dialog()
+    .Name("formDialog")
+    .Visible(false)
+    .Title("Members")
+    .Content(
+        Html.Kendo().Grid<vhrm.FrameWork.Entity.eEmpBasicInfo>()
+            .Name("gridForm")
+            .AutoBind(false)
+            .Columns(columns =>
+            {
+                //columns.Bound(c => c.SYS_EMPID).Width(120).Title("sys_empid");
+                columns.Bound(c => c.EMPID).Width(120).Title("empid");
+                columns.Bound(c => c.EMPNAME).Width(200).Title("empname");
+            })
+            .Selectable(selectable => selectable
+                .Mode(GridSelectionMode.Single))
+            .Filterable(ft => {
+                ft.Extra(false);
+                ft.Mode(GridFilterMode.Row);
+                ft.Operators(ops => ops.ForString(str => str.Clear().Contains("Contains")));
+            })
+            .Sortable()
+            .Scrollable()
+            .Pageable(pg => {
+                pg.PageSizes(false);
+                pg.Refresh(false);
+                pg.ButtonCount(5);
+            })
+            .DataSource(dts =>
+            {
+                dts.Ajax()
+                    .Read(read => read.Action("getEmpBasicInfo", "Employee"))
+                    .PageSize(50);
+            })
+            .ToHtmlString()
+    )
+    .Width(800)
+    //.Height(520)
+    .Modal(true)
+    .Closable(true)
+    .Actions(actions =>
+    {
+        actions.Add().Text("Cancel");
+        actions.Add().Text("OК").Primary(true).Action("actionOK");
+    })
+    .Events(ev => ev.Open("openDialogForm"))
+)
+
+<script>
+    let treeview = null;
+    let reportGrid = null;
+    let gridForm = null;
+    let notification = null;
+    $(document).ready(function () {
+        treeview = $("#treeViewDept").data("kendoTreeView");
+        reportGrid = $("#reportGrid").data("kendoGrid");
+        gridForm = $("#gridForm").data("kendoGrid");
+        //dropdowntree = $("#drpTreeMenu").data("kendoDropDownTree");
+        notification = $("#notification").data("kendoNotification");
+        //gridForm = $("#gridForm").data("kendoGrid");
+    });
+    function trvDeptBound(e, args) {
+        //treeview.expand(treeview.findByText("Pungkook Corp"));
+        //treeview.expand(".k-item");
+        //let getItem = treeview.dataSource.get("000000");
+
+        //console.log(getItem);
+    }
+
+    function review() {
+        let deptcode = document.getElementById("dept_code").value;
+        let deptname = document.getElementById("dept_name").value;
+        console.log(deptcode + '---' + deptname);
+
+        //curPage = 1;
+        //grid.dataSource.page(curPage);
+        reportGrid.dataSource.read();
+    }
+
+
+    function trvMenuSelect(e) {
+        let data = treeview.dataItem(e.node);
+        //$.get('/MenuConfig/getMenuDetail', { menu_id: data.id }, fillInfo);
+        document.getElementById("dept_code").value = data.id;
+        document.getElementById("dept_name").value = data.Name;
+
+        reportGrid.dataSource.data([]);
+
+        let deptcode = data.id;
+        let deptname = data.Name;
+        console.log(deptcode + '---' + deptname);
+
+        //curPage = 1;
+        //grid.dataSource.page(curPage);
+        reportGrid.dataSource.read();
+    }
+
+    function addDitionalQuery() {
+        let deptcode = document.getElementById("dept_code").value;
+        return {
+            deptcode: deptcode
+        }
+    }
+
+    function endRequest(e) {
+
+    }
+
+    function openDialog() {
+        $("#formDialog").data("kendoDialog").open();
+    }
+
+    function openDialogForm() {
+        gridForm.dataSource.read();
+    }
+
+    function actionOK(e) {
+        //let formList = $("#gridForm").data("kendoGrid");
+        let selectedRow = gridForm.select()[0];
+        let selectedDataItem = gridForm.dataItem(selectedRow);
+
+        $("#emp_name").val(selectedDataItem.EMPNAME);
+        $("#emp_name").trigger("change");
+
+        $("#SYS_EMPID").val(selectedDataItem.SYS_EMPID);
+        $("#SYS_EMPID").trigger("change");
+    }
+
+    function endGeoReportRequest(e) {
+        //console.log(e);
+        if (e.type === "read")
+            return;
+        let dataRes = e.response.Data[1];
+        console.log(dataRes);
+        if (dataRes.result !== "OK") {
+            notification.show({
+                message: dataRes.message
+            }, "error");
+            reportGrid.dataSource.cancelChanges();
+        }
+        else {
+            notification.show({
+                message: dataRes.message
+            }, "success");
+        }
+    }
+</script>

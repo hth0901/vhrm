@@ -1,0 +1,301 @@
+﻿@using vhrm.ViewModels
+@model DeptViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/vhrmLayout.cshtml";
+}
+
+<div style="width: 100%;margin-top:5px">
+    @*<div>
+        @{
+            Html.RenderPartial("ViewMenu");
+        }
+    </div>*@
+    <div class="clearfix"></div>
+    <div id="GeoOrganizationListPartial" style="min-height:500px; background:white; width:500px; float:left; margin-top: 5px;margin-left: 5px; border: outset 1px gray">
+        @{
+            Html.RenderPartial("GeoOrganizationListPartial");
+        }
+    </div>
+
+    <div id="GeoOrganizationInforPartial" style="min-height:500px; background:white; width:calc(100% - 525px); float:left; margin-left: 5px; margin-top: 5px; border: outset 1px gray">
+        @{
+            Html.RenderPartial("GeoOrganizationInforPartial");
+        }
+    </div>
+</div>
+
+<script>
+    var treeview;
+    var dropdowntree;
+    var parent;
+    var hisParentOfCurrent;
+    var hisNameOfCurrent;
+    var hisOderOfCurrent;
+    var hisActiveOfCurrent;
+    var currentNode;
+    var deptCode;
+    var isSaveNew = false;
+    var isSaveEdit = false;
+
+    function onSelect(e) {
+        var dataItem = this.dataItem(e.node);
+        //$('#GeoOrganizationInforPartial').load('/GeoOrganization/GeoOrganizationInforPartial', { departCode: dataItem.DEPTCODE, deptName: dataItem.DEPTNAME });
+        //console.log('dataItem.DEPTPARENT' + dataItem.DEPTPARENT);
+        //console.log('dataItem.DEPTLEVEL onSelect' + dataItem.DEPTLEVEL);
+        //console.log('dataItem.ORDERINDEX onSelect' + dataItem.ORDERINDEX);
+        currentNode = dataItem.DEPTCODE;
+        hisNameOfCurrent = dataItem.DEPTNAME;
+        hisOderOfCurrent = dataItem.ORDERINDEX;
+        hisActiveOfCurrent = dataItem.ISACTIVE;
+        hisParentOfCurrent = dataItem.DEPTPARENT;
+        //$("#chkActive").attr("checked", dataItem.ISACTIVE);
+        if (dataItem.ISACTIVE == '1')
+            $("#chkActive").prop("checked", true);
+        else
+            $("#chkActive").prop("checked", false);    
+        console.log('DEPARTNAME' + dataItem.DEPTNAME);
+        if (dataItem.DEPTPARENT === 'undefined' || dataItem.DEPTPARENT === null) {
+            dropdowntree.value(dataItem.DEPTCODE);
+            $('#txtOrganizationName').val(dataItem.DEPTNAME);
+            $('#txtOrderIndex').val(dataItem.ORDERINDEX);
+            parent = dataItem.DEPTCODE;
+            //console.log("parent (onSelect)  " + parent);
+        }
+        else {
+            console.log("dataItem.DEPTPARENT = " + dataItem.DEPTPARENT);
+            dropdowntree.value(dataItem.DEPTPARENT);
+            $('#txtOrganizationName').val(dataItem.DEPTNAME);
+            $('#txtOrderIndex').val(dataItem.ORDERINDEX);
+            parent = dataItem.DEPTPARENT;
+            //console.log("parent (onSelect)  " + parent);
+        }
+    }
+    function DeptBound(e, args) {
+        treeview.expand(treeview.findByText("Pungkook Corp"));
+    }
+    function onChangeDropdown(e) {
+        // var dataItem = this.dataItem(e.node);
+
+    }
+
+    function onSelectDropdown(e) {
+        var dataItem = this.dataItem(e.node);
+        parent = dataItem.DEPTCODE;
+        //hisParentOfCurrent = dataItem.DEPTCODE;
+        //console.log("parent (onSelectDropdown)  " + parent);
+        //console.log('dataItem.DEPTLEVEL onSelectDropdown' + dataItem.DEPTLEVEL);
+        //var dataItem = this.dataItem(e.node);
+    }
+
+    function onDataBindingDropdown(e) {
+        dropdowntree.enable(false);         
+    }
+
+    function onCheck(e) {
+        //kendoConsole.log("Checkbox changed :: " + this.text(e.node));
+    }
+
+    //function onChange(e) {
+    //    //console.log("bbbbbb");
+    //}
+
+    function onCollapse(e) {
+        //kendoConsole.log("Collapsing " + treeview.text(e.node));
+    }
+
+    function onExpand(e) {
+        //kendoConsole.log("Expanding " + treeview.text(e.node));
+    }
+
+    function onDragStart(e) {
+        //kendoConsole.log("Started dragging " + treeview.text(e.sourceNode));
+    }
+
+    function onDrag(e) {
+        //kendoConsole.log("Dragging " + this.text(e.sourceNode));
+    }
+
+    function onDrop(e) {
+        //kendoConsole.log(
+        //"Dropped " + treeview.text(e.sourceNode) +
+        //" (" + (e.valid ? "valid" : "invalid") + ")"
+        //);
+    }
+
+    function onDragEnd(e) {
+        //kendoConsole.log("Finished dragging " + treeview.text(e.sourceNode));
+    }
+
+    function onNavigate(e) {
+        //if (e.node) {
+        //    kendoConsole.log("Navigate " + this.text(e.node));
+        //}
+    }
+
+    function Visable(isNew, isSave, isCancel, isReset, isEdit) {
+        if (isNew)
+            $('#btnAddnew').removeAttr('disabled');
+        else
+            $("#btnAddnew").prop('disabled', 'disabled');
+
+        if (isSave)
+            $('#btnSave').removeAttr('disabled');
+        else
+            $("#btnSave").prop('disabled', 'disabled');
+
+        if (isCancel)
+            $('#btnCancel').removeAttr('disabled');
+        else
+            $("#btnCancel").prop('disabled', 'disabled');
+
+        if (isReset)
+            $('#btnReset').removeAttr('disabled');
+        else
+            $("#btnReset").prop('disabled', 'disabled');
+        if (isEdit)
+            $('#btnEdit').removeAttr('disabled');
+        else
+            $("#btnEdit").prop('disabled', 'disabled');
+    }
+    function Editable(isEdit)
+    {
+        if (isEdit) {
+            $("#txtOrganizationName").prop('disabled', isEdit);
+            $("#txtOrderIndex").prop('disabled', isEdit);
+            dropdowntree.enable(!isEdit);
+            $("#chkActive").prop('disabled', isEdit);
+        }
+        else
+        {
+            $("#txtOrganizationName").prop('disabled', isEdit);
+            $("#txtOrderIndex").prop('disabled', isEdit);
+            dropdowntree.enable(!isEdit);
+            $("#chkActive").prop('disabled', isEdit);
+        }
+    }
+    $(document).ready(function () {
+        treeview = $("#treeGeoOrganization").data("kendoTreeView");
+        dropdowntree = $("#dropdowntree").data("kendoDropDownTree");
+        console.log(dropdowntree.dataSource.data);
+        Visable(true, false, false, false, true);
+        Editable(true);
+        treeview.expand(".k-item");
+
+        var valid = $(".form-horizontal").validate({
+            rules: {
+
+                txtOrganizationName: { required: true },
+                txtOrderIndex: { number: true }
+            }
+        });
+
+        $('#btnAddnew').on('click', function () {
+            isSaveNew = true;
+            isSaveEdit = false;
+            Visable(false, true, true, true, false);
+            Editable(false);          
+        });
+        $('#btnSave').on('click', function () {
+            if (isSaveNew === true && isSaveEdit === false)
+            {         
+                if ($(".form-horizontal").valid()) {
+                    parent = dropdowntree.value();
+                    if (parent === 'undefined' || parent === null)
+                        parent = "000000";
+                    var url = '@Url.Action("AddNewGeoOrganization", "GeoOrganization")';
+                    $.post(url, { deptParent: parent, deptName: $('#txtOrganizationName').val(), active: $("#chkActive").prop("checked"), orderIndex: $("#txtOrderIndex").val() },
+                        function (data) {
+                        });
+                    treeview.dataSource.read();
+                    dropdowntree.dataSource.read();
+                    dropdowntree.value(parent);
+                    //treeview.value(currentNode);
+                    Visable(true, false, false, false, true);
+                    Editable(true);
+                    isSaveNew = false;
+                    isSaveEdit = true;
+                }
+                else {
+                    return;
+                }
+            }
+            else if (isSaveNew === false && isSaveEdit === true)
+            {
+                
+                if ($(".form-horizontal").valid())
+                {
+                     console.log("deptParent : " + parent);
+                    parent = dropdowntree.value();
+                    if (parent === 'undefined' || parent === null)
+                        parent = "000000";
+                    var url = '@Url.Action("UpdateGeoOrganization", "GeoOrganization")';
+                    $.post(url, { deptCode: currentNode, deptParent: parent, deptName: $('#txtOrganizationName').val(), active: $("#chkActive").prop("checked"), orderIndex: $("#txtOrderIndex").val()},
+                    function (data) {
+                        });
+                    treeview.dataSource.read();
+                    dropdowntree.dataSource.read();
+                    dropdowntree.value(parent);
+                    //treeview.value(currentNode);
+                    Visable(true, false, false, false, true);
+                    Editable(true);
+                    isSaveNew = true;
+                    isSaveEdit = false;
+                }
+                else 
+                {
+                    return;
+                }
+            }
+        });
+        $('#btnCancel').on('click', function () {
+            Editable(true);
+            Visable(true, false, false, false, true);
+            $(".form-horizontal").valid(true);
+            $("#txtOrganizationName").val(hisNameOfCurrent);
+            $("#txtOrderIndex").val(hisOderOfCurrent);
+            if (hisActiveOfCurrent == '1')
+                $("#chkActive").prop("checked", true);
+            else
+                $("#chkActive").prop("checked", false);
+            dropdowntree.value(hisParentOfCurrent);
+        });
+        $('#chkActive').on('change', function (evt) {
+            evt.preventDefault();
+            if ($(this).is(':checked')) {
+                //checked = "1";
+                $("#chkActive").prop("checked", true);
+            } else {
+                //checked = "0";
+                $("#chkActive").prop("checked", false);
+            }
+        });
+        $('#btnReset').on('click', function () {
+            Editable(false);
+            Visable(false, true, true, true, false);
+            $("#txtOrganizationName").val(hisNameOfCurrent);
+            $("#txtOrderIndex").val(hisOderOfCurrent);
+            if (hisActiveOfCurrent == '1')
+                $("#chkActive").prop("checked", true);
+            else
+                $("#chkActive").prop("checked", false);
+            dropdowntree.value(hisParentOfCurrent);
+        });
+        $('#btnEdit').on('click', function () {
+            isSaveNew = false;
+            isSaveEdit = true;
+            Editable(false);
+            Visable(false, true, true, true, true);
+        });
+    });
+</script>
+<style>
+    .error {
+        color: red;
+    }
+    .btnOpacity {
+        background: #00a3ffb5;
+        color: #fff;
+    }
+</style>

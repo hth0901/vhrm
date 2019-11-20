@@ -1,0 +1,48 @@
+﻿@model vhrm.FrameWork.Entity.eForm
+@*@Html.TextArea("FirstName", new
+    {
+        rows = 5,
+        cols = 20,
+        @class = "text-wrapp k-textbox",
+        data_bind = "value:FirstName",
+        style = "resize:none"
+    })*@
+@*<div id="form_editor" style="height: 600px;">*@
+<div id="form_editor">
+    <table style="border-spacing: 10px; border-collapse: separate;">
+        <tr>
+            <td>
+                Form id:
+            </td>
+            <td>
+                @Html.EditorFor(model => model.FORM_CODE)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Form Name:
+            </td>
+            <td>
+                @Html.EditorFor(model => model.FORM_NAME)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                File path:
+            </td>
+            <td>
+                @Html.EditorFor(model => model.FILE_PATH)
+            </td>
+        </tr>
+        @*<tr>
+                <td>
+                    File path:
+                </td>
+                <td>
+                    <input class="k-textbox" id="FILE_PATH" name="FILE_PATH" type="text" data-bind="value:FILE_PATH" />
+                </td>
+            </tr>*@
+    </table>
+</div>

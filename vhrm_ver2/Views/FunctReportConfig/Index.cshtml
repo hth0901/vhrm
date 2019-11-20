@@ -1,0 +1,230 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/vhrmLayout.cshtml";
+}
+
+<style>
+    .k-edit-form-container {
+        width: 600px;
+    }
+</style>
+<div style="width: 100%;margin-top:10px">    
+    <div class="clearfix"></div>
+    <div class="k-content" style="min-height:500px;width:400px; float:left; margin-top: 5px;margin-left: 5px">
+        @(Html.Kendo().TreeView()
+                                    .Name("treeViewFunctReportList")
+                                    .DataTextField("FUNCNAME")
+                                    .DataSource(dataSource => dataSource
+                                      .Model(m => m
+                                                  .Id("FUNCCODE"))
+                                        .Read(read => read
+                                            .Action("getFunctReports", "Staff")
+                                        )
+                                    )
+                                    .Events(evs =>
+                                    {
+                                    //evs.Change("trvMenuChange");
+                                    evs.Select("onSelectFunctReportList");
+                                        evs.DataBound("DataBoundFunctReportList");
+                                    })
+                                    .HighlightPath(true)
+        )
+    </div>
+    <div style="min-height:500px; width:calc(100% - 410px); float:left; margin-left: 0px; margin-top: 10px">
+        <div style="float: left; margin-left: 0px; width: 1000px">
+            <div class="row" style="margin-top: 5px;">
+                <div class="col-md">
+                    <div class="form-group" style="width: 100%;">
+                        <div class="row">
+                            <label for="" class="col-md-2 control-label">Functional Org</label>
+                            <div class="col-md-5">
+                                <div class="demo-section k-content">
+                                    @(Html.Kendo().DropDownTree()
+                                                                 .Name("DropDownFunctions")
+                                                                 .DataTextField("FUNCNAME")
+                                                                 .HtmlAttributes(new { style = "width: 100%" })
+                                                                 .DataSource(dataSource => dataSource
+                                                                      .Model(m => m
+                                                                                  .Id("FUNCCODE"))
+                                                                     .Read(read => read
+                                                                         .Action("getFunctions", "DeptFunction")
+                                                                     )
+                                                                 )
+                                                                 .Events(evs =>
+                                                                 {
+                                                                     evs.Select("onSelectdDropDownFunctions");
+                                                                     evs.DataBound("DataBoundDropDownFunctions");
+                                                                 }).Filter("contains")
+                                                                 .Value("000000")
+                                    )
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="hidden" id="hdValues" value="" />
+                            </div>
+                        </div>                       
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 5px">
+                @(Html.Kendo().Grid<vhrm.FrameWork.Entity.EmployeeMaster>()
+                                    .Name("FunctUserReportGrid")
+                                    .AutoBind(false)
+                                    .Columns(columns =>
+                                    {
+                                        columns.Bound(c => c.EMPID).Width(50).Title("EMPID");
+                                        columns.Bound(c => c.EMPNAME).Width(100).Title("NAME");
+                                        columns.Bound(c => c.POSITION).Width(150).Title("POSITION");
+                                        columns.Bound(c => c.SKILL).Width(80).Title("SKILL");
+                                        columns.Command(command => command.Destroy()).Width(50);
+                                    })
+                                    .ToolBar(toolbar =>
+                                    {
+                                        toolbar.Create().Text("Choose Employees");
+                                    })
+                                    .Filterable(ftb => ftb.Mode(GridFilterMode.Menu))
+                                    .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("FunctReportItemEditor"))
+                                    .HtmlAttributes(new { style = "min-height: 300px;" })
+                                    .Scrollable()
+                                    .Pageable(pageable => pageable
+                                        .Refresh(true)
+                                        .PageSizes(false)
+                                        .ButtonCount(5))
+                                    .Selectable(slt => slt
+                                        .Mode(GridSelectionMode.Single))
+                                    .Events(evs =>
+                                    {@*.Change("onSelectItemGridEmployees")
+                                                                        .DataBound("onDataGridBoundGridEmployees")
+                                                                        .DataBinding("onDataBindingGridEmployees")
+                                                                        .Page("onPagingGridEmployees")
+                                                         ))*@
+                                    })
+                                    .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .Read(read => read.Action("getGeoReportByDept", "GeoReportConfig").Data("addDitionalQueryByFunctCode"))
+                                        .ServerOperation(false)
+                                        .PageSize(20)
+                                        .Model(model => model.Id(p => p.SYS_EMPID))
+                                        //.Update("updateGeoReporter", "GeoReportConfig")
+                                        .Update(update =>
+                                        {
+                                            update.Action("SignEmployeeToGeoReport", "FunctReportConfig");
+                                            //update.Data("addDitionalQuery");
+                                        })
+                                        .Destroy(destroy =>
+                                        {
+                                            destroy.Action("DestroyEmployee", "FunctReportConfig");
+                                            destroy.Data("addDitionalQueryDelete");
+                                        })
+                                        .Create(
+                                               create =>
+                                               {
+                                                   create.Action("CreateEmployeeToGeoReport", "FunctReportConfig");
+                                                   create.Data("addDitionalQuery");
+                                               })
+                                        .Events(
+                                                events =>
+                                                {
+                                                    //events.RequestEnd("endRequest");
+                                                    events.Change("onChangeFunctUserReportGrid");
+                                                })
+                                            )
+                )
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var treeViewFunctReportList;
+    var FunctUserReportGrid;
+    var EmployeeReportGrid;   
+    var DropDownFunctions;
+    var currentNode;
+    var selected;
+    var temp;
+    var count;
+
+    function DataBoundDropDownFunctions(e, args) {
+        //DropDownFunctions.expand(DropDownFunctions.findByText("Pungkook Corp"));
+    }
+    function onSelectdDropDownFunctions(e) {
+        var dataItem = this.dataItem(e.node);
+        currentNode = dataItem.FUNCCODE;
+        //var selectedRight = treeViewFunctReportList.select();
+        if (selected != dataItem.FUNCCODE) {
+            selected = 0;
+            //console.log(selectedRight.Key);
+            //console.log(selectedRight.Display);
+            FunctUserReportGrid.dataSource.transport.options.read.url = "/FunctReportConfig/getEmployeesByFunctCode?FUNCCODE =" + "0";
+            FunctUserReportGrid.dataSource.read();
+            console.log(selected);
+        }          
+       
+    } 
+    function DataBoundFunctReportList(e, args) {
+        treeViewFunctReportList.expand(treeViewFunctReportList.findByText("Pungkook Corp"));
+    } 
+    function onChangeFunctUserReportGrid(e) {
+        if (currentNode == null || currentNode == 'undefined') return;
+        $.ajax({
+            url: "/FunctReportConfig/isNotExistFunctReport",
+            type: 'POST',
+            data: { FUNCCODE: currentNode},
+            OnComplete: function () {
+            },
+            success: function (respond) {
+                var status = respond.result.Data.status;
+                if (status == false && count == 1) {
+                    treeViewFunctReportList.dataSource.read();
+                }
+            },
+            error: function (error) {
+            }
+        });   
+    } 
+    function onSelectFunctReportList(e) {
+        var dataItem = this.dataItem(e.node);
+        selected = dataItem.FUNCCODE;
+        count = 0;
+        FunctUserReportGrid.dataSource.transport.options.read.url = "/FunctReportConfig/getEmployeesByFunctCode?FUNCCODE =" + dataItem.FUNCCODE;
+        FunctUserReportGrid.dataSource.read();
+    } 
+    function addDitionalQueryByFunctCode() {
+
+        return { FUNCCODE: selected }
+    }
+    function addDitionalQueryDelete() {
+        return { FUNCCODE: selected}
+    }
+    function addDitionalQuery() {
+        count = 1;
+        if (currentNode == null || currentNode == 'undefined') currentNode = selected;
+        return { FUNCCODE: currentNode + "," + $("#hdValues").val() }
+    }
+    function onChangeEmployeeReportGrid(e) {    
+        $("#hdValues").val(this.selectedKeyNames().join(", "));
+    }
+    function endRequestEmployeeReport(e) {
+    }
+    function endRequest(e) {
+        //alert("endRequest");
+        //currentNode
+    }
+    $(document).ready(function () {
+
+        treeViewFunctReportList = $("#treeViewFunctReportList").data("kendoTreeView");
+        FunctUserReportGrid = $("#FunctUserReportGrid").data("kendoGrid");
+        //EmployeeReportGrid = $("#EmployeeReportGrid").data("kendoGrid");
+        //employeeReportGrid.dataSource.read();
+        DropDownFunctions = $("#DropDownFunctions").data("kendoDropDownTree");
+        //EmployeeReportGrid.dataSource.read();
+        //In Popup Form
+        //EmployeeReportGrid = $("#EmployeeReportGrid").data("kendoGrid");       
+        //$('#chkSYS_EMPID').on('change', function () {
+        //    // From the other examples
+
+        //});
+       
+    });
+</script>

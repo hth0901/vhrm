@@ -1,0 +1,175 @@
+﻿@using vhrm.Models;
+@model UserLoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>VHRM</title>
+
+
+    <!-- Bootstrap -->
+    <link href="~/libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/libs/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="~/libs/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="~/libs/iCheck/skins/flat/green.css" rel="stylesheet">
+
+    <!-- bootstrap-progressbar -->
+    <link href="~/libs/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="~/libs/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
+    <!-- bootstrap-daterangepicker -->
+    <link href="~/libs/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="~/assets/css/custom.min.css" rel="stylesheet" />
+    <link href="~/Content/Customestyle.css" rel="stylesheet" />
+</head>
+<body class="nav-md footer_fixed">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0">
+                        @*<a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Pungkook Corp</span></a>*@
+                        @*<a href="index.html" class="site_title" ><img style="border: 0;height:40px;margin-top:10px;" src="~/assets/images/PK_logowhite.png" /></a>*@
+                        <img class="site_title" src="~/assets/images/PK_logo---white.png" />
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <!-- menu profile quick info -->
+                    <div class="profile clearfix">
+                        <div class="profile_info">
+                            <span>Welcome,</span>
+                            @*<h2>User</h2>*@
+                            <h2>@Model.UserId</h2>
+                            <input type="hidden" id="userLogin" />
+                        </div>
+                    </div>
+                    <!-- /menu profile quick info -->
+
+                    <br />
+
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        @{
+                            Html.RenderAction("GetMenuByUser");
+                        }
+                    </div>
+                    <!-- /sidebar menu -->
+                    <!-- /menu footer buttons -->
+                    @*<div class="sidebar-footer hidden-small">
+                            <a data-toggle="tooltip" data-placement="top" title="Settings">
+                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                            </a>
+                            <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                            </a>
+                            <a data-toggle="tooltip" data-placement="top" title="Lock">
+                                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                            </a>
+                            <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                            </a>
+                        </div>*@
+                    <!-- /menu footer buttons -->
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <a id="page_path">Home</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3 id="page_name">Home Page</h3>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="row">
+                        <div id="screen_body" class="col-md-12 col-sm-12 col-xs-12">
+                            @*<div class="x_panel" id="screen_body">
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
+            <!-- footer content -->
+            <footer style="padding-bottom: 5px; padding-top: 5px">
+                <div class="bull-center">
+                    K.system & Solution Co,.Ltd
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="~/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/libs/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="~/libs/nprogress/nprogress.js"></script>
+    <!-- Chart.js -->
+    <script src="~/libs/Chart.js/dist/Chart.min.js"></script>
+    <!-- gauge.js -->
+    <script src="~/libs/gauge.js/dist/gauge.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="~/libs/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="~/libs/iCheck/icheck.min.js"></script>
+    <!-- Skycons -->
+    <script src="~/libs/skycons/skycons.js"></script>
+    <!-- Flot -->
+    <script src="~/libs/Flot/jquery.flot.js"></script>
+    <script src="~/libs/Flot/jquery.flot.pie.js"></script>
+    <script src="~/libs/Flot/jquery.flot.time.js"></script>
+    <script src="~/libs/Flot/jquery.flot.stack.js"></script>
+    <script src="~/libs/Flot/jquery.flot.resize.js"></script>
+    <!-- Flot plugins -->
+    <script src="~/libs/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script src="~/libs/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script src="~/libs/flot.curvedlines/curvedLines.js"></script>
+    <!-- DateJS -->
+    <script src="~/libs/DateJS/build/date.js"></script>
+    <!-- JQVMap -->
+    <script src="~/libs/jqvmap/dist/jquery.vmap.js"></script>
+    <script src="~/libs/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script src="~/libs/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="~/libs/moment/min/moment.min.js"></script>
+    <script src="~/libs/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    @*<script src="~/assets/js/custom.min.js"></script>*@
+    <script src="~/assets/js/custom.js"></script>
+</body>
+</html>

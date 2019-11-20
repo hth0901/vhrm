@@ -1,0 +1,55 @@
+﻿@using vhrm.ViewModels
+@using Kendo.Mvc.UI.Fluent
+<div class="clearfix"></div>
+<div class="demo-section k-content">
+    @(Html.Kendo().TreeView()
+                                  .Name("treeFuncDirectReport")
+                                  .LoadOnDemand(true)
+                                  .BindTo((IEnumerable<FunctionReportViewModel>)ViewBag.functInline, (NavigationBindingFactory<TreeViewItem> mappings) =>
+                                                                                    {
+                                                                                        mappings.For<FunctionReportViewModel>(binding => binding.ItemDataBound((item, functReport) =>
+                                                                                        {
+                                                                                            item.Text = functReport.FUNCNAME;
+                                                                                            item.Id = functReport.FUNCCODE;
+                                                                                        })
+                                                                                            .Children(category => category.FunctionReportViewModels));
+
+                                                                                        mappings.For<FunctionReportViewModel>(binding => binding.ItemDataBound((item, child) =>
+                                                                                        {
+                                                                                            item.Text = child.FUNCNAME;
+                                                                                            item.Id = child.FUNCCODE;
+                                                                                        }));
+                                                                                    })
+                                  .Events(evs =>
+                                  {
+                                      evs.Select("onSelectFuncDirectReport");
+                                      evs.DataBound("onDataBoundFuncDirectReport");
+                                      evs.Change("onChangeFuncDirectReport");
+                                  })
+                                  .HighlightPath(true)
+    )
+</div>
+<style>
+    #treeFunctions .k-sprite {
+    }
+
+    .rootfolder {
+        background-position: 0 0;
+    }
+
+    .folder {
+        background-position: 0 -16px;
+    }
+
+    .pdf {
+        background-position: 0 -32px;
+    }
+
+    .html {
+        background-position: 0 -48px;
+    }
+
+    .image {
+        background-position: 0 -64px;
+    }
+</style>

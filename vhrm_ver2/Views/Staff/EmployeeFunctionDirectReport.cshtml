@@ -1,0 +1,54 @@
+﻿@*<div>
+        <span class="input-group-btn" style="padding-right:10px;">
+            <button type="button" class="btn btn-info pull-right" style="margin-left:5px;" title="Cancel"><span class="glyphicon glyphicon-remove"></span></button>
+            <button type="button" class="btn btn-info pull-right" style="margin-left:5px;" title="Save"><span class="glyphicon glyphicon-floppy-save"></span></button>
+            <button type="button" class="btn btn-info pull-right" title="Edit"><span class="glyphicon glyphicon-pencil"></span></button>
+        </span>
+    </div>*@
+<div class="clearfix"></div>
+<div class="demo-section k-content" id="geoDirectReportUsers">
+    @(Html.Kendo().TreeView()
+                                                .Name("treeFunctionDirectReport")
+                                                .DataTextField("Display")
+                                                .LoadOnDemand(false)
+                                                .DataSource(dataSource => dataSource
+                                                     .Model(m => m
+                                                                 .Id("Key")
+                                                                 .Children("childs")
+                                                                 )
+                                                    .Read(read => read
+                                                        .Action("getFunctUsers", "Staff")
+                                                    )
+                                                )
+                                                .Events(evs =>
+                                                {
+                                                    evs.DataBound("onDataBoundFunctionDirectReport");
+                                                    //evs.Change("onChangeFunctionDirectReport");
+                                                })
+                                                .HighlightPath(true)
+    )
+</div>
+<style>
+    #treeGeoOrganization .k-sprite {
+    }
+
+    .rootfolder {
+        background-position: 0 0;
+    }
+
+    .folder {
+        background-position: 0 -16px;
+    }
+
+    .pdf {
+        background-position: 0 -32px;
+    }
+
+    .html {
+        background-position: 0 -48px;
+    }
+
+    .image {
+        background-position: 0 -64px;
+    }
+</style>

@@ -1,0 +1,179 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/vhrmLayoutBlock.cshtml";
+}
+
+
+@(Html.Kendo().Grid<vhrm.FrameWork.Entity.eForm>()
+        .Name("grid")
+        .AutoBind(true)
+        .Columns(columns =>
+        {
+            //columns.Command(command => command.Custom("ViewDetails").Click("showDetails").Text("dkm")).Width(20);
+            columns.Template(t => { }).ClientTemplate("#= renderNumber(data) #").Title("NO.").Width(20);
+            columns.Bound(c => c.FORM_CODE).Width(120).Title("Form Id");
+            columns.Bound(c => c.FORM_NAME).Width(120).Title("Form Name");
+            columns.Bound(c => c.DICTIONARY_ID).Width(200).Title("Dictionary Id").Visible(false);
+            columns.Bound(c => c.FILE_PATH).Width(200).Title("File Path");
+            columns.Command(command =>
+            {
+                command.Edit();
+            }).Width(50);
+        })
+        //.Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("EmployeeEditor"))
+        .ToolBar(toolbar => toolbar.Create())
+        //.Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("FormEditor"))
+        .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("FormEditor"))
+        .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+        .HtmlAttributes(new { style = "height: 600px" })
+        .Scrollable()
+        .Sortable()
+        //.ClientDetailTemplateId("kendotemplate")
+        .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(false)
+            .ButtonCount(5))
+        .Selectable(slt => slt
+            .Mode(GridSelectionMode.Single))
+        .Events(evs => evs
+            //.Change("onSelectGridItem")
+            .DataBound("onDataGridBound")
+            //.DataBinding("onDataBinding")
+            .Page("onPaging")
+            .Edit("onEditForm")
+            .Save("onSave")
+        )
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("formQuery", "Form"))
+            .ServerOperation(false)
+            .PageSize(30)
+            .Model(model => model.Id(p => p.FORM_ID))
+            .Update("updateForm", "Form")
+            .Create("createForm", "Form")
+            .Events(e => e.RequestEnd("endRequest"))
+        )
+)
+
+@(Html.Kendo().Window().Name("Details")
+    .Title("Form Details")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(300)
+)
+
+@(Html.Kendo().Dialog()
+        .Name("dialog")
+        .Title("Form Update")
+        .Content("<p>A new version of <strong>Kendo UI</strong> is available. Would you like to download and install it now?<p>")
+        .Width(400)
+        .Modal(false)
+        .Visible(false)
+        .Actions(actions =>
+        {
+            actions.Add().Text("OK")
+            .Action("onOK");
+        })
+)
+
+<script type="text/x-kendo-template" id="template">
+    <div id="details_container">
+    </div>
+</script>
+
+<script>
+    var counter = 1;
+    var curPage = 1;
+    var dialog = $("#dialog");
+    function onDataGridBound(e, args) {
+        counter = 1;
+        console.log(counter);
+        let dkm = $("#grid .k-grid-ViewDetails");
+        dkm.text('');
+        dkm.append('<span class="glyphicon glyphicon-pencil"></span>')
+
+        let i;
+        for (i = 0; i < dkm.length; i++) {
+            dkm[i].style.minWidth = "0px";
+        };
+    }
+
+    function onOK(e) {
+        console.log("action :: OK");
+    }
+
+
+    function onPaging(e) {
+        curPage = e.page;
+    }
+
+    function renderNumber(data) {
+        let pageSize = 0;
+        pageSize = $("#grid").data("kendoGrid").dataSource.pageSize();
+        let curIndex = pageSize * (curPage - 1) + counter;
+        counter = counter + 1;
+        return curIndex;
+    }
+
+    let detailsTemp = kendo.template($("#template").html());
+    function showDetails(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#Details").data("kendoWindow");
+
+        wnd.content(detailsTemp(dataItem));
+        wnd.center().open();
+    }
+
+    function onEditForm(args) {
+        if (args.model.isNew() == false) {
+            // textbox
+            $("#FORM_CODE").attr("readonly", true);
+        }
+    }
+
+    function onSave(e) {
+        console.log(e);
+    }
+
+    function endRequest(e, args) {
+        if (e.type === "read") {
+            return;
+        }
+        console.log(e);
+        //dialog.content("Update Successfull!!");
+        dialog.data("kendoDialog").content("<h3>Update Successful!!</h3>");
+        dialog.data("kendoDialog").open();
+    }
+</script>
+
+@*Template("<button class='k-grid-ViewDetails'>dkmdkm</button>")*@
+<style>
+    .customer-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin-left: 5px;
+    }
+
+    .customer-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+
+    .k-edit-form-container {
+        width: 600px;
+    }
+</style>
+

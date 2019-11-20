@@ -1,0 +1,295 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/vhrmLayout.cshtml";
+}
+
+<div style="width: 100%;margin-top:5px">
+    @*<div>
+        @{
+            ViewData.Add("active", 2);
+            Html.RenderPartial("ViewMenu", ViewData);
+        }
+    </div>*@
+    <div class="clearfix"></div>
+    <div id="FunctionListPartial" style="min-height:500px; background:white; width:500px; float:left; margin-top: 5px;margin-left: 5px; border: outset 1px gray">
+        @{
+            Html.RenderPartial("FunctionListPartial");
+        }
+    </div>
+
+    <div id="FunctionInforPartial" style="min-height:500px; background:white; width:calc(100% - 525px); float:left; margin-left: 5px; margin-top: 5px; border: outset 1px gray">
+        @{
+            Html.RenderPartial("FunctionInforPartial");
+        }
+    </div>
+</div>
+<script>
+    var treeFunctions;
+    var dropdowntree;
+    var parent;
+    var hisParentOfCurrent;
+    var hisNameOfCurrent;
+    var hisOderOfCurrent;
+    var hisActiveOfCurrent;
+    var currentNode;
+    var isSaveNew = false;
+    var isSaveEdit = false;
+
+    function onSelect(e) {
+        var dataItem = this.dataItem(e.node);
+        currentNode = dataItem.FUNCCODE;
+        hisNameOfCurrent = dataItem.FUNCNAME;
+        hisOderOfCurrent = dataItem.ORDERINDEX;
+        hisActiveOfCurrent = dataItem.ISACTIVE;
+        hisParentOfCurrent = dataItem.FUNCPARENT;
+        var a = "currentNode  " + currentNode + " hisNameOfCurrent " + hisNameOfCurrent + " hisOderOfCurrent" + hisOderOfCurrent + "  hisActiveOfCurrent" + hisActiveOfCurrent + "  hisParentOfCurrent" + hisParentOfCurrent + "   dataItem.FUNCPARENT = " + dataItem.FUNCPARENT;
+        console.log(a);
+        if (dataItem.ISACTIVE === '1')
+            $("#chkActive").prop("checked", true);
+        else
+            $("#chkActive").prop("checked", false);
+        if (dataItem.FUNCPARENT === 'undefined' || dataItem.FUNCPARENT === null)
+        {
+            dropdowntree.value(dataItem.FUNCCODE);
+            $('#txtFunctName').val(dataItem.FUNCNAME);
+            $('#txtOrderIndex').val(dataItem.ORDERINDEX);
+            parent = dataItem.FUNCCODE;
+            //console.log("parent (onSelect)  " + parent);
+        }
+        else {
+            dropdowntree.value(dataItem.FUNCPARENT);
+            $('#txtFunctName').val(dataItem.FUNCNAME);
+            $('#txtOrderIndex').val(dataItem.ORDERINDEX);
+            parent = dataItem.FUNCPARENT;
+        }
+    }
+    function FunctionBound(e, args) {
+        treeFunctions.expand(treeFunctions.findByText("Pungkook Corp"));
+    }
+    function onChangeDropdown(e) {
+        // var dataItem = this.dataItem(e.node);
+
+    }
+    function onSelectDropdown(e) {
+        var dataItem = this.dataItem(e.node);
+        parent = dataItem.FUNCCODE;
+        //hisParentOfCurrent = dataItem.DEPTCODE;
+        //console.log("parent (onSelectDropdown)  " + parent);
+        //console.log('dataItem.DEPTLEVEL onSelectDropdown' + dataItem.DEPTLEVEL);
+        //var dataItem = this.dataItem(e.node);
+    }
+
+    function onDataBindingDropdown(e) {
+        dropdowntree.enable(false);
+    }
+
+    function onCheck(e) {
+        //kendoConsole.log("Checkbox changed :: " + this.text(e.node));
+    }
+
+    function onChange(e) {
+        //console.log("bbbbbb");
+    }
+
+    function onCollapse(e) {
+        //kendoConsole.log("Collapsing " + treeview.text(e.node));
+    }
+
+    function onExpand(e) {
+        //kendoConsole.log("Expanding " + treeview.text(e.node));
+    }
+
+    function onDragStart(e) {
+        //kendoConsole.log("Started dragging " + treeview.text(e.sourceNode));
+    }
+
+    function onDrag(e) {
+        //kendoConsole.log("Dragging " + this.text(e.sourceNode));
+    }
+
+    function onDrop(e) {
+        //kendoConsole.log(
+        //"Dropped " + treeview.text(e.sourceNode) +
+        //" (" + (e.valid ? "valid" : "invalid") + ")"
+        //);
+    }
+
+    function onDragEnd(e) {
+        //kendoConsole.log("Finished dragging " + treeview.text(e.sourceNode));
+    }
+
+    function onNavigate(e) {
+        //if (e.node) {
+        //    kendoConsole.log("Navigate " + this.text(e.node));
+        //}
+    }
+
+    function Visable(isNew, isSave, isCancel, isReset, isEdit) {
+        if (isNew)
+            $('#btnAddnew').removeAttr('disabled');
+        else
+            $("#btnAddnew").prop('disabled', 'disabled');
+
+        if (isSave)
+            $('#btnSave').removeAttr('disabled');
+        else
+            $("#btnSave").prop('disabled', 'disabled');
+
+        if (isCancel)
+            $('#btnCancel').removeAttr('disabled');
+        else
+            $("#btnCancel").prop('disabled', 'disabled');
+
+        if (isReset)
+            $('#btnReset').removeAttr('disabled');
+        else
+            $("#btnReset").prop('disabled', 'disabled');
+        if (isEdit)
+            $('#btnEdit').removeAttr('disabled');
+        else
+            $("#btnEdit").prop('disabled', 'disabled');
+    }
+    function Editable(isEdit)
+    {
+        if (isEdit) {
+            $("#txtFunctName").prop('disabled', isEdit);
+            $("#txtOrderIndex").prop('disabled', isEdit);
+            dropdowntree.enable(!isEdit);
+            $("#chkActive").prop('disabled', isEdit);
+        }
+        else
+        {
+            $("#txtFunctName").prop('disabled', isEdit);
+            $("#txtOrderIndex").prop('disabled', isEdit);
+            dropdowntree.enable(!isEdit);
+            $("#chkActive").prop('disabled', isEdit);
+        }
+    }
+    $(document).ready(function () {
+        treeFunctions = $("#treeFunctions").data("kendoTreeView");
+        dropdowntree = $("#dropdowntree").data("kendoDropDownTree");
+        Visable(true, false, false, false, true);
+        Editable(true);
+        treeFunctions.expand(".k-item");
+        var valid = $(".form-horizontal").validate({
+            rules: {
+
+                txtFunctName: { required: true },
+                txtOrderIndex: { number: true }
+            }
+        });
+        $('#btnAddnew').on('click', function () {
+            isSaveNew = true;
+            isSaveEdit = false;
+            Visable(false, true, true, true, false);
+            Editable(false);
+        });
+        $('#btnSave').on('click', function () {
+            if (isSaveNew === true && isSaveEdit === false)
+            {
+                if ($(".form-horizontal").valid())
+                {
+                    console.log("isSaveNew (btnSave)  " + isSaveNew);
+                    console.log("isSaveEdit (btnSave)  " + isSaveEdit);
+                    parent = dropdowntree.value();
+                    console.log("parent (parent)  " + parent);
+                    if (parent === 'undefined' || parent === null)
+                        parent = "000000";
+
+                    var a = "currentNode  " + currentNode + " hisNameOfCurrent " + hisNameOfCurrent + " hisOderOfCurrent" + hisOderOfCurrent + "  hisActiveOfCurrent" + hisActiveOfCurrent + "  hisParentOfCurrent" + hisParentOfCurrent + "   parent = " + parent;
+                    console.log(a);
+
+                    var url = '@Url.Action("AddNewFunction", "DeptFunction")';
+                    $.post(url, { functParent: parent, functName: $('#txtFunctName').val(), active: $("#chkActive").prop("checked"), orderIndex: $("#txtOrderIndex").val() },
+                        function (data) {
+                        });
+                    treeFunctions.dataSource.read();
+                    dropdowntree.dataSource.read();
+                    dropdowntree.value(parent);
+                    Visable(true, false, false, false, true);
+                    Editable(true);
+                    isSaveNew = false;
+                    isSaveEdit = true;
+                }
+                else {
+                    return;
+                }
+        }
+        else if (isSaveNew === false && isSaveEdit === true)
+            {       
+                if ($(".form-horizontal").valid())
+                {
+                    console.log("isSaveNew (btnSave)  " + isSaveNew);
+                    console.log("isSaveEdit (btnSave)  " + isSaveEdit);
+                    parent = dropdowntree.value();
+                    if (parent === 'undefined' || parent === null)
+                        parent = "000000";
+                    var a = "currentNode  " + currentNode + " hisNameOfCurrent " + hisNameOfCurrent + " hisOderOfCurrent" + hisOderOfCurrent + "  hisActiveOfCurrent" + hisActiveOfCurrent + "  hisParentOfCurrent" + hisParentOfCurrent + "   parent = " + parent;
+                    console.log(a);
+
+                    var url = '@Url.Action("UpdateFunction", "DeptFunction")';
+                    $.post(url, { functCode: currentNode, functParent: parent, functName: $('#txtFunctName').val(), active: $("#chkActive").prop("checked"), orderIndex: $("#txtOrderIndex").val()},
+                    function (data) {
+                        });
+                    treeFunctions.dataSource.read();
+                    dropdowntree.dataSource.read();
+                    dropdowntree.value(parent);
+                    Visable(true, false, false, false, true);
+                    Editable(true);
+                    isSaveNew = true;
+                    isSaveEdit = false;
+                }
+                else
+                {
+                    return;
+                }
+            }
+        });
+        $('#btnCancel').on('click', function () {
+            Editable(true);
+            Visable(true, false, false, false, true);
+            $(".form-horizontal").valid(true);
+            $("#txtFunctName").val(hisNameOfCurrent);
+            $("#txtOrderIndex").val(hisOderOfCurrent);
+            if (hisActiveOfCurrent == '1')
+                $("#chkActive").prop("checked", true);
+            else
+                $("#chkActive").prop("checked", false);
+            dropdowntree.value(hisParentOfCurrent);
+        });
+        $('#chkActive').on('change', function (evt) {
+            evt.preventDefault();
+            if ($(this).is(':checked')) {
+                $("#chkActive").prop("checked", true);
+            } else {
+                $("#chkActive").prop("checked", false);
+            }
+        });
+        $('#btnReset').on('click', function () {
+            Editable(false);
+            Visable(false, true, true, true, false);
+            $("#txtFunctName").val(hisNameOfCurrent);
+            $("#txtOrderIndex").val(hisOderOfCurrent);
+            if (hisActiveOfCurrent == '1')
+                $("#chkActive").prop("checked", true);
+            else
+                $("#chkActive").prop("checked", false);
+            dropdowntree.value(hisParentOfCurrent);
+        });
+        $('#btnEdit').on('click', function () {
+            isSaveNew = false;
+            isSaveEdit = true;
+            Editable(false);
+            Visable(false, true, true, true, true);
+        });
+    });
+</script>
+<style>
+    .error {
+        color: red;
+    }
+    .btnOpacity {
+        background: #00a3ffb5;
+        color: #fff;
+    }
+</style>

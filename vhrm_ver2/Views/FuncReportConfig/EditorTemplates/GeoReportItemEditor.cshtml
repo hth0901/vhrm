@@ -1,0 +1,92 @@
+﻿@model vhrm.FrameWork.Entity.eGeoReportItem
+@*@Html.TextArea("FirstName", new
+    {
+        rows = 5,
+        cols = 20,
+        @class = "text-wrapp k-textbox",
+        data_bind = "value:FirstName",
+        style = "resize:none"
+    })*@
+<div id="form_editor" style="height: 270px">
+    @*<table style="border-spacing: 10px; border-collapse: separate;">
+            <tr>
+                <td>
+                    Form id:
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.SYS_EMPID)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Form Name:
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.GEOREPORTCD)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    File path:
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.DEPTCODE)
+                </td>
+            </tr>
+            <tr>
+                    <td>
+                        File path:
+                    </td>
+                    <td>
+                        <input class="k-textbox" id="FILE_PATH" name="FILE_PATH" type="text" data-bind="value:FILE_PATH" />
+                    </td>
+                </tr>
+        </table>*@
+    <div class="container">
+        @*<input type="hidden" class="form-control" id="menu_is_active" name="IsActive" value="" />*@
+        <div class="row">
+            <div class="col-sm" style="max-width: 400px">
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Employee</label>
+                    @*<input type="text" class="form-control" id="menu_form_id" name="FormID" placeholder="FormId">*@
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="emp_name" name="EMPNAME" placeholder="" data-bind="value:EMPNAME">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" onclick="openDialog()">Choose</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Report Code</label>
+                    <input type="text" readonly class="form-control" id="report_code" name="GEOREPORTCD" placeholder="Report Code" data-bind="value:GEOREPORTCD">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Dept Code</label>
+                    <input type="text" class="form-control" id="dept_code" name="DEPTCODE" placeholder="DeptCode" data-bind="value:DEPTCODE">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Valid Date</label>
+                    <input type="text" class="form-control" id="report_code" name="APPLYDATE" placeholder="Valid Date" data-bind="value:APPLYDATE">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Is Active</label>
+                    <input type="text" class="form-control" id="dept_code" name="ISACTIVE" placeholder="MenuName" data-bind="value:ISACTIVE">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

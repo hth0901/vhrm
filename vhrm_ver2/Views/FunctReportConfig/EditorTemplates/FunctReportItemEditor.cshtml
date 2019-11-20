@@ -1,0 +1,79 @@
+﻿<div id="form_editor" style="height: 400px;">
+    <div class="container">
+        <div class="row" style="margin-top: 5px">
+            @*@(Html.Kendo().Grid<vhrm.FrameWork.Entity.EmployeeMaster>()
+                .Name("EmployeeReportGrid")
+                    //.LoadOnDemand(false)
+                    .Columns(columns =>
+                    {
+                        columns.Select().Width(50);
+                        columns.Bound(c => c.EMPID).Width(120).Title("EMPID");
+                        columns.Bound(c => c.EMPNAME).Width(150).Title("NAME");
+                        //columns.Bound(c => c.POSITION).Width(150).Title("POSITION");
+                        //columns.Bound(c => c.SKILL).Width(80).Title("SKILL");
+                    })
+                    .HtmlAttributes(new { style = "height: 80%;" })
+                    .Filterable(ftb => ftb.Mode(GridFilterMode.Menu))
+                    .Scrollable()
+                    .Pageable(pageable => pageable
+                                                .Refresh(true)
+                                                .PageSizes(false)
+                                                .ButtonCount(5))
+                    .Sortable()
+                    .Events(ev => ev.Change("onChangeEmployeeReportGrid"))
+                    .PersistSelection()
+                        .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Read(read => read.Action("getAllEmployee", "FunctReportConfig"))
+                    .ServerOperation(false)
+                    .PageSize(20)
+                    .Model(model => model.Id(p => p.SYS_EMPID))
+                    //.Events(e => e.RequestEnd("endRequest"))
+                )
+            )*@
+
+            @(Html.Kendo().Grid<vhrm.FrameWork.Entity.EmployeeMaster>()
+                .Name("EmployeeReportGrid")
+                //.LoadOnDemand(false)
+                .AutoBind(true)
+                .Columns(columns =>
+                {
+                    columns.Select().Width(50);
+                    columns.Bound(c => c.EMPID).Width(120).Title("EMPID");
+                    columns.Bound(c => c.EMPNAME).Width(150).Title("NAME");
+                    //columns.Bound(c => c.POSITION).Width(150).Title("POSITION");
+                    //columns.Bound(c => c.SKILL).Width(80).Title("SKILL");
+                })
+                .HtmlAttributes(new { style = "height: 400px;" })
+                .Filterable(ftb => ftb.Mode(GridFilterMode.Menu))
+                .Scrollable()
+                .Pageable(pageable => pageable
+                    .Refresh(true)
+                    .PageSizes(false)
+                    .ButtonCount(5)
+                )
+                .Sortable()
+                .Events(ev => ev.Change("onChangeEmployeeReportGrid"))
+                .PersistSelection()
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Read(read => read.Action("getAllEmployee", "FunctReportConfig"))
+                    //.ServerOperation(false)
+                    .PageSize(50)
+                    .Model(model => model.Id(p => p.SYS_EMPID))
+                //.Events(e => e.RequestEnd("endRequest"))
+                )
+            )
+
+        </div>
+        </div>
+    </div>
+    <script>
+        //var employeeReportGrid;
+        
+        //$(document).ready(function () {
+        //    EmployeeReportGrid = $("#EmployeeReportGrid").data("kendoGrid");
+        //    EmployeeReportGrid.dataSource.read();
+          
+        //});
+    </script>

@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VHRM</title>
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+
+    <link href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    @*<link href="~/assets/css/vhrm.css" rel="stylesheet" />*@
+    @*<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/all.css" rel="stylesheet" type="text/css" />
+    <link href="~/libs/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/Customestyle.css" rel="stylesheet" type="text/css" />
+    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.aspnetmvc.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"></script>*@
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" />
+
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
+
+    @*<script src="~/Scripts/jquery-3.3.1.min.js"></script>*@
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script>
+        var a = window.parent.document.getElementById("userLogin");
+        console.log(a);
+        if (a == null) {
+            window.location = "login";
+        }
+    </script>
+</head>
+<body>
+    <div id="vhrm_html" style="overflow: scroll; width: 100%;">
+        <div id="vhrm_screen">
+            @RenderBody()
+        </div>
+    </div>
+
+    <script>
+        let hScreen = 0;
+        windowResize();
+        $(window).resize(function () {
+            windowResize();
+        });
+        function windowResize() {
+            hScreen = $(window).height() - 20;
+            document.getElementById("vhrm_html").style.height = hScreen + "px";
+            return true;
+        }
+    </script>
+</body>
+</html>

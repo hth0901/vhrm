@@ -1,0 +1,53 @@
+﻿/*---Add by Hue 20190711--*/
+  .input-group-btn1 button{
+        background:#00a3ffb5;
+        color:#fff;
+    }
+    .btnOpacity{
+        opacity:1 !important;
+    }
+    .row-father{
+        width:100%;
+        float:left;
+        padding:20px;
+
+    }
+       .row-father .row{
+        width:100%;
+        float:left;
+    }
+    .row-father .k-dateinput-wrap .k-input {
+        padding:15px;
+    }
+    .row-father .samecolumn {
+        width: calc(100% -  100px);
+        float:left;
+        margin-right: 10px;
+        padding-top:10px;
+    }
+    .row-father .form-check-label{
+        padding-top:5px;
+    }
+    .bull-center{
+  text-align: center;
+ 
+    }
+/*-------------------end--------------------------*/
+
+.img_lg{
+    width: 230px;
+    height: 60px;
+    background: url(../assets/images/PK_logo---white.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+    margin-left: 6px;
+}
+
+.img_sm{
+    width: 60px;
+    height: 60px;
+    background: url(../assets/images/PK_logo---white.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+    margin-left: 6px;
+}

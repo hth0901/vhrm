@@ -1,0 +1,53 @@
+﻿
+@using vhrm.ViewModels;
+@model IEnumerable<MenuFirstLevel>
+
+<div class="menu_section">
+    <ul class="nav side-menu">
+        @*<li>*@
+          @*  <a><i class="fa fa-home"></i> History <span class="fa fa-chevron-down"></span></a>*@
+            @*<ul id="history_pages" class="nav child_menu">*@
+                @*<li><a href="index.html">Dashboard</a></li>
+                    <li><a href="index2.html">Dashboard2</a></li>
+                    <li><a href="index3.html">Dashboard3</a></li>*@
+            @*</ul>*@
+        @*</li>*@
+        @foreach (MenuFirstLevel mn_1 in Model)
+        {
+            <li>
+                <a menu_url="@mn_1.menuUrl" menu_path="@mn_1.menuName" menu_id="@mn_1.menuId">@mn_1.menuName<span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    @foreach (MenuSecondLevel mn_2 in mn_1.menuSecondLevel)
+                    {
+                        <li>
+                            <a menu_url="@mn_2.menuUrl" menu_path="@mn_2.menuPath" menu_id="@mn_2.menuId" menu_name="@mn_2.menuName">@mn_2.menuName<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                @foreach (MenuThirdLevel mn_3 in mn_2.menuThirdLevel)
+                                {
+                                    <li>
+                                        <a menu_url="@mn_3.url" menu_path="@mn_3.menuPath" menu_id="@mn_3.menuId" menu_name="@mn_3.menuName">@mn_3.menuName</a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</div>
+
+<script>
+    let historyClick = function (id) {
+        console.log(id);
+        $("iframe").hide();
+        $("iframe[id='" + id + "']").show();
+        let page = document.getElementById(id)
+
+        let menuName = page.getAttribute('menuname');
+        let menuPath = page.getAttribute('menupath');
+
+        document.getElementById("page_name").innerText = menuName;
+        document.getElementById("page_path").innerText = menuPath;
+    };
+</script>

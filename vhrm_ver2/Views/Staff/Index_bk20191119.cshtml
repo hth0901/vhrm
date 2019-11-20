@@ -1,0 +1,1164 @@
+﻿@model vhrm.FrameWork.Entity.EmployeeMaster
+@{
+    Layout = "~/Views/Shared/vhrmLayout.cshtml";
+}
+<div style="width: 100%;margin-top:5px">
+    @*<div>
+            @{
+                Html.RenderPartial("ViewMenu");
+            }
+        </div>*@
+    <div class="clearfix"></div>
+    <div>
+        <input type="hidden" id="hdFunctCode" value="" />
+    </div>
+    <div id="GeoOrganizationListPartial" style="min-height:880px; background:white; width:500px; float:left; margin-top: 5px;margin-left: 5px; border: outset 1px gray">
+        @using (Html.BeginForm("SaveEmployee", "Staff", FormMethod.Post, new { id = "frmEmployee", @class = "form-horizontal", style = "margin-right:10px;", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="box-body">
+                <div class="form-group" style="margin-top:20px;">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label class="col-md-2 col-form-label-sm" style="width:100%">EMPID</label>
+                            <input type="hidden" id="hdMode" value="@ViewBag.isMode" />
+                            @*@Html.LabelFor(model => model.EMPID, htmlAttributes: new { style = "width:100%", @class = "col-md-3 control-label" })*@
+                        </div>
+                        <div class="col-md-5">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="" style="width:180px">
+                                        <input id="empIdSearch" ondblclick="openSearchEmployee()" name="empIdSearch" type="text" value="" class="form-control form-control-sm" style="height: 30px; font-size: smaller">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-default btn-sm btnOpacity" title="FIND" id="findEmployee"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="window"></div>
+                        @*@(Html.Kendo().Window()
+                                                            .Name("window")
+                                                            .Visible(false)
+                                                            .Title(false)
+                                                            .Modal(true)
+                                        //.Events(events => events
+                                        //.Open("onOpen")
+                                        //.Close("onClose")
+                                        // )
+                            )*@
+                        <div class="col-md-5 pull-right">
+                            <span class="input-group-btn">
+                                @*@Html.ActionLink("New", "NewEmployee", "Staff", new { @class = "btn btn-info pull-right" })<span class="glyphicon glyphicon-plus"></span>*@
+                                <button type="button" class="btn btn-default btn-sm btnOpacity pull-right" title="New" id="newEmployee"><i class="fa fa-plus"></i></button>
+                                <button type="button" class="btn btn-default btn-sm btnOpacity pull-right" title="Delete employee" id="btnDeleteEmployee" style="margin-right:5px;"><i class="fa fa-times" aria-hidden="true"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: -15px;">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="alert alert-success" style="display:none;" role="alert" id="messageInfor">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" id="btnEdit" class="btn btn-default btn-sm btnOpacity pull-right" title="Edit"><i class="fa fa-edit"></i></button>
+                            @*@Html.ActionLink("Save", "SaveEmployee", "Staff", new { @class = "btn btn-info pull-right", style = "margin-right:5px;" })*@
+                            <button type="button" id="btnSave" class="btn btn-default btn-sm btnOpacity pull-right" title="Save" style="margin-right:5px;"><i class="fa fa-save"></i></button>
+                            <button type="button" class="btn btn-default btn-sm btnOpacity pull-right" id="btnCancel" title="Cancel" style="margin-right:5px;"><i class="fa fa-ban"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div id="StaffPartial" class="region">
+                    @if (ViewBag.isMode == 1)
+                    {
+                        Html.RenderPartial("Edit", Model);
+                    }
+                    else
+                    {
+                        Html.RenderPartial("New");
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <div id="GeoOrganizationInforPartial" class="GeoOrganizationInforPartial" style="min-height:300px; background:white; width: calc(100% - 510px); float:left; margin-left: 5px; margin-top: 5px; border: outset 1px gray">
+        <div class="demo-section k-content">
+            @(Html.Kendo().TabStrip()
+                .Name("tabstrip")
+                    .Events(e => e
+                            //.Select("tabstrip_select")
+                            .Activate("onTabStripActivate")
+                    )
+                .Animation(animation =>
+                {
+                    animation.Enable(ViewBag.animation == "expand:vertical" || true);
+
+                    animation.Open(config =>
+                    {
+                        if (ViewBag.animation != "toggle")
+                        {
+                            config.Expand(ExpandDirection.Vertical);
+                        }
+
+                        if (ViewBag.opacity == true)
+                        {
+                            config.Fade(FadeDirection.In);
+                        }
+
+                        config.Duration(AnimationDuration.Fast);
+                    });
+                }
+                )
+                .SelectedIndex(0)
+                .Items(tabstrip =>
+                {
+                    tabstrip.Add().Text("Geo. Organization").Enabled(true)
+                        .Content
+                        (
+                                @Html.Partial("EmployeeGeoOrganization").ToHtmlString()
+                            );
+                    tabstrip.Add().Text("Geo. Direct Report").
+                        Content
+                        (
+                                @Html.Partial("EmployeeGeoDirectReport").ToHtmlString()
+                        );
+                    tabstrip.Add().Text("Func. Organization").Enabled(true)
+                        .Content
+                        (
+                                @Html.Partial("EmployeeFuncDirectReport").ToHtmlString()
+                        );
+                    tabstrip.Add().Text("Func Direct Report").
+                        Content
+                        (
+                                @Html.Partial("EmployeeListFuncDirectReport").ToHtmlString()
+                        );
+                    tabstrip.Add().Text("Geo Direct View")
+                        .Content
+                        (
+                                @Html.Partial("EmployeeGeoDirectView").ToHtmlString()
+                        );
+                    tabstrip.Add().Text("Func Direct View")
+                        .Content
+                        (
+                                @Html.Partial("EmployeeFuncDirectView").ToHtmlString()
+                        );
+                })
+            )
+
+        </div>
+    </div>
+</div>
+<style>
+    #tabstrip {
+    }
+
+    .k-tabstrip .k-content {
+        min-height: 500px;
+    }
+</style>
+@(Html.Kendo().Dialog()
+                .Name("formDialog")
+                .Visible(false)
+                .Title("Search Employees")
+                .HtmlAttributes(new { style = "display: flex; left: 90px; top: 70px; z - index: 10004;" })
+                .Content(
+                    Html.Kendo().Grid<vhrm.FrameWork.Entity.eEmpBasicInfo>()
+                        .Name("gridForm")
+                        .AutoBind(false)
+                        .Columns(columns =>
+                        {
+                            //columns.Bound(c => c.SYS_EMPID).Width(120).Title("sys_empid");
+                            columns.Bound(c => c.EMPID).Width(120).Title("EMPID");
+                            columns.Bound(c => c.EMPNAME).Width(200).Title("EMPNAME");
+                        })
+                        .Selectable(selectable => selectable
+                            .Mode(GridSelectionMode.Single))
+                        .Filterable(ft =>
+                        {
+                            ft.Extra(false);
+                            ft.Mode(GridFilterMode.Row);
+                            ft.Operators(ops => ops.ForString(str => str.Clear().Contains("Contains")));
+                        })
+                        .Sortable()
+                        .Scrollable()
+                        .Pageable(pg =>
+                        {
+                            pg.PageSizes(false);
+                            pg.Refresh(false);
+                            pg.ButtonCount(5);
+                        })
+                        .DataSource(dts =>
+                        {
+                            dts.Ajax()
+                                .Read(read => read.Action("getEmpBasicInfo", "Employee"))
+                                .PageSize(50);
+                        })
+                        .ToHtmlString()
+                )
+                .Width(500)
+        //.Height(520)
+        .Modal(true)
+        .Closable(true)
+        .Actions(actions =>
+        {
+            actions.Add().Text("Cancel");
+            actions.Add().Text("OК").Primary(true).Action("actionOK");
+        })
+        .Events(ev => ev.Open("openDialogForm"))
+)
+<script>
+    var treeemployeeOfOrg;
+    var geoOrganization;
+    var treeFuncDirectReport;
+    var treeGeoDirectReport;
+    var treeParentsOrganization;
+    var gridFunctReportEmployees;
+    var functReportCode;
+    var isSaveStatus;
+    var tabStrip;
+    var node;
+    var diagram;
+    var diagramGeo;
+    var geouser;
+    var functuser;
+    var windowWidget;
+    let gridForm = null;
+
+    var counter = 1;
+    var curPage = 1;
+    //---------
+    function actionOK(e) {
+        //let formList = $("#gridForm").data("kendoGrid");
+        let selectedRow = gridForm.select()[0];
+        let selectedDataItem = gridForm.dataItem(selectedRow);
+        $("#empIdSearch").val(selectedDataItem.EMPID);
+    }
+    function openDialogForm() {
+        gridForm.dataSource.read();
+    }
+    function openSearchEmployee() {
+        $("#formDialog").data("kendoDialog").open();
+    }
+    function onDataGridBoundGridEmployees(e)
+    {
+        $("[name='SYS_EMPID']").change(function (e) {
+            var row = $(e.target).closest("tr");
+            var dataItem = gridFunctReportEmployees.dataItem(row);
+            gridFunctReportEmployees.select(row);
+            $("#DISPLAYFUNCDIRECTREPORT").val(dataItem["EMPNAME"])
+            //Input SYS_EMPID.
+            $("#FUNCDIRECTREPORT").val(dataItem["SYS_EMPID"]);
+            $("#FUNCDIRECTSYSIDREPORT_Code").val(dataItem["EMPID"]);
+        });
+
+    }
+    function onSelectItemGridEmployees(evt, args) {
+
+    }
+    function onDataBindingGridEmployees(e) {
+
+    }
+    function onPagingGridEmployees(e) {
+        curPage = e.page;
+        console.log("current page: " + curPage);
+    }
+    function renderNumber(data) {
+        let pageSize = 0;
+        pageSize = $("#gridFunctReportEmployees").data("kendoGrid").dataSource.pageSize();
+        let curIndex = pageSize * (curPage - 1) + counter;
+        counter = counter + 1;
+        return curIndex;
+    }
+    //-------------
+    //GeoDirectReport
+    function onChangeGeoDirectReport(e) {
+    }
+    function onSelectGeoDirectReport(e) {
+        //var dataItem = this.dataItem(e.node);
+        //if (dataItem.Flag == 1) {
+        //    var displayTree = [];
+        //    if ($("#GEODIRECTREPORT").val() != dataItem.Key) {
+        //        alert("GEODIRECTREPORT and dataItem.Key = " + $("#GEODIRECTREPORT").val() + " ---" + dataItem.Key);
+        //        displayTree.push(dataItem.Display);
+        //        while (dataItem.parentNode()) {
+        //            dataItem = dataItem.parentNode();
+        //            displayTree.push(dataItem.Display);
+        //        }
+        //        displayTree.reverse();
+        //        var result = [];
+        //        for (var i = 0; i < displayTree.length - 1; i++) {
+        //            result[i] = displayTree[i];
+        //        }
+        //        $("#DISPLAYGEOGRAPHICALORG").val(result.join(" > "));
+        //        //$("#DISPLAYGEODIRECTREPORT").val(dataItem.Display);
+        //        //$("#GEODIRECTREPORT").val(dataItem.Key);
+        //        //$("#GEODIRECTSYSIDREPORT_Code").val(dataItem.EMPID);
+        //        //console.log("select event of GeoDirectReport=" + dataItem.EMPID);
+        //    }
+        //}
+    }
+    //FuncDirectReport
+    function onChangeFuncDirectReport(e) {
+    }
+    function onSelectFuncDirectReport(e) {
+        var dataItem = this.dataItem(e.node);
+        if (dataItem != null) {
+            var id = dataItem.id;
+            treeParentsOrganization.dataSource.filter({ field: "id", operator: "eq", value: id })
+            var node = treeParentsOrganization.dataSource.get(id);
+            treeParentsOrganization.value(node);
+
+            if ($("#FUNCDIRECTREPORT").val() != '' && $("#FUNCDIRECTREPORT").val() != 'undefined') {
+                var user = gridFunctReportEmployees.dataSource.get($("#FUNCDIRECTREPORT").val());
+                if (user != null && user != 'undefined') {
+                    var row = gridFunctReportEmployees
+                        .tbody
+                        .find("tr[data-uid='" + user.uid + "']");
+                    gridFunctReportEmployees
+                        .tbody
+                        .find("td input:radio[value='" + $("#FUNCDIRECTREPORT").val() + "']").attr("checked", "checked");
+                    gridFunctReportEmployees.select(row);
+                }
+            }
+        }
+
+    }
+    function onBoundtreeGeoReport(e, args) {
+        //this.expand(".k-item");
+        //treeGeoReport.expand(treeGeoReport.findByText("Pungkook Corp"));
+        //var dataItem = this.dataItem(e.node);
+        //if (dataItem != null) {
+        //    node = dataItem;
+        //}
+    }
+
+    function onSelectdtreeGeoReport(e) {
+        var dataItem = this.dataItem(e.node);
+        var displayTree = [];
+        displayTree = DisplayTreeInTextBox(dataItem, "org")
+        $("#DISPLAYGEOGRAPHICALORG").val(displayTree.join(" > "));
+        //treeParentsOrganization.dataSource.read({ functCode: dataItem.DEPTCODE });
+        //treeParentsOrganization.value(dataItem.DEPTCODE);
+        //Input FUNCCODE.
+        $("#DISPLAYGEODIRECTREPORT").val("");
+        $("#GEOGRAPHICALORG").val(dataItem.id);
+        var nodeDataItem = geoOrganization.dataSource.get(dataItem.id);
+        var gdataItem = nodeDataItem;
+        var select = geoOrganization.findByUid(nodeDataItem.uid);
+        geoOrganization.select(select);
+        geoOrganization.trigger('select', { node: select });
+        if (select.length > 0) {
+            geoOrganization.select(select)
+            var parent = geoOrganization.parent(select);
+            while (parent && parent.length > 0) {
+                geoOrganization.expand(parent);
+                parent = geoOrganization.parent(parent);
+            }
+        }
+        //var geoOrg = $("#treeGeoOrganization").data("kendoTreeView");
+        //var nodeDataItem = geoOrg.dataSource.get(dataItem.DEPTCODE);
+        //var select = geoOrg.findByUid(nodeDataItem.uid);
+        //var array = [];
+        //array.push(dataItem.DEPTCODE);
+        //while (dataItem.parentNode()) {
+        //    dataItem = dataItem.parentNode();
+        //    array.push(dataItem.DEPTCODE);
+        //}
+        //array.reverse();
+        //array.forEach(function (e, index) {
+        //    if (index > 0 && index < array.length) {
+        //        var nodeDataItem = geoOrg.dataSource.get(e);
+        //        var node = geoOrg.findByUid(nodeDataItem.uid);
+        //        geoOrg.expand(node);
+        //    }
+        //});
+        //geoOrg.select(select);
+        //geoOrg.trigger('select', { node: select });
+    }
+
+    function onSelectdtreeFunctReport(e) {
+        var dataItem = this.dataItem(e.node);
+        var displayTree = [];
+        displayTree = DisplayTreeInTextBox(dataItem, "fun")
+        $("#DISPLAYFUNCTIONALORG").val(displayTree.join(" > "));
+        //treeParentsOrganization.dataSource.read({ functCode: dataItem.FUNCCODE });
+        //treeParentsOrganization.value(dataItem.FUNCCODE);
+        //Input FUNCCODE.
+        $("#DISPLAYFUNCDIRECTREPORT").val("");
+        $("#FUNCTIONALORG").val(dataItem.id);
+        var nodeDataItem = treeFuncDirectReport.dataSource.get(dataItem.id);
+        var fdataItem = nodeDataItem;
+        var select = treeFuncDirectReport.findByUid(nodeDataItem.uid);
+        //gridFunctReportEmployees.dataSource.read({ empId: null, functCode: FUNCTIONALORG });
+        treeFuncDirectReport.select(select);
+        treeFuncDirectReport.trigger('select', { node: select });
+        if (select.length > 0) {
+            treeFuncDirectReport.select(select)
+            var parent = treeFuncDirectReport.parent(select);
+            while (parent && parent.length > 0) {
+                treeFuncDirectReport.expand(parent);
+                parent = treeFuncDirectReport.parent(parent);
+            }
+        }
+        //var functOrg = $("#treeFuncDirectReport").data("kendoTreeView");
+        //var nodeDataItem = functOrg.dataSource.get(dataItem.id);
+        //var select = functOrg.findByUid(nodeDataItem.uid);
+        //var array = [];
+        //array.push(dataItem.id);
+        //while (dataItem.parentNode()) {
+        //    dataItem = dataItem.parentNode();
+        //    array.push(dataItem.id);
+        //}
+        //array.reverse();
+        //array.forEach(function (e, index) {
+        //    if (index > 0 && index < array.length) {
+        //        var nodeDataItem = functOrg.dataSource.get(e);
+        //        var node = functOrg.findByUid(nodeDataItem.uid);
+        //        functOrg.expand(node);
+        //    }
+        //});
+        //functOrg.select(nodeDataItem);
+        //functOrg.trigger('select', { node: nodeDataItem });
+    }
+    //GeoOrganization
+    function onChangeGeoOrganization(e)
+    {
+    }
+    function onSelectGeoOrganization(e)
+    {
+        var dataItem = this.dataItem(e.node);
+        //var item;
+        //var displayTree = [];
+        ////input DEPTCODE in GEOREPORT.
+        //if (dataItem.id != $("#GEOGRAPHICALORG").val()) {
+        //    displayTree = DisplayTreeInTextBox(dataItem, "org")
+        //    $("#DISPLAYGEOGRAPHICALORG").val(displayTree.join(" > "));
+        //    treeGeoDirectReport.dataSource.read({ deptcode: dataItem.id });
+        //    $("#DISPLAYGEODIRECTREPORT").val("");
+        //    $("#GEOGRAPHICALORG").val(dataItem.id);
+        //}
+        treeGeoDirectReport.dataSource.read({ deptcode: dataItem.id });
+    }
+    //FunctionReport
+    function onSelectdtreeFunctionReport(e)
+    {
+        var dataItem = this.dataItem(e.node);
+        //var displayTree = [];
+        ////reset display tree.
+        //if (dataItem.FUNCCODE != $("#FUNCTIONALORG").val()) {
+        //    displayTree = DisplayTreeInTextBox(dataItem, "fun")
+        //    $("#DISPLAYFUNCTIONALORG").val(displayTree.join(" > "));
+        //    functReportCode = dataItem.FUNCCODE;
+        //    gridFunctReportEmployees.dataSource.read({ empId: null, functCode: dataItem.FUNCCODE });
+        //    //$("#DISPLAYFUNCDIRECTREPORT").val("");
+        //    //$("#FUNCDIRECTSYSIDREPORT_Code").val("");
+        //}
+        if (dataItem != null) {
+            gridFunctReportEmployees.dataSource.read({ empId: null, functCode: dataItem.id });
+        }
+    }
+    function onChangedtreeFunctionReport(e)
+    {
+        var dataItem = this.dataItem(e.node);
+
+    }
+    function DisplayTreeInTextBox(dataItem,type) {
+        var displayTree = [];
+        if (type == "org") {
+            //if (dataItem.length > 0) {
+            //    geoOrganization.select(dataItem)
+            //    displayTree.push(dataItem.text);
+            //    var parent = geoOrganization.parent(dataItem);
+            //    while (parent && parent.length > 0) {
+            //        displayTree.push(parent.text);
+            //        parent = geoOrganization.parent(parent);
+            //    }
+            //}
+            //if (dataItem.length > 0) {
+            //    geoOrganization.select(dataItem)
+            //    displayTree.push(dataItem.text);
+            //    var parent = geoOrganization.parent(dataItem);
+            //    while (parent && parent.length > 0) {
+            //        displayTree.push(parent.text);
+            //        parent = geoOrganization.parent(parent);
+            //    }
+            //}
+            displayTree.push(dataItem.text);
+            while (dataItem.parentNode()) {
+                dataItem = dataItem.parentNode();
+                displayTree.push(dataItem.text);
+            }
+        }
+        else if (type == "fun") {
+            displayTree.push(dataItem.text);
+            while (dataItem.parentNode()) {
+                dataItem = dataItem.parentNode();
+                displayTree.push(dataItem.text);
+            }
+
+            //if (dataItem.length > 0) {
+            //    treeFuncDirectReport.select(dataItem)
+            //    displayTree.push(dataItem.text);
+            //    var parent = treeFuncDirectReport.parent(dataItem);
+            //    while (parent && parent.length > 0) {
+            //        displayTree.push(parent.text);
+            //        parent = treeFuncDirectReport.parent(parent);
+            //    }
+            //}
+        }
+        displayTree.reverse();
+        return displayTree;
+    }
+    //TreeemployeeOfOrg
+    function onSelectdtreeemployeeOfOrg(e)
+    {
+        var dataItem = this.dataItem(e.node);
+        currentNode = dataItem.DEPTCODE;
+        $("#DEPTCODE").val(dataItem.DEPTCODE);
+        var displayTree = [];
+        displayTree.push(dataItem.DEPTNAME);
+        while (dataItem.parentNode()) {
+            dataItem = dataItem.parentNode();
+            displayTree.push(dataItem.DEPTNAME);
+        }
+        displayTree.reverse();
+        $("#DISPLAYDEPTCODE").val(displayTree.join(" > "));
+        $("#DEPTCODE").val(dataItem.DEPTCODE);
+        $("span[data-valmsg-for=DEPTCODE]").text("");
+    }
+    function onChangedtreeemployeeOfOrg(e)
+    {
+
+    }
+
+    function clearForAddNew(value) {
+
+        $("#DISPLAYDEPTCODE").val(value);
+        $("#EMPID").val(value);
+        $("#SYS_EMPID").val(value);
+        $("#DISPLAYGEOGRAPHICALORG").val(value);
+        $("#DISPLAYGEODIRECTREPORT").val(value);
+        $("#DISPLAYFUNCTIONALORG").val(value);
+        $("#DISPLAYFUNCDIRECTREPORT").val(value);
+
+        $("#hfEMPID").val(value);
+        $("#DEPTCODE").val(value);
+        $("#GEOGRAPHICALORG").val(value);
+        $("#GEODIRECTREPORT").val(value);
+        $("#FUNCTIONALORG").val(value);
+        $("#FUNCDIRECTREPORT").val(value);
+        $("span[data-valmsg-for=EMPNAME]").text(value);
+        $("span[data-valmsg-for=DEPTCODE]").text(value);
+        $("span[data-valmsg-for=IDENTITYCARD]").text(value);
+    }
+    function onDataBoundGeoOrganization(e, args) {
+        //this.expand(".k-item");
+        geoOrganization.expand(geoOrganization.findByText("Pungkook Corp"));
+        //var dataItem = this.dataItem(e.node);
+        //if (dataItem == null) {
+        //    kendo.ui.progress($("#window"), false);
+        //}
+    }
+    function onDataBoundFuncDirectReport(e) {
+        this.expand(".k-item");
+        var dataItem = this.dataItem(e.node);
+        if (dataItem != null) {
+            //console.log("kkkkk = " + dataItem.FUNCCODE);
+            //var childNodes = dataItem.children.view();
+            //for (var j = 0; j < childNodes.length; j++) {
+            //    console.log("kkkkk22 = " + dataItem.FUNCCODE);
+            //    var node = childNodes[j];
+            //    console.log("kkkkk33 = " + node.FUNCCODE);
+            //    //treeParentsOrganization.dataSource.read({ functCode: "200002" });
+            //    console.log("FUNCTIONALORG" + $("#FUNCTIONALORG").val());
+            //    if (node.Key == $("#FUNCTIONALORG").val()) {
+            //        treeParentsOrganization.dataSource.read({ functCode: dataItem.FUNCCODE });
+            //        console.log("kkkkk");
+            //        break;
+            //    }
+            //}
+        }
+    }
+    function onDataBoundParentsOrganization(e) {
+        //if (dataItem != null) {
+        //    console.log("dataItem  " + dataItem.FUNCCODE);
+        //    var childNodes = dataItem.children.view();
+        //    console.log("childNodes  " + childNodes.length);
+        //    for (var j = 0; j < childNodes.length; j++) {
+        //        var node = childNodes[j];
+        //        console.log("key of childs  " + node.FUNCCODE);
+        //        if (node.FUNCCODE == $("#FUNCTIONALORG").val()) {
+        //            treeParentsOrganization.value(node.FUNCCODE);
+        //            console.log("dataItem.Expanded in onDataBoundParentsOrganization  " + node.FUNCCODE + "--" + $("#FUNCTIONALORG").val());
+        //            break;
+        //        }
+        //    }
+        //}
+    }
+    function onDataBoundGeoDirectReport(e)
+    {
+        this.expand(".k-item");
+        var dataItem = this.dataItem(e.node);
+        if (dataItem != null)
+        {
+            if ($("#GEOGRAPHICALORG").val() == dataItem.Key)
+            {
+                var childNodes = dataItem.children.view();
+                for (var j = 0; j < childNodes.length; j++)
+                {
+                    if (childNodes[j].Key == $("#GEODIRECTREPORT").val()) {
+                        var selectItem = treeGeoDirectReport.findByUid(childNodes[j].uid);
+                        treeGeoDirectReport.select(selectItem);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    function onTabStripActivate(e) {
+        if ($(e.item).find("> .k-link").text() == "Geo. Organization") {
+            $("#tabstrip-1").attr("style", "display: block; height: auto; overflow: auto; opacity: 1;");
+        }
+        if ($(e.item).find("> .k-link").text() == "Geo. Direct Report") {
+            $("#tabstrip-2").attr("style", "display: block; height: auto; overflow: auto; opacity: 1;");
+        }
+        if ($(e.item).find("> .k-link").text() == "Func. Direct Report") {
+            $("#tabstrip-3").attr("style", "display: block; height: auto; overflow: auto; opacity: 1;");
+        }
+        if ($(e.item).find("> .k-link").text() == "Func Direct Report") {
+            $("#tabstrip-4").attr("style", "display: block; height: auto; overflow: auto; opacity: 1;");
+        }
+        if ($(e.item).find("> .k-link").text() == "Geo Direct View") {
+            $("#tabstrip-5").attr("style", "display: block; height: auto; overflow: auto; opacity: 1;");
+            //diagramGeo.dataSource.read({ empId: $("#empIdSearch").val() });         //$("#EMPID").val()
+        }
+        if ($(e.item).find("> .k-link").text() == "Func Direct View") {
+            $("#tabstrip-6").attr("style", "display: block; height: auto; overflow: auto; opacity: 1;");
+            //diagram.dataSource.read({ empId: $("#empIdSearch").val() });         //$("#EMPID").val()
+        }
+    }
+    function Visable(isNew, isDelete, isSave, isCancel, isEdit) {
+        if (isNew) {
+            $('#newEmployee').removeAttr('disabled');
+            $("#newEmployee").removeClass("btn btn -default btn - sm btnDisOpacity pull - right").addClass("btn btn -default btn - sm btnOpacity pull - right");
+        }
+        else {
+            $("#newEmployee").prop('disabled', 'disabled');
+            $("#newEmployee").removeClass("btn btn -default btn - sm btnOpacity pull - right").addClass("btn btn -default btn - sm btnDisOpacity pull - right");
+        }
+        if (isDelete)
+            $('#btnDeleteEmployee').removeAttr('disabled');
+        else
+            $("#btnDeleteEmployee").prop('disabled', 'disabled');
+        if (isSave) {
+            $('#btnSave').removeAttr('disabled');
+            $("#btnSave").removeClass("btn btn -default btn - sm btnDisOpacity pull - right").addClass("btn btn -default btn - sm btnOpacity pull - right");
+        }
+        else {
+            $("#btnSave").prop('disabled', 'disabled');
+            $("#btnSave").removeClass("btn btn -default btn - sm btnOpacity pull - right").addClass("btn btn -default btn - sm btnDisOpacity pull - right");
+        }
+        if (isCancel) {
+            $('#btnCancel').removeAttr('disabled');
+            $("#btnCancel").removeClass("btn btn -default btn - sm btnDisOpacity pull - right").addClass("btn btn -default btn - sm btnOpacity pull - right");
+        }
+        else {
+            $("#btnCancel").prop('disabled', 'disabled');
+            $("#btnCancel").removeClass("btn btn -default btn - sm btnOpacity pull - right").addClass("btn btn -default btn - sm btnDisOpacity pull - right");
+        }
+        if (isEdit) {
+            $('#btnEdit').removeAttr('disabled');
+            $("#btnEdit").removeClass("btn btn -default btn - sm btnDisOpacity pull - right").addClass("btn btn -default btn - sm btnOpacity pull - right");
+        }
+        else {
+            $("#btnEdit").prop('disabled', 'disabled');
+            $("#btnEdit").removeClass("btn btn -default btn - sm btnOpacity pull - right").addClass("btn btn -default btn - sm btnDisOpacity pull - right");
+        }
+    }
+    function Enables(status) {
+        if (status == true) {
+            $('#EMPNAME').removeAttr('disabled');
+            $('#GENDER').removeAttr('disabled');
+            $('#BIRTHDATE').removeAttr('disabled');
+            $('#NATIONALITY').removeAttr('disabled');
+            $('#IDENTITYCARD').removeAttr('disabled');
+            $('#DATEJOIN').removeAttr('disabled');
+            $('#ACADEMIC').removeAttr('disabled');
+            $('#POSITION').removeAttr('disabled');
+            $('#SKILL').removeAttr('disabled');
+        }
+        else {
+            $('#EMPNAME').prop("disabled", "disabled");
+            $('#GENDER').prop('disabled', 'disabled');
+            $('#BIRTHDATE').prop('disabled', 'disabled');
+            $('#NATIONALITY').prop('disabled', 'disabled');
+            $('#IDENTITYCARD').prop('disabled', 'disabled');
+            $('#DATEJOIN').prop('disabled', 'disabled');
+            $('#ACADEMIC').prop('disabled', 'disabled');
+            $('#POSITION').prop('disabled', 'disabled');
+            $('#SKILL').prop('disabled', 'disabled');
+        }
+    }
+    function isDate(value) {
+        //var re = /^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-.\/])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$/;
+        //var flag = re.test(value);
+        //return flag;
+        //Here comes one ugly, long and working regexp
+        var pattern = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+        return pattern.test(value);
+    }
+    //function onOpen(e) {
+    //    kendo.ui.progress(e.sender.element, true);
+    //}
+
+    //function onClose(e) {
+    //    kendo.ui.progress(e.sender.element, false);
+    //}
+    function showMessage(message, style) {
+        var ostyle = $("#messageInfor").attr("class");
+        $("#messageInfor").removeClass(ostyle).addClass(style);
+        $("#messageInfor").html(message);
+        $("#messageInfor").slideToggle("slow");
+        $("#messageInfor").slideToggle("slow");
+    }
+    function loadData()
+    {
+        try {
+
+            if ($("#empIdSearch").val().length == 0) return false;
+            var empIdSearch = $("#empIdSearch").val().trim();
+            //Waiting process.
+            kendo.ui.progress($("#window"), true);
+            var url = '@Url.Action("QueryEmployeeByEmpId", "Staff")';
+            $.post(url, { empId: empIdSearch },
+                function (data) {
+                });
+            $('#StaffPartial').load('/Staff/Edit', { empId: empIdSearch });
+            console.log("before success: function (respond)");
+            //Load Diagram.
+            //Get DeptCode and FuncCode.
+            $.ajax({
+                url: "/Staff/getDeptCodeAndFuncCode",
+                type: 'POST',
+                data: { empId: empIdSearch },
+                OnComplete: function () {
+                    console.log("OnComplete: function (respond)");
+                },
+                success: function (respond) {
+
+                    try {
+                        console.log("success: function (respond)");
+                        var GEOGRAPHICALORG = respond.result.Data.GEOGRAPHICALORG;
+                        var GEODIRECTREPORT = respond.result.Data.GEODIRECTREPORT;
+                        var FUNCTIONALORG = respond.result.Data.FUNCTIONALORG;
+                        var FUNCDIRECTREPORT = respond.result.Data.FUNCDIRECTREPORT;
+                        var GEOUSERNAME = respond.result.Data.DISPLAYGEODIRECTREPORT;
+                        var FUNCTUSERNAME = respond.result.Data.DISPLAYFUNCDIRECTREPORT;
+
+                        diagram.dataSource.read({ empId: empIdSearch });
+                        diagramGeo.dataSource.read({ empId: empIdSearch });
+                        gridFunctReportEmployees.dataSource.read({ empId: null, functCode: FUNCTIONALORG });
+                        //Process related data.
+                        //Process for Geo Organization.
+                        console.log("GEOGRAPHICALORG ===" + GEOGRAPHICALORG);
+                        if (GEOGRAPHICALORG != '' && GEOGRAPHICALORG != null) {
+                            var nodeDataItem = geoOrganization.dataSource.get(GEOGRAPHICALORG);
+                            console.log("GEOGRAPHICALORG nodeDataItem ===" + nodeDataItem);
+                            var gdataItem = nodeDataItem;
+                            var select = geoOrganization.findByUid(nodeDataItem.uid);
+                            treeGeoDirectReport.dataSource.read({ deptcode: GEOGRAPHICALORG });
+                            geoOrganization.select(select);
+                            geoOrganization.trigger('select', { node: select });
+                            if (select.length > 0) {
+                                geoOrganization.select(select)
+                                var parent = geoOrganization.parent(select);
+                                while (parent && parent.length > 0) {
+                                    geoOrganization.expand(parent);
+                                    parent = geoOrganization.parent(parent);
+                                }
+                            }
+                        }
+                        else {
+                            geoOrganization.select(null);
+                        }
+                        console.log("END GEOGRAPHICALORG ===" + GEOGRAPHICALORG);
+                        //End for Geo Organization.
+                        //Process for Funct Report.
+
+                        console.log("FUNCTIONALORG ===" + FUNCTIONALORG);
+                        if (FUNCTIONALORG != '' && GEOGRAPHICALORG != null) {
+
+                            var nodeDataItem = treeFuncDirectReport.dataSource.get(FUNCTIONALORG);
+                            var fdataItem = nodeDataItem;
+                            var select = treeFuncDirectReport.findByUid(nodeDataItem.uid);
+                            //gridFunctReportEmployees.dataSource.read({ empId: null, functCode: FUNCTIONALORG });
+                            treeFuncDirectReport.select(select);
+                            treeFuncDirectReport.trigger('select', { node: select });
+                            if (select.length > 0) {
+                                treeFuncDirectReport.select(select)
+                                var parent = treeFuncDirectReport.parent(select);
+                                while (parent && parent.length > 0) {
+                                    treeFuncDirectReport.expand(parent);
+                                    parent = treeFuncDirectReport.parent(parent);
+                                }
+                            }
+
+                            treeParentsOrganization.dataSource.filter({ field: "id", operator: "eq", value: FUNCTIONALORG })
+                            var node = treeParentsOrganization.dataSource.get(FUNCTIONALORG);
+                            treeParentsOrganization.value(node);
+
+                            gridFunctReportEmployees.dataSource.read({ empId: null, functCode: FUNCTIONALORG });
+                            var user = gridFunctReportEmployees.dataSource.get(FUNCDIRECTREPORT);
+                            if (user != null && user != 'undefined') {
+                                var row = gridFunctReportEmployees
+                                    .tbody
+                                    .find("tr[data-uid='" + user.uid + "']");
+                                gridFunctReportEmployees
+                                    .tbody
+                                    .find("td input:radio[value='" + FUNCDIRECTREPORT + "']").attr("checked", "checked");
+                                gridFunctReportEmployees.select(row);
+                            }
+                        }
+                        else {
+                            treeFuncDirectReport.select(null);
+                        }
+
+                    }
+                    finally {
+                        kendo.ui.progress($("#window"), false);
+                    }
+
+
+                    //Waiting process.
+                    //windowWidget.title(false);
+                    //kendo.ui.progress(windowWidget.element, false);
+
+                    //End for Geo Organization Report.
+                },
+                error: function (error) {
+                    console.log("error : ");
+                    $("#EMPID").val("");
+                    geoOrganization.select(null);
+                    treeFuncDirectReport.select(null);
+                    gridFunctReportEmployees.dataSource.read({ empId: null, functCode: null });
+                    treeParentsOrganization.dataSource.filter({ field: "id", operator: "eq", value: 0 });
+                    treeParentsOrganization.value(null);
+                    treeGeoDirectReport.dataSource.read({ deptcode: null });
+                    diagram.dataSource.read({ empId: null });
+                    diagramGeo.dataSource.read({ empId: null });
+                    kendo.ui.progress($("#window"), false);
+                    showMessage("This EMPID = " + $("#empIdSearch").val() + " is not found!", "alert alert-info");
+
+                }
+            });
+            $("#GEODIRECTSYSIDREPORT_Code").val(geouser);
+            $("#FUNCDIRECTSYSIDREPORT_Code").val(functuser);
+        }
+        finally {
+            //kendo.ui.progress($("#window"), false);
+        }
+
+    }
+    function InitData()
+    {
+        //var empIdSearch = $("#empIdSearch").val().trim();
+        //$.ajax({
+        //    url: "/Staff/getDeptCodeAndFuncCode",
+        //    type: 'POST',
+        //    data: { empId: empIdSearch },
+        //    OnComplete: function () {
+        //    },
+        //    success: function (respond) {
+        //        try {
+        //            //kendo.ui.progress($("#window"), true);
+        //            var GEOGRAPHICALORG = respond.result.Data.GEOGRAPHICALORG;
+        //            var FUNCTIONALORG = respond.result.Data.FUNCTIONALORG;
+        //            geouser = respond.result.Data.GEOUSER;
+        //            functuser = respond.result.Data.FUNCUSER;
+        //            //treeParentsOrganization.dataSource.read({ functCode: FUNCTIONALORG });
+        //            //treeGeoDirectReport = $("#treeGeoDirectReport").data("kendoTreeView");
+        //            //treeParentsOrganization = $("#treeParentsOrganization").data("kendoDropDownTree");
+        //            //treeGeoDirectReport.dataSource.read({ deptcode: GEOGRAPHICALORG });
+        //            //treeParentsOrganization.dataSource.read({ functCode: FUNCTIONALORG });
+        //            //treeParentsOrganization.value(FUNCTIONALORG);
+        //        } finally {
+        //            //kendo.ui.progress($("#window"), false);
+        //        }
+        //        //treeParentsOrganization.bind("select", onSelectdtreeFunctionReport);
+        //    },
+        //    error: function (error) {
+        //    }
+        //});
+     }
+    $(document).ready(function () {
+        treeemployeeOfOrg = $("#treeemployeeOfOrg").data("kendoDropDownTree");
+        geoOrganization = $("#treeGeoOrganization").data("kendoTreeView");
+        treeFuncDirectReport = $("#treeFuncDirectReport").data("kendoTreeView");
+        treeGeoDirectReport = $("#treeGeoDirectReport").data("kendoTreeView");
+        treeParentsOrganization = $("#treeParentsOrganization").data("kendoDropDownTree");
+        gridFunctReportEmployees = $("#gridFunctReportEmployees").data("kendoGrid");
+        treeGeoReport = $("#treeGeoReport").data("kendoDropDownTree");
+        treeFunctionReport = $("#treeFunctionReport").data("kendoDropDownTree");
+        diagram = $("#diagram").data("kendoDiagram");
+        diagramGeo = $("#diagramGeo").data("kendoDiagram");
+        tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
+        gridForm = $("#gridForm").data("kendoGrid");
+        kendo.ui.progress($("#window"), false);
+        Visable(true, false, false, false, false);
+        //Enables(false);
+        $("#findEmployee").on("click", function (filter) {
+            InitData();
+            loadData();
+            Visable(true, true, false, false, true);
+            Enables(false);
+        });
+
+        $("#newEmployee").on("click", function () {
+            //$('#StaffPartial').load('/Staff/New');
+            clearForAddNew("");
+            var url = '@Url.Action("Index", "Staff")';
+            $.post(url, function () { });
+            Visable(false, false, true, true, false);
+            isSaveStatus = 1;
+            Enables(true);
+            @*var url = '@Url.Action("Index", "Staff")';
+            $.post(url,function (data) {});*@
+        });
+        $("#btnEdit").on("click", function (event) {
+            event.preventDefault();
+            //$('#StaffPartial').load('/Staff/Edit', { empId: $("#EMPID").val() });
+            Visable(false, false, true, true, false);
+            isSaveStatus = 0;
+            Enables(true);
+        });
+        $("#btnSave").on("click", function (event) {
+            $("#IMAGE").val($("#imageShort").attr("src"));
+            var isvalidate = true;
+            if ($("#EMPNAME").val().length == 0) {
+                $("span[data-valmsg-for=EMPNAME]").text("Please enter employee name.");
+                isvalidate = false;
+            }
+            else
+                $("span[data-valmsg-for=EMPNAME]").text("");
+            if ($("#DEPTCODE").val().length == 0) {
+                isvalidate = false;
+                $("span[data-valmsg-for=DEPTCODE]").text("Please choose department.");
+            }
+            else
+                $("span[data-valmsg-for=DEPTCODE]").text("");
+            //var regex = /^[0-9]+$/;
+            //var value = $("#IDENTITYCARD").val().trim();
+            //if (value != '') {
+            //    if (!value.match(regex)) {
+            //        isvalidate = false;
+            //        $("span[data-valmsg-for=IDENTITYCARD]").text("Please enter valid Number.");
+            //    }
+            //    else
+            //        $("span[data-valmsg-for=IDENTITYCARD]").text("");
+            //}
+
+            //alert($("#DATEJOIN").val());
+
+            if ($("#DATEJOIN").val().length == 0) {
+                isvalidate = false;
+                $("span[data-valmsg-for=DATEJOIN]").text("Please choose join date.");
+            }
+            else
+                $("span[data-valmsg-for=DATEJOIN]").text("");
+            //if ($("#DATEJOIN").val().length == 0 || !isDate($("#DATEJOIN").val())) {
+            //    isvalidate = false;
+            //    $("span[data-valmsg-for=DATEJOIN]").text("Please choose join date.");
+            //}
+            //else
+            //    $("span[data-valmsg-for=DATEJOIN]").text("");
+            if (isvalidate == true) {
+                $('#frmEmployee').submit();
+                showMessage("You create successful!", "alert alert-success");
+                console.log("error : ");
+            }
+            console.log("#EMPID == " + $("#EMPID").val());
+        });
+        $("#btnDeleteEmployee").on("click", function (event) {
+            event.preventDefault();
+            Visable(true, false, false, false, false);
+            Enables(false);
+        });
+        $("#btnCancel").on("click", function (event) {
+            event.preventDefault();
+            if (isSaveStatus == 1) {
+                //Clear form data.
+                //Mode is visable for input control.
+                $("span[data-valmsg-for=EMPNAME]").text("");
+                $("span[data-valmsg-for=DEPTCODE]").text("");
+                $("span[data-valmsg-for=DATEJOIN]").text("");
+                Visable(true, false, false, false, false);
+            }
+            else {
+
+                //Reload data of this employee.
+                //Mode is visable for input control.
+                $('#StaffPartial').load('/Staff/Edit', { empId: $("#EMPID").val() });
+                Visable(true, true, false, false, true);
+            }
+            Enables(false);
+        });
+        $("#btnSignEmployeeToOrg").on("click", function (event) {
+            event.preventDefault();
+        });
+        $("#btnSearchByEmpID").on("click", function (event) {
+            event.preventDefault();
+            if ($("#txtEmployeeID").val() == '') return;
+            gridFunctReportEmployees.dataSource.read({ empId: $("#txtEmployeeID").val(), functCode: functReportCode });
+        });
+        
+        //$('#empIdSearch').autocomplete    
+        //    (
+        //        {
+        //            minLength: 0,
+        //            source: function (request, response) {
+        //                if (/^[a-zA-Z]+$/.test($('#empIdSearch').val()) == false) return;
+        //                $.ajax({
+        //                    url: "/Staff/SearchUserByValue",
+        //                    type: "POST",
+        //                    dataType: "json",
+        //                    data: { key: $('#empIdSearch').val() },
+        //                    success: function (data) {
+        //                        response($.map(data, function (item) {
+        //                            return { value: item.EMPID, label: item.EMPNAME };
+        //                        }))
+        //                    }
+        //                })
+        //            },
+        //            focus: function (event, ui) {
+        //                $("#empIdSearch").val(ui.item.label);
+        //                return false;
+        //            },
+        //            select: function (event, ui) {
+        //                $("#empIdSearch").val(ui.item.value);
+        //                return false;
+        //            }
+        //        }
+        //    ).data("ui-autocomplete")._renderItem = function (ul, item) {
+        //        var str = item.label;
+        //        var array = str.split(",");
+        //        console.log(array[0]);
+        //        console.log(array[1]);
+        //        var template = '<div class="row">' +
+        //            '<div class="col-md-1" id="selectedUser" data=' + array[1] + '>' +
+        //            '<i class="fa fa-user"></i> | ' + '( ' + item.value + ' ) ' + array[0] +
+        //            '</div>' +
+        //            '</div>';
+        //        item.label = array[0];
+        //        item.data = array[1];
+        //        return $('<li class="autocomplete-template">')
+        //            .data("item.autocomplete", item)
+        //            .append(template)
+        //            .appendTo(ul);
+        //    };
+
+
+    });
+</script>
+<style>
+    .expandWidth {
+        width: 100%;
+    }
+
+    .btnOpacity {
+        background: #00a3ffb5;
+        color: #fff;
+    }
+
+    .btnDisOpacity {
+        background: #50ace0b5;
+        color: #fff;
+    }
+
+    .k-tabstrip-items .k-item.k-state-active, .k-tabstrip-items .k-item.k-state-selected {
+        border-color: rgba(0, 0, 0, 0.08);
+        color: #003f59;
+        background-color: #007bff38;
+    }
+
+    input[id="BIRTHDATE"] {
+        width: 100%;
+        height: 30px;
+    }
+
+    input[id="DATEJOIN"] {
+        width: 100%;
+        height: 30px;
+    }
+
+    .ui-autocomplete {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        float: left;
+        min-width: 160px;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        list-style: none;
+        font-size: 14px;
+        text-align: left;
+        overflow: hidden;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        background-clip: padding-box;
+    }
+
+        .ui-autocomplete > li > div {
+            display: block;
+            padding: 3px 20px;
+            clear: both;
+            font-weight: normal;
+            line-height: 1.42857143;
+            color: #333333;
+            white-space: nowrap;
+        }
+
+    .ui-state-hover,
+    .ui-state-active,
+    .ui-state-focus {
+        text-decoration: none;
+        color: #262626;
+        background-color: #00a3ffb5;
+        cursor: pointer;
+    }
+
+    .ui-helper-hidden-accessible {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    .k-window-titleless {
+        visibility: visible;
+        display: block;
+        width: 45px;
+        height: 45px;
+        top: 128px;
+        left: 8px;
+        z-index: 10003;
+    }
+    .k-widget.k-window.k-dialog {  
+        display: flex;
+        left: 90px !important;
+        top: 75px !important;
+        z-index: 10004 !important;
+    }
+</style>

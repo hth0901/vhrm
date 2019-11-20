@@ -1,0 +1,34 @@
+﻿@using vhrm.ViewModels
+@using Kendo.Mvc.UI.Fluent
+@model EmployeeImageViewModel
+
+<input type="text" style="width:95px;height:22px;font-size:9pt" class="form-control input-sm" id="emp_id" value="" />
+<div class="img_emp">
+    <div class="img_emp_content">
+        <img src="@Url.Content(Model.IMG_URL)" style="width:100%; height: 100%" />
+    </div>
+    @*<span>Drop Image here to upload</span>*@
+    <input type="button" class="btn btn-primary btn-xs btn-fixed-width" value="Upload Image" onclick="clickUpload()" />
+</div>
+<div style="width:200px; height: 70px; display: none">
+    @(Html.Kendo().Upload()
+            .Name("imgUpload")
+            .Async(a =>
+            {
+                a.Save("Async_Upload_Image", "Staff", new { empId = Model.SYS_EMPID });
+                a.AutoUpload(true);
+            })
+            .DropZone(".img_emp")
+            .ShowFileList(false)
+            .Enable(true)
+            .Events(e =>
+            {
+                e.Success("onUploadImageSuccess");
+            })
+    )
+</div>
+<script>
+    function clickUpload() {
+        document.getElementById("imgUpload").click();
+    }
+</script>

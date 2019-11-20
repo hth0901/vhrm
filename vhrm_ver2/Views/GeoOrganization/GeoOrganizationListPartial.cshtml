@@ -1,0 +1,43 @@
+﻿<div class="demo-section k-content">
+    @(Html.Kendo().TreeView()
+                   .Name("treeGeoOrganization")
+                   .DataTextField("DEPTNAME")
+                   .DataSource(dataSource => dataSource
+                        .Model(m => m
+                                    .Id("DEPTCODE"))
+                       .Read(read => read
+                           .Action("getGeOrganizations", "GeoOrganization")
+                       )
+                   )
+                   .Events(evs =>
+                   {
+                       evs.Select("onSelect");
+                       evs.DataBound("DeptBound");
+                   })
+                   .HighlightPath(true)
+    )
+</div>
+<style>
+    #treeGeoOrganization .k-sprite {
+    }
+
+    .rootfolder {
+        background-position: 0 0;
+    }
+
+    .folder {
+        background-position: 0 -16px;
+    }
+
+    .pdf {
+        background-position: 0 -32px;
+    }
+
+    .html {
+        background-position: 0 -48px;
+    }
+
+    .image {
+        background-position: 0 -64px;
+    }
+</style>

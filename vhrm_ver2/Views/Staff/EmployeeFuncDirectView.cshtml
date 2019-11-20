@@ -1,0 +1,90 @@
+﻿<script>
+    function visualTemplate(options) {
+        var dataviz = kendo.dataviz;
+        var g = new dataviz.diagram.Group();
+        var dataItem = options.dataItem;
+
+        g.append(new dataviz.diagram.Rectangle({
+            width: 210,
+            height: 75,
+            stroke: {
+                width: 0
+            },
+            fill: {
+                gradient: {
+                    type: "linear",
+                    stops: [{
+                        color: dataItem.ColorScheme,//"#1696d3",
+                        offset: 0,
+                        opacity: 0.5
+                    }, {
+                        color: dataItem.ColorScheme,
+                        offset: 1,
+                        opacity: 1
+                    }]
+                }
+            }
+        }));
+
+        g.append(new dataviz.diagram.TextBlock({
+            text: dataItem.EMPNAME,
+            x: 75,
+            y: 15,
+            color: "#fff"
+        }));
+
+        g.append(new dataviz.diagram.Image({
+            source: "@Url.Content("~/FileServer/Photos/")" + dataItem.Image + "?" + new Date().getTime(),
+            x: 3,
+            y: 3,
+            width: 68,
+            height: 68
+        }));
+
+        return g;
+    }
+
+    function onDataBound() {  
+        var bbox = this.boundingBox();
+        console.log("bbox.width =" + bbox.width + " : bbox.height =" + bbox.height);
+        console.log("bbox.x =" + bbox.x + " : bbox.y =" + bbox.y);    
+      
+        this.wrapper.x = 382;//(bbox.width + bbox.x + 620);//'calc(100 % + 510)');
+        //this.wrapper.height(bbox.height + bbox.y + 400);
+        this.bringIntoView(bbox);
+        //this.resize();
+    }
+</script>
+@(Html.Kendo().Diagram()
+          .Name("diagram")
+          .DataSource(dataSource => dataSource
+              .Read(read => read
+                  .Action("_OrgChart", "Staff")
+              )
+              .Model(m => m.Children("Items"))
+          )
+          .Editable(false)
+          .Layout(l => l.Type(DiagramLayoutType.Layered))
+          .ShapeDefaults(sd => sd
+              .Visual("visualTemplate")
+          )
+          .ConnectionDefaults(cd => cd
+              .Stroke(s => s
+                  .Color("#979797")
+                  .Width(2)
+              )
+          )
+          .Events(events => events.DataBound("onDataBound"))
+)
+<style>
+    .k-widget.k-diagram {
+        position: relative;
+        width: 100% !important;
+        height: 100% !important;
+        cursor: default;
+    }
+    /*.km-scroll-container {
+        transform-origin: left top;
+        transform: translate3d(367px, 11px, 0px) scale(1) !important;
+    }*/
+</style>

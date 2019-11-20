@@ -1,0 +1,439 @@
+﻿@model vhrm.FrameWork.Entity.EmployeeMaster
+@using vhrm.ViewModels
+@using Kendo.Mvc.UI.Fluent
+@*@using (Html.BeginForm("SaveEmployee", "Staff", FormMethod.Post, new { @class = "form-horizontal",id= "frmEmployee", style = "margin-right:10px;" }))
+    {
+        @Html.AntiForgeryToken();*@
+@*@Html.AntiForgeryToken()*@
+<style>
+    fieldset.scheduler-border {
+        border: 1px groove #ddd !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
+</style>
+<div class="box-body" id="boxbodyNew">
+    <div class="form-group" style="margin-left: 10px" action="SaveEmployee" method='POST'>
+        <fieldset class="scheduler-border">
+            <legend style="width: inherit; padding:0 10px; border-bottom: none">Basic Info</legend>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="img_section" id="emp_image" style="margin-left:20px;">
+                        <div class="img_emp" style="text-align: center;">
+                            <div class="img_emp_content">
+                                @Html.HiddenFor(model => model.IMAGE)
+                                <img src="/FileServer/Photos/default.jpg" id="imageShort" style="width:100%; height: 100%">
+                            </div>
+                            <input type="button" class="btn btn-primary btn-sm btn-fixed-width" value="Upload" onclick="clickUpload()">
+                        </div>
+                        <div style="width:200px; height: 70px; display: none">
+                            <div class="k-widget k-upload k-header k-upload-empty"><div class="k-dropzone"><div class="k-button k-upload-button" aria-label="Select files..."><input id="imgUpload" name="imgUpload" type="file" data-role="upload" multiple="multiple" autocomplete="off"><span>Select files...</span></div><em>Drop files here to upload</em></div></div>
+                            <script>
+                                kendo.syncReady(function () { jQuery("#imgUpload").kendoUpload({ "success": onUploadImageSuccess, "showFileList": false, "dropZone": ".img_emp", "async": { "saveUrl": "/Staff/Async_Upload_Image", "autoUpload": true } }); });
+                            </script>
+                        </div>
+                        <script>
+                            function clickUpload() {
+                                document.getElementById("imgUpload").click();
+                            }
+                        </script>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(model => model.EMPID, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                <div class="col-md-7">
+                                    @Html.TextBoxFor(model => model.EMPID, "", new { style = "width:100 %; height: 30px; font - size: smaller", @class = "form-control form-control-sm", @disabled = "disabled" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: -5px;">
+                            <div class="row">
+                                @Html.LabelFor(model => model.EMPNAME, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                <div class="col-md-7">
+                                    @Html.TextBoxFor(model => model.EMPNAME, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(model => model.EMPNAME, "", new { data = "EMPNAME", @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: -5px;">
+                            <div class="row">
+                                @Html.LabelFor(model => model.GENDER, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                <div class="col-sm-7">
+                                    @Html.DropDownListFor(model => model.GENDER, ViewBag.Gender as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(model => model.GENDER)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: -5px;">
+                            <div class="row">
+                                @Html.LabelFor(model => model.BIRTHDATE, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                <div class="col-sm-7">
+                                    <div class="input-group" style="width:100%;">
+                                        @(Html.Kendo().DatePickerFor(model => model.BIRTHDATE).HtmlAttributes(new { @class = "form-control" }))
+                                        @*@Html.EditorFor(model => model.BIRTHDATE, "dd-MM-yyyy", new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm", @type = "date" })*@
+                                        @*@Html.ValidationMessageFor(model => model.BIRTHDATE)*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: -5px;">
+                            <div class="row">
+                                @Html.LabelFor(model => model.NATIONALITY, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                <div class="col-sm-7">
+                                    @Html.DropDownListFor(model => model.NATIONALITY, ViewBag.Countries as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(model => model.NATIONALITY)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: -5px;">
+                            <div class="row">
+                                @Html.LabelFor(model => model.IDENTITYCARD, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                <div class="col-sm-7">
+                                    @Html.TextBoxFor(model => model.IDENTITYCARD, "", new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(model => model.IDENTITYCARD, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: -5px;">
+                            <div class="row">
+                                @Html.LabelFor(model => model.DATEJOIN, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                <div class="col-sm-7">
+                                    <div class="input-group" style="width:100%;">
+                                        @(Html.Kendo().DatePickerFor(model => model.DATEJOIN).HtmlAttributes(new { @class = "form-control" }))
+                                        @*@Html.EditorFor(model => model.DATEJOIN, "dd-MM-yyyy", new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm", @type = "date" })*@
+                                        @Html.ValidationMessageFor(model => model.DATEJOIN, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: -5px;">
+                            <div class="row">
+                                @Html.LabelFor(model => model.ACADEMIC, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                <div class="col-sm-7">
+                                    @Html.DropDownListFor(model => model.ACADEMIC, ViewBag.Academics as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(model => model.ACADEMIC)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        
+    </div>
+    <div style="margin-left:10px;">
+        <fieldset class="scheduler-border">
+            <legend style="width: inherit; padding:0 10px; border-bottom: none">VHRM Info</legend>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.DISPLAYDEPTCODE, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                    <div class="col-sm-7">
+                        <div class="input-group" style="width:100%;">
+                            @Html.TextBoxFor(model => model.DISPLAYDEPTCODE, "", new { style = "width: calc(100% - 50px);float: left;margin-right: 10px;height: 30px; font-size: smaller", @class = "form-control form-control-sm", @disabled = "disabled" })
+                            @Html.HiddenFor(model => model.DEPTCODE)
+                            <div class="input-group-btn">
+                                <button type="button" id="showDeptCode" class="btn btn-default btn-sm btnOpacity"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.DEPTCODE, "", new { @class = "text-danger" })
+                        <div id="showOrganization">
+                            <div class="demo-section k-content" id="employeeOfOrg">
+                                @(Html.Kendo().DropDownTree()
+                                            .Name("treeemployeeOfOrg")
+                                            .DataTextField("DEPTNAME")
+                                            .HtmlAttributes(new { style = "width: 100%" })
+                                            .DataValueField("DEPTCODE")
+                                            .DataSource(dataSource => dataSource
+                                            .Model(m => m
+                                                        .Id("DEPTCODE")
+                                                        )//.Children("DeptViewModels")
+                                                .Read(read => read
+                                                    .Action("getGeOrganizations", "GeoOrganization")
+                                                )
+                                            ).Filter("contains")
+                                            .Events(events => events
+                                                        .Change("onChangedtreeemployeeOfOrg")
+                                                        .Select("onSelectdtreeemployeeOfOrg")
+                                                ).Value("000000")
+                                )
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: -5px;">
+                <div class="row">
+                    <label for="" class="col-sm-5 col-form-label-sm" style="text-align: right;">Geographical Org</label>
+                    <div class="col-sm-7">
+                        <div class="input-group" style="width:100%;">
+                            @Html.HiddenFor(model => model.GEOGRAPHICALORG)
+                            @Html.HiddenFor(model => model.DISPLAYGEODIRECTREPORTNAME)
+                            @Html.TextBoxFor(model => model.DISPLAYGEOGRAPHICALORG, "", new { style = "width: calc(100% - 52px);float: left;margin-right: 10px;height: 30px; font-size: smaller", @class = "form-control form-control-sm", @disabled = "disabled" })
+                            <div class="input-group-btn">
+                                <button type="button" id="btnShowGeoOrganizationReport" class="btn btn-default btn-sm btnOpacity"> <i class="fa fa-indent" aria-hidden="true"></i></button>
+                            </div>
+                            <div id="showGeoReport" style="width: 100%;">
+                                <div class="demo-section k-content">
+                                    @(Html.Kendo().DropDownTree()
+                                                .Name("treeGeoReport")
+                                                .HtmlAttributes(new { style = "width: 100%" })
+                                                    .BindTo((IEnumerable<GeoDeptViewModel>)ViewBag.geoInline, (NavigationBindingFactory<DropDownTreeItem> mappings) =>
+                                                    {
+                                                        mappings.For<GeoDeptViewModel>(binding => binding.ItemDataBound((item, geoReport) =>
+                                                        {
+                                                            item.Text = geoReport.DEPTNAME;
+                                                            item.Id = geoReport.DEPTCODE;
+                                                        })
+                                                            .Children(category => category.GeoDeptViewModels));
+
+                                                        mappings.For<GeoDeptViewModel>(binding => binding.ItemDataBound((item, child) =>
+                                                        {
+                                                            item.Text = child.DEPTNAME;
+                                                            item.Id = child.DEPTCODE;
+                                                        }));
+                                                    }).Filter("contains")
+                                                .Events(evs =>
+                                                {
+                                                    evs.Select("onSelectdtreeGeoReport");
+                                                    evs.DataBound("onBoundtreeGeoReport");
+                                                })
+                                    )
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: -5px;">
+                <div class="row">
+                    <label for="" class="col-sm-5 col-form-label-sm" style="text-align: right;">Geo. Direct Report</label>
+                    <div class="col-sm-7">
+                        @Html.HiddenFor(model => model.GEODIRECTREPORT)
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="autocomplete" style="width:100%;">
+                                    <input id="GEODIRECTSYSIDREPORT_Code" name="GEODIRECTSYSIDREPORT_Code" type="text" value="" class="form-control form-control-sm" style="height: 30px; font-size: smaller;width: 95px; margin-right:5px;background:#007bff38" />
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.DISPLAYGEODIRECTREPORT, "", new { @class = "form-control form-control-sm", @disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: -5px;">
+                <div class="row">
+                    <label for="" class="col-sm-5 col-form-label-sm" style="text-align: right;">Functional Org</label>
+                    <div class="col-sm-7">
+                        <div class="input-group" style="width:100%;">
+                            @Html.HiddenFor(model => model.FUNCTIONALORG)
+                            @Html.HiddenFor(model => model.DISPLAYFUNCDIRECTREPORTNAME)
+                            @Html.TextBoxFor(model => model.DISPLAYFUNCTIONALORG, "", new { style = "width: calc(100% - 52px);float: left;margin-right: 10px; height: 30px; font-size: smaller", @class = "form-control form-control-sm", @disabled = "disabled" })
+                            <div class="input-group-btn">
+                                <button type="button" id="btnShowFunctionDirectReport" class="btn btn-default btn-sm btnOpacity"> <i class="fa fa-indent" aria-hidden="true"></i></button>
+                            </div>
+                            <div id="showFunctionReport" style="width: 100%;">
+                                <div class="demo-section k-content">
+                                    @(Html.Kendo().DropDownTree()
+                                                .Name("treeFunctionReport")
+                                                .HtmlAttributes(new { style = "width: 100%" })
+                                            .BindTo((IEnumerable<FunctionReportViewModel>)ViewBag.functInline, (NavigationBindingFactory<DropDownTreeItem> mappings) =>
+                                                    {
+                                                        mappings.For<FunctionReportViewModel>(binding => binding.ItemDataBound((item, functReport) =>
+                                                        {
+                                                            item.Text = functReport.FUNCNAME;
+                                                            item.Id = functReport.FUNCCODE;
+                                                        })
+                                                            .Children(category => category.FunctionReportViewModels));
+
+                                                        mappings.For<FunctionReportViewModel>(binding => binding.ItemDataBound((item, child) =>
+                                                        {
+                                                            item.Text = child.FUNCNAME;
+                                                            item.Id = child.FUNCCODE;
+                                                        }));
+                                                    }).Filter("contains")
+                                                .Events(evs =>
+                                                {
+                                                    evs.Select("onSelectdtreeFunctReport");
+                                                }).Filter("contains")
+                                                .Value("000000")
+                                    )
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: -5px;">
+                <div class="row">
+                    <label for="" class="col-md-5 col-form-label-sm" style="text-align: right;">Func. Direct Report</label>
+                    <div class="col-md-7">
+                        @Html.HiddenFor(model => model.FUNCDIRECTREPORT)
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="autocomplete" style="width:100%;">
+                                    <input id="FUNCDIRECTSYSIDREPORT_Code" name="FUNCDIRECTSYSIDREPORT_Code" type="text" value="" class="form-control form-control-sm" style="height: 30px; font-size: smaller;width: 95px; margin-right:5px; background:#007bff38">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.DISPLAYFUNCDIRECTREPORT, "", new { @class = "form-control form-control-sm", @disabled = "disabled" })
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: -5px; display: none">
+                <div class="row">
+                    @Html.LabelFor(model => model.POSITION, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                    <div class="col-md-7">
+                        @Html.DropDownListFor(model => model.POSITION, ViewBag.Positions as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                        @*@Html.EditorFor(model => model.POSITION, "", new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.ValidationMessageFor(model => model.ACADEMIC)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: -5px; display: none">
+                <div class="row">
+                    @Html.LabelFor(model => model.SKILL, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                    <div class="col-md-7">
+                        @Html.DropDownListFor(model => model.SKILL, ViewBag.Skills as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                        @*@Html.EditorFor(model => model.SKILL, "", new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.ValidationMessageFor(model => model.SKILL)
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        
+    </div>
+
+</div>
+@*}*@
+<script>
+    function onUploadImageSuccess(e, args) {
+        console.log(e);
+        let res = e.response;
+        $('#emp_image').load('/Staff/EmployeeImage', { empid: res.sys_empid, img_url: res.img_url });
+    }
+    $(document).ready(function () {
+        $('#showOrganization').toggle();
+        $(".region #showDeptCode").on("click", function () {
+            $(".demo-section k-content").addClass("expandWidth");
+            $('#showOrganization').toggle();
+        });
+
+        $('#showGeoReport').toggle();
+        $(".region #btnShowGeoOrganizationReport").on("click", function () {
+            $(".demo-section k-content").addClass("expandWidth");
+            $('#showGeoReport').toggle();
+        });
+
+
+        $('#showFunctionReport').toggle();
+        $(".region #btnShowFunctionDirectReport").on("click", function () {
+            $(".demo-section k-content").addClass("expandWidth");
+            $('#showFunctionReport').toggle();
+        });
+
+        $('#GEODIRECTSYSIDREPORT_Code').autocomplete
+            (
+                {
+                    minLength: 0,
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "/Staff/getUserInGeoReportByDeptCode",
+                            type: "POST",
+                            dataType: "json",
+                            data: { deptCode: $("#GEOGRAPHICALORG").val() },
+                            success: function (data) {
+                                response($.map(data, function (item) {
+                                    return { value: item.EMPID, label: item.EMPNAME };
+                                }))
+                            }
+                        })
+                    },
+                    focus: function (event, ui) {
+                        $("#GEODIRECTSYSIDREPORT_Code").val(ui.item.value);
+                        return false;
+                    },
+                    select: function (event, ui) {
+                        $('#DISPLAYGEODIRECTREPORT').val(ui.item.label);
+                        $("#GEODIRECTREPORT").val(ui.item.data);
+                        return false;
+                    }
+                }
+            ).data("ui-autocomplete")._renderItem = function (ul, item) {
+                var str = item.label;
+                var array = str.split(",");
+                console.log(array[0]);
+                console.log(array[1]);
+                var template = '<div class="row">' +
+                    '<div class="col-md-1" id="selectedGeoUser" data=' + array[1] + '>' +
+                    '<i class="fa fa-user"></i> | ' + '( ' + item.value + ' ) ' + array[0] +
+                    '</div>' +
+                    '</div>';
+                item.label = array[0];
+                item.data = array[1];
+                return $('<li class="autocomplete-template">')
+                    .data("item.autocomplete", item)
+                    .append(template)
+                    .appendTo(ul);
+            };
+
+        $('#FUNCDIRECTSYSIDREPORT_Code').autocomplete
+            (
+                {
+                    minLength: 0,
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "/Staff/getUserInFunctReportByDeptCode",
+                            type: "POST",
+                            dataType: "json",
+                            data: { functCode: $("#FUNCTIONALORG").val() },
+                            success: function (data) {
+                                response($.map(data, function (item) {
+                                    return { value: item.EMPID, label: item.EMPNAME };
+                                }))
+                            }
+                        })
+                    },
+                    focus: function (event, ui) {
+                        $("#FUNCDIRECTSYSIDREPORT_Code").val(ui.item.value);
+                        return false;
+                    },
+                    select: function (event, ui) {
+                        $('#DISPLAYFUNCDIRECTREPORT').val(ui.item.label);
+                        $("#FUNCDIRECTREPORT").val(ui.item.data);
+                        return false;
+                    }
+                }
+            ).data("ui-autocomplete")._renderItem = function (ul, item) {
+                var str = item.label;
+                var array = str.split(",");
+                var template = '<div class="row">' +
+                    '<div class="col-md-1" id="selectedFunctionUser" data=' + array[1] + '>' +
+                    '<i class="fa fa-user"></i> | ' + '( ' + item.value + ' ) ' + array[0] +
+                    '</div>' +
+                    '</div>';
+                item.label = array[0];
+                item.data = array[1];
+                return $('<li class="autocomplete-template">')
+                    .data("item.autocomplete", item)
+                    .append(template)
+                    .appendTo(ul);
+            };
+        InitData();
+    });
+</script>
+<style>
+    .k-header {
+        width: 100%;
+    }
+</style>
+

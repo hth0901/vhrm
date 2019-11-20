@@ -1,0 +1,155 @@
+﻿@model vhrm.FrameWork.Entity.EmployeeMaster
+@using vhrm.ViewModels
+@using Kendo.Mvc.UI.Fluent
+<form class="form-horizontal" style="width:100%">
+    <div class="box-body">
+        <div class="form-group">
+            @*<span class="input-group-btn">
+                    <button type="button" class="btn btn-info pull-right" title="New" id="newEmployee"><span class="glyphicon glyphicon-plus"></span>  </button>
+                    <button type="button" class="btn btn-info pull-right" title="New" id="newEmployee" style="margin-right:5px;"><span class="glyphicon glyphicon-plus"></span>  </button>
+                    <button type="button" class="btn btn-info pull-right" title="Delete employee" style="margin-right:5px;"><span class="glyphicon glyphicon-remove"></span>  </button>
+                </span>*@
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <label for="" class="col-md-3 col-form-label-sm" style="text-align: right;">Select Org</label>
+                <div class="col-md-5">
+                    <div class="demo-section">
+                        @(Html.Kendo().DropDownTree()
+                                                     .Name("treeParentsOrganization")
+                                                     .HtmlAttributes(new { style = "width: 100%" })
+                                                     .ValuePrimitive(true)
+                                                    .BindTo((IEnumerable<FunctionReportViewModel>)ViewBag.functInline, (NavigationBindingFactory<DropDownTreeItem> mappings) =>
+                                                    {
+                                                        mappings.For<FunctionReportViewModel>(binding => binding.ItemDataBound((item, functReport) =>
+                                                        {
+                                                            item.Text = functReport.FUNCNAME;
+                                                            item.Id = functReport.FUNCCODE;
+                                                        })
+                                                            .Children(category => category.FunctionReportViewModels));
+
+                                                        mappings.For<FunctionReportViewModel>(binding => binding.ItemDataBound((item, child) =>
+                                                        {
+                                                            item.Text = child.FUNCNAME;
+                                                            item.Id = child.FUNCCODE;
+                                                        }));
+                                                    })//.Filter("contains")
+                                                     .Events(evs =>
+                                                     {
+                                                         evs.Select("onSelectdtreeFunctionReport");
+                                                         evs.Change("onChangedtreeFunctionReport");
+                                                         evs.DataBound("onDataBoundParentsOrganization");
+                                                     })//.Filter("contains")
+                                                     //.Value("000000")
+                        )
+                        @*@(Html.Kendo().DropDownTree()
+                                                                        .Name("treeParentsOrganization")
+                                                                        .Animation(animation =>
+                                                                        {
+                                                                            animation.Open(open =>
+                                                                            {
+                                                                                open.Expand();
+                                                                            });
+                                                                        })
+                                                                        .DataTextField("FUNCNAME")
+                                                                        .HtmlAttributes(new { style = "width: 100%" })
+                                                                        .DataValueField("FUNCCODE")
+                                                                        .LoadOnDemand(false)
+                                                                        .DataSource(dataSource => dataSource
+                                                                        .Model(m => m
+                                                                                    .Id("FUNCCODE")
+                                                                                    .Children("FunctionReportViewModels"))
+                                                                            .Read(read => read
+                                                                                .Action("getLimitedFunctions", "Staff")
+                                                                            )
+                                                                        ).Filter("contains")
+                                                                        .Events(events => events
+                                                                                    .Change("onChangedtreeFunctionReport")
+                                                                                    .Select("onSelectdtreeFunctionReport")
+                                                                                    .DataBound("onDataBoundParentsOrganization")
+                                                                            )//.Value("000000")
+        )*@
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <label for="" class="col-md-3 col-form-label-sm" style="text-align: right;">Employee ID</label>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <input type="text" id="txtEmployeeID" style="height: 30px; font-size: smaller" class="form-control form-control-sm pull-right" id="reservation">
+                        <button id="btnSearchByEmpID" class="btn btn-default btn-sm btnOpacity"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    @(Html.Kendo().Grid<vhrm.FrameWork.Entity.EmployeeMaster>()
+                                                                        .Name("gridFunctReportEmployees")
+                                                                        //.AutoBind(true)
+                                                                        .Columns(columns =>
+                                                                        {
+                                                                            columns.Bound(c => c.SYS_EMPID).ClientTemplate("<input type='radio' name='SYS_EMPID' value='#= SYS_EMPID #'/>").Title("Choice").HtmlAttributes(new { style = "text-align:center" }).Width(70);
+                                                                            //columns.Template(t => { }).ClientTemplate("#= renderNumber(data) #").Title("#").Width(50);
+                                                                            //columns.Command(command => command.Custom("ViewDetails").Template("<a class='k-grid-ViewDetails' href=''><button>View</button></a>").Click("showDetails")).Width(150);
+                                                                            columns.Bound(c => c.EMPID).Width(120);
+                                                                            //columns.Bound(c => c.SYS_EMPID).Width(120);
+                                                                            columns.Bound(c => c.EMPNAME).Width(200);
+                                                                            //columns.Bound(c => c.IDENTITYCARD).Width(200);
+                                                                            //columns.Bound(c => c.FULLNAME);
+                                                                            //columns.Bound(c => c.DEPARTMENT).Width(200);
+                                                                            columns.Bound(c => c.POSITION).Width(200);
+                                                                            columns.Bound(c => c.SKILL).Width(200);
+                                                                            //columns.Bound(c => c.DATEJOIN).Width(200);
+                                                                            //columns.Command(command =>
+                                                                            //{
+                                                                            //    command.Edit();
+                                                                            //}).Width(50);
+                                                                        })
+                                                                        //.ToolBar(toolbar =>
+                                                                        //{
+                                                                        //    toolbar.Create();
+                                                                        //})
+                                                                        //.Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("EmployeeEditor"))
+                                                                        .HtmlAttributes(new { style = "height: auto;width:100%" })
+                                                                        .Scrollable()
+                                                                        .Sortable()
+                                                                        .PersistSelection()
+                                                                        //.ClientDetailTemplateId("kendotemplate")
+                                                                        .Pageable(pageable => pageable
+                                                                            .Refresh(true)
+                                                                            .PageSizes(true)
+                                                                            .ButtonCount(5))
+                                                                        .Selectable(slt => slt
+                                                                            .Mode(GridSelectionMode.Single))
+                                                                        .Events(evs => evs
+                                                                            .Change("onSelectItemGridEmployees")
+                                                                            .DataBound("onDataGridBoundGridEmployees")
+                                                                            .DataBinding("onDataBindingGridEmployees")
+                                                                            .Page("onPagingGridEmployees")
+                                                                        )
+                                                                        .DataSource(dataSource => dataSource
+                                                                            .Ajax()
+                                                                            .Read(read => read.Action("EmployeeMaster_Query", "Staff"))
+                                                                            .ServerOperation(false)
+                                                                            .PageSize(2)
+                                                                            .Model(model => model.Id(p => p.SYS_EMPID))
+                                                                        //.Create("Create_emp", "Employees")
+                                                                        //.Update("Update_emp", "Employees")
+                                                                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+
+    });
+</script>

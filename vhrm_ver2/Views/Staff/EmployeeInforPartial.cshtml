@@ -1,0 +1,215 @@
+﻿@model vhrm.FrameWork.Entity.EmployeeMaster
+
+@using (Html.BeginForm("SaveEmployee", "Staff", FormMethod.Post, new { @class = "form-horizontal", style = "margin-right:10px;" }))
+{
+    @*@Html.AntiForgeryToken()*@
+    <div class="box-body">
+        <div class="form-group" style="margin-top:20px;">
+            <div class="col-md-2">                
+                @Html.LabelFor(model => model.EMPID, htmlAttributes: new { @class = "col-md-2 control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <!-- /btn-group -->
+                    @Html.TextBoxFor(model => model.EMPID, new { @class = "form-control" })
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-info" title="FIND" id="findEmployee"><span class="glyphicon glyphicon-search"></span>  </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 pull-right">
+                <span class="input-group-btn">
+                    @Html.ActionLink("New", "NewEmployee", "Staff", new { @class = "btn btn-info pull-right" })<span class="glyphicon glyphicon-plus"></span>
+                    @*<button type="button" class="btn btn-info pull-right" title="New"><span class="glyphicon glyphicon-plus"></span>  </button>*@
+                    <button type="button" class="btn btn-info pull-right" title="Delete employee" style="margin-right:5px;"><span class="glyphicon glyphicon-remove"></span>  </button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+                <button type="button" class="btn btn-info pull-right" title="Edit"><span class="glyphicon glyphicon-pencil"></span>  </button>
+                <button type="submit" class="btn btn-info pull-right" title="Save" style="margin-right:5px;"><span class="glyphicon glyphicon-floppy-save"></span>  </button>
+                <button type="button" class="btn btn-info pull-right" title="Cancel" style="margin-right:5px;"><span class="glyphicon glyphicon-remove"></span>  </button>
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group" action="SaveEmployee" method='POST'>
+        <div class="col-md-3">
+            <div class="img_section" id="emp_image" style="margin-left:20px;">
+                <div class="img_emp">
+                    <div class="img_emp_content">
+                        <img src="/FileServer/Photos/nophoto.png" style="width:100%; height: 100%">
+                    </div>
+
+                    <input type="button" class="btn btn-primary btn-xs btn-fixed-width" value="Upload Image" onclick="clickUpload()">
+                </div>
+                <div style="width:200px; height: 70px; display: none">
+                    <div class="k-widget k-upload k-header k-upload-empty"><div class="k-dropzone"><div class="k-button k-upload-button" aria-label="Select files..."><input id="imgUpload" name="imgUpload" type="file" data-role="upload" multiple="multiple" autocomplete="off"><span>Select files...</span></div><em>Drop files here to upload</em></div></div>
+                    <script>
+                        kendo.syncReady(function () { jQuery("#imgUpload").kendoUpload({ "success": onUploadImageSuccess, "showFileList": false, "dropZone": ".img_emp", "async": { "saveUrl": "/Employees/Async_Upload_Image", "autoUpload": true } }); });
+                    </script>
+                </div>
+                <script>
+                    function clickUpload() {
+                        document.getElementById("imgUpload").click();
+                    }
+                </script>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="box-body">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EMPID, htmlAttributes: new { @class = "col-md-5 control-label" })
+                    <div class="col-md-7">
+                        @Html.TextBoxFor(model => model.EMPID, "", new { @class = "k-textbox" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EMPNAME, htmlAttributes: new { @class = "col-md-5 control-label" })
+                    <div class="col-md-7">
+                        @if (Model != null)
+                        {
+                            @Html.TextBox("Name", Model.EMPNAME, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.EMPNAME)
+                        }
+                        else
+                        {
+                           
+                        }
+                     </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GENDER, htmlAttributes: new { @class = "col-md-5 control-label" })
+                    <div class="col-sm-7">
+                        @Html.EditorFor(model => model.GENDER, "", new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.GENDER)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BIRTHDATE, htmlAttributes: new { @class = "col-md-5 control-label" })
+                    <div class="col-sm-7">
+                        <div class="input-group">
+                            @Html.EditorFor(model => model.BIRTHDATE, "", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.BIRTHDATE)
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NATIONALITY, htmlAttributes: new { @class = "col-md-5 control-label" })
+                    <div class="col-sm-7">
+                        @Html.EditorFor(model => model.NATIONALITY, "", new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NATIONALITY)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IDENTITYCARD, htmlAttributes: new { @class = "col-md-5 control-label" })
+                    <div class="col-sm-7">
+                        @Html.EditorFor(model => model.IDENTITYCARD, "", new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.IDENTITYCARD)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DATEJOIN, htmlAttributes: new { @class = "col-md-5 control-label" })
+                    <div class="col-sm-7">
+                        <div class="input-group">
+                            @Html.EditorFor(model => model.DATEJOIN, "", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DATEJOIN)
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ACADEMIC, htmlAttributes: new { @class = "col-md-5 control-label" })
+                    <div class="col-sm-7">
+                        @Html.EditorFor(model => model.ACADEMIC, "", new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ACADEMIC)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-5 control-label">Linked Organization</label>
+
+        <div class="col-sm-7">
+            <div class="demo-section k-content" id="dtreeOrganization" style="display: none">
+                @(Html.Kendo().DropDownTree()
+                                                                           .Name("dtreeOrganization")
+                                                                           .DataTextField("DEPTNAME")
+                                                                           .HtmlAttributes(new { style = "width: 100%" })
+                                                                           .DataValueField("DEPTCODE")
+                                                                           .DataSource(dataSource => dataSource
+                                                                           .Model(m => m
+                                                                                       .Id("DEPTCODE")
+                                                                                       .Children("DeptViewModels"))
+                                                                               .Read(read => read
+                                                                                   .Action("getGeOrganizations", "GeoOrganization")
+                                                                               )
+                                                                           ).Filter("contains")
+                                                                           .Events(events => events
+                                                                                       .Change("onChangedtreeOrganization")
+                                                                                       .Select("onSelectdtreeOrganization")
+                                                                               ).Value("000000")
+                )
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-5 control-label">Geographical Org</label>
+        <div class="col-sm-7">
+            <div class="input-group">
+                <input type="text" class="form-control pull-right" id="reservation"><div class="input-group-addon">
+                    <i class="glyphicon glyphicon-indent-left"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-5 control-label">Geo. Direct Report</label>
+
+        <div class="col-sm-7">
+            <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-5 control-label">Functional Org</label>
+        <div class="col-sm-7">
+            <div class="input-group">
+                <input type="text" class="form-control pull-right" id="reservation"><div class="input-group-addon">
+                    <i class="glyphicon glyphicon-indent-left"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputEmail3" class="col-md-5 control-label">Func. Direct Report</label>
+
+        <div class="col-md-7">
+            <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.POSITION, htmlAttributes: new { @class = "col-md-5 control-label" })
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.POSITION, "", new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ACADEMIC)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.SKILL, htmlAttributes: new { @class = "col-md-5 control-label" })
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.SKILL, "", new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.SKILL)
+        </div>
+    </div>
+}
+<script>
+    function onUploadImageSuccess(e, args) {
+        console.log(e);
+        let res = e.response;
+        $('#emp_image').load('/Employees/EmployeeImage', { sys_empid: res.sys_empid, img_url: res.img_url });
+    }
+</script>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OracleClient;
+using Oracle.ManagedDataAccess.Client;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -58,8 +58,8 @@ namespace vhrm.Controllers
             sqlParams[2] = new OracleParameter("Lang", "en");
             sqlParams[3] = new OracleParameter("pIpAddress", ipAddress);
             sqlParams[4] = new OracleParameter("pSessionID", Session.SessionID);
-            sqlParams[5] = new OracleParameter("T_TABLE1", OracleType.Cursor) { Direction = ParameterDirection.Output };
-            sqlParams[6] = new OracleParameter("T_TABLE2", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            sqlParams[5] = new OracleParameter("T_TABLE1", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            sqlParams[6] = new OracleParameter("T_TABLE2", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
 
             DataSet ds = DBHelper.getDataSet_SP(sqlQuery, sqlParams);
             if (ds == null || ds.Tables.Count == 0)

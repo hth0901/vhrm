@@ -34,6 +34,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -65,6 +66,9 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.19.1, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.19.5.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -164,130 +168,22 @@
     <Compile Include="FrameWork\BusinessLayer\bGeoReport.cs" />
     <Compile Include="FrameWork\BusinessLayer\bMainMenu.cs" />
     <Compile Include="FrameWork\BusinessLayer\bMenuConfig.cs" />
-    <Compile Include="FrameWork\DataAccess\aAnnualLeaveAccess_v2.cs" />
-    <Compile Include="FrameWork\DataAccess\AbsenceBeginAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\AbsenceDetailAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\AbsenceListAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\AbsenceRegisterAccess.cs" />
     <Compile Include="FrameWork\DataAccess\aDepartmentItemAccess.cs" />
     <Compile Include="FrameWork\DataAccess\aDeptAccessVer2.cs" />
     <Compile Include="FrameWork\DataAccess\aDeptDetailAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\AdjustPaymnetDataAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\AdvanceSalaryAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\aEvaluationVer2Access.cs" />
-    <Compile Include="FrameWork\DataAccess\aGeoReportAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\aJobClassAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\aLocationAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\AnnualLeaveCreateAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\AnnualLeaveSettingAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\aTransferDepartmentAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\AuthorizationAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\BonusReportAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\BonusSettingAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\CalculateSalaryAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\CalculateSalaryPersonAccess.cs" />
     <Compile Include="FrameWork\DataAccess\CategoryAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\CMSicknessAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\CompanyInfoAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\DailyDnILogConfirmAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\DailyTempAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\DailyWorkListAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\DepartLineAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\DepartmentAccess.cs" />
     <Compile Include="FrameWork\DataAccess\DeptAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\DictionaryAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\DocumentCenterAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\DrashBoardAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\EmpIDClassAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\EmpID_InitAccess.cs" />
     <Compile Include="FrameWork\DataAccess\EmployeeMasterAccess.cs" />
     <Compile Include="FrameWork\DataAccess\EmployeeMasterReportAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\EmpWKDaysMonthlyAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\EvaluationAccess.cs" />
     <Compile Include="FrameWork\DataAccess\FormAccess.cs" />
     <Compile Include="FrameWork\DataAccess\FunctAccess.cs" />
     <Compile Include="FrameWork\DataAccess\FunctionReportAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\GAAccess.cs" />
     <Compile Include="FrameWork\DataAccess\GeoReportAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\GridAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\GroupPermissionAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\HolidayRegistyAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\HRCMRoleAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\HRHistoryAccess.cs" />
     <Compile Include="FrameWork\DataAccess\HRInfoAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\HRMinSalaryAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\HRRecruitmentAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\HRRecruitmentListAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\InsAccidentDSPHSKAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\InsBenefitAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\InsSicknessAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\InsuranceReportAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\IssueHistoryAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\ItemSalaryRegistryAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\ItemSalaryRegistryVAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\LaborContractAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\LanguageAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\LevelSaralyAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\LibraryAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\LoadFromExcelAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\LoginAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\LunchtimeAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\MachineMappingAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\MenuAccess.cs" />
     <Compile Include="FrameWork\DataAccess\MenuTreeAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\MonthlyConfirmAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\MonthlyDnILogConfirmAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\NewOrganizationAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\OderSettingAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\OfficialOrderAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\OpmDictionaryAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\OpmGroupAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\OPM_SQLAcesS.cs" />
     <Compile Include="FrameWork\DataAccess\OrganazationAccess.cs" />
     <Compile Include="FrameWork\DataAccess\OrganazationRegistryAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\OTCheckingAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\OTConfirmAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\OverTimeAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\PartSettingAllocation.cs" />
-    <Compile Include="FrameWork\DataAccess\PaymentAMTAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\PaymentConditionAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\PayMentItemAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\PgmPermissionAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\PriceAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\PrintInsuranceReportAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\ProductAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\ProductCheckAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\RecruitmentAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\RegisterHealthIsuranceAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\RegisterInsuranceAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\RegNewEmpAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\RegularCheckAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\ReportAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\SalaryAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\SalaryClosingLogAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\SalaryPITAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\SalaryReportAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\SalaryReport_ResignedWorker_Access.cs" />
-    <Compile Include="FrameWork\DataAccess\SalaryVersionAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\SanctionListAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\ServiceAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\ServiceTeamAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\SettingItemAbsenceAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\SeveranceAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\StaffAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\TaskListAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\TimeOfRestAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\TimeSheetItemAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\TimeShiftAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\TimeWorkAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\TPMAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\TrackingUserLoginAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\TransferLaborCostAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\UploadInsDataAccess.cs" />
     <Compile Include="FrameWork\DataAccess\UserAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\UtilAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\VisitLoginAccess.cs" />
-    <Compile Include="FrameWork\DataAccess\WorkShiftRegistyAccess.cs" />
     <Compile Include="FrameWork\Entity\AbsenceDetailEntity.cs" />
     <Compile Include="FrameWork\Entity\AbsenceRegisterEntity.cs" />
     <Compile Include="FrameWork\Entity\AdvanceSalaryEntity.cs" />
@@ -5033,6 +4929,9 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
@@ -5048,7 +4947,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>63016</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:63022/</IISUrl>
+          <IISUrl>http://localhost:63023/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

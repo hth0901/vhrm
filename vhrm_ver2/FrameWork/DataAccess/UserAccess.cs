@@ -1,7 +1,7 @@
 ﻿
 using System;
 using System.Data;
-using System.Data.OracleClient;
+using Oracle.ManagedDataAccess.Client;
 using vhrm.FrameWork.Utility;
 using vhrm.FrameWork.Entity;
 
@@ -14,7 +14,7 @@ namespace vhrm.FrameWork.DataAccess
             string spName = "PKOPM_USER.sp_User_Qry";
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("pCorporation", Corporation);
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             foreach (DataRow dr in dt.Rows)
             {
@@ -44,7 +44,7 @@ namespace vhrm.FrameWork.DataAccess
         {
             string spName = "";
             OracleParameter[] param = new OracleParameter[1];
-            param[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable dtResult = DBHelper.getDataTable_SP(spName, param);
             return dtResult;
         }
@@ -53,7 +53,7 @@ namespace vhrm.FrameWork.DataAccess
             string spName = "HUMANRESOURCE.sp_UserList";
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("WorkingTag", pWorkingTag);
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
         }
@@ -63,7 +63,7 @@ namespace vhrm.FrameWork.DataAccess
             OracleParameter[] param = new OracleParameter[3];
             param[0] = new OracleParameter("QryType", QryType);
             param[1] = new OracleParameter("QryValue", QryValue);
-            param[2] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
         }
@@ -72,7 +72,7 @@ namespace vhrm.FrameWork.DataAccess
             string spName = "PKOPM_USER.sp_User_Delete";
             OracleParameter[] para = new OracleParameter[2];
             para[0] = new OracleParameter("pUserId", userId);
-            para[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            para[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP(spName, para);
         }
 
@@ -82,7 +82,7 @@ namespace vhrm.FrameWork.DataAccess
             OracleParameter[] para = new OracleParameter[16];
             para[0] = new OracleParameter("pWorkingTag", workingTag);
             para[1] = new OracleParameter("pUserId", user.UserID);
-            para[2] = new OracleParameter("pName", OracleType.NVarChar) { Value = user.Name };
+            para[2] = new OracleParameter("pName", OracleDbType.NVarchar2) { Value = user.Name };
             if (user.Password != "")
                 para[3] = new OracleParameter("pPassword", ED5Helper.Encrypt(user.Password));
             else
@@ -98,14 +98,14 @@ namespace vhrm.FrameWork.DataAccess
             para[12] = new OracleParameter("pGroupId", user.GroupID);
             para[13] = new OracleParameter("pDEPTCODE", user.DEPTCODE);
             para[14] = new OracleParameter("pResetPass", user.ResetPass == true ? "Y" : "N");
-            para[15] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            para[15] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP(spName, para);
         }
 
         public static DataTable LoadAllUserPopup()
         {
             OracleParameter[] param = new OracleParameter[1];
-            param[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_USER.SP_OPM_USER_GETALL_FOR_POPUP", param);
         }
         public DataTable ChangePasswrod(string userI, string oldpass, string newpass)
@@ -116,7 +116,7 @@ namespace vhrm.FrameWork.DataAccess
             param[0] = new OracleParameter("pUserId", userI);
             param[1] = new OracleParameter("pOldpass", oldpass);
             param[2] = new OracleParameter("pNewpass", newpass);
-            param[3] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[3] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_USER.sp_User_ChangePass", param);
         }
         #region Group
@@ -125,7 +125,7 @@ namespace vhrm.FrameWork.DataAccess
             string spName = "PKOPM_USER.sp_GroupDetail_Query";
             OracleParameter[] para = new OracleParameter[2];
             para[0] = new OracleParameter("pUserId", userId);
-            para[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            para[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP(spName, para);
         }
         public bool SaveData(DataTable table)
@@ -142,9 +142,9 @@ namespace vhrm.FrameWork.DataAccess
                 command.CommandType = CommandType.StoredProcedure;
                 command.UpdatedRowSource = UpdateRowSource.None;
                 command.Transaction = oracleTran;
-                command.Parameters.Add("pUserId", OracleType.NVarChar, 20, "pUserId");
-                command.Parameters.Add("pUSER_ID", OracleType.VarChar, 20, "pUSER_ID");
-                command.Parameters.Add("pGROUP_ID", OracleType.VarChar, 10, "pGROUP_ID");
+                command.Parameters.Add("pUserId", OracleDbType.NVarchar2, 20, "pUserId");
+                command.Parameters.Add("pUSER_ID", OracleDbType.Varchar2, 20, "pUSER_ID");
+                command.Parameters.Add("pGROUP_ID", OracleDbType.Varchar2, 10, "pGROUP_ID");
                 OracleDataAdapter adpt = new OracleDataAdapter();
                 adpt.InsertCommand = command;
                 adpt.UpdateBatchSize = table.Rows.Count;

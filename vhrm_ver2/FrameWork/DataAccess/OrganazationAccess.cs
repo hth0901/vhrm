@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using System.Data.OracleClient;
+using Oracle.ManagedDataAccess.Client;
 //using KSN.Framework.Entity;
 using vhrm.FrameWork.Entity;
 
@@ -12,7 +12,7 @@ namespace KSN.Framework.DataAccess
             string query = "PK_HR_ORGANIZATION.sp_Origanaztion_Qry";
             OracleParameter[] parameters = new OracleParameter[2];
             parameters[0] = new OracleParameter("pLevel", level);
-            parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP(query, parameters);
         }
 
@@ -21,7 +21,7 @@ namespace KSN.Framework.DataAccess
             string query = "PK_HR_ORGANIZATION.sp_Origanaztion_TreeViewSelect";
             OracleParameter[] parameters = new OracleParameter[2];
             parameters[0] = new OracleParameter("pDeptCode", value);
-            parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP(query, parameters);
         }
 
@@ -29,7 +29,7 @@ namespace KSN.Framework.DataAccess
         {
             string query = "PK_HR_ORGANIZATION.sp_Origanaztion_TreeView";
             OracleParameter[] parameters = new OracleParameter[1];
-            parameters[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP(query, parameters);
         }
         
@@ -42,7 +42,7 @@ namespace KSN.Framework.DataAccess
             parameters[2] = new OracleParameter("pOrganization", entity.Organazation ?? "");
             parameters[3] = new OracleParameter("pParentId", entity.ParentId ?? "");
             parameters[4] = new OracleParameter("pLoginId", loginId);
-            parameters[5] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[5] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP(spName, parameters);
         }
     }

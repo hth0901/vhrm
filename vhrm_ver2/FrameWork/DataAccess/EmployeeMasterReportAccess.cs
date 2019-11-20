@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OracleClient;
+using Oracle.ManagedDataAccess.Client;
 using System.Linq;
 using System.Web;
 using vhrm.FrameWork.Entity;
@@ -13,7 +13,7 @@ namespace vhrm.FrameWork.DataAccess
         public DataTable GetEmployeeReports()
         {
             OracleParameter[] param = new OracleParameter[1];
-            param[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_EMP_REPORT.SP_GETALL_EMP_REPORT", param);
         }
         
@@ -60,14 +60,14 @@ namespace vhrm.FrameWork.DataAccess
         public DataTable GetReportCDID()
         {
             OracleParameter[] param = new OracleParameter[1];
-            param[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_EMP_REPORT.SP_NEWREPORTCD_EMP_REPORT", param);
         }
         public DataTable getEmployeeReportBySysEmpID(string sys_empid)
         {
             OracleParameter[] param = new OracleParameter[2]; 
             param[0] = new OracleParameter("pSYS_EMPID", sys_empid);
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_EMP_REPORT.SP_GETBYSYS_EMPID_EMP_REPORT", param);
         }
     }

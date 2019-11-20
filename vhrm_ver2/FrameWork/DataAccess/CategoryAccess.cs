@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using System.Data.OracleClient;
+using Oracle.ManagedDataAccess.Client;
 using vhrm.FrameWork.Entity;
 using System.Web.UI;
 using vhrm.FrameWork.Entity;
@@ -14,7 +14,7 @@ namespace vhrm.FrameWork.DataAccess
         public DataTable GetCategory()
         {
             OracleParameter[] param = new OracleParameter[1];
-            param[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_CATEGORY.sp_OPM_Category_Qry", param);
         }
 
@@ -23,7 +23,7 @@ namespace vhrm.FrameWork.DataAccess
             OracleParameter[] parameters = new OracleParameter[3];
             parameters[0] = new OracleParameter("pCategoryId", categoryId);
             parameters[1] = new OracleParameter("pParentId", parentId);
-            parameters[2] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_CATEGORY.sp_GetComboBoxData", parameters);
         }
 
@@ -32,7 +32,7 @@ namespace vhrm.FrameWork.DataAccess
                 OracleParameter [] para = new OracleParameter[3];
                 para[0] = new OracleParameter("pCategoryId",categoryID);
                 para[1] = new OracleParameter("pSubCode", subcode);
-                para[2] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output};
+                para[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output};
                 return DBHelper.getDataTable_SP("PKOPM_CATEGORY.sp_Category_Qry_SubCode",para);
         }
         
@@ -42,7 +42,7 @@ namespace vhrm.FrameWork.DataAccess
             parameters[0] = new OracleParameter("pCategoryId", categoryId);
             parameters[1] = new OracleParameter("pParentId", parentId);
             parameters[2] = new OracleParameter("pLoginID", pLoginID);
-            parameters[3] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[3] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_CATEGORY.sp_GetComboBoxData", parameters);
         }
 
@@ -62,7 +62,7 @@ namespace vhrm.FrameWork.DataAccess
             parameters[9] = new OracleParameter("Motherid", entity.Motherid);
             parameters[10] = new OracleParameter("pIssubcode",entity.Issubcode);
             parameters[11] = new OracleParameter("pDescription", description);
-            parameters[12] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[12] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_CATEGORY.sp_Category_Save", parameters);
         }
 
@@ -74,8 +74,8 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] parameters = new OracleParameter[3];
             parameters[0] = new OracleParameter("CategoryId", categoryId);
-            parameters[1] = new OracleParameter("T_TABLE1", OracleType.Cursor) { Direction = ParameterDirection.Output };
-            parameters[2] = new OracleParameter("T_TABLE2", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE1", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            parameters[2] = new OracleParameter("T_TABLE2", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
 
             return DBHelper.getDataSet_SP("PKOPM_CATEGORY.sp_CategoryValue_Qry", parameters); ;
         }
@@ -86,7 +86,7 @@ namespace vhrm.FrameWork.DataAccess
             parameters[0] = new OracleParameter("WorkingTag", workingTag);
             parameters[1] = new OracleParameter("catcode", entity.Code);
             parameters[2] = new OracleParameter("CategoryValueId", entity.CategoryValueId);
-            parameters[3] = new OracleParameter("CategoryValue", OracleType.NVarChar) { Direction = ParameterDirection.Input, Value = entity.CategoryValue };
+            parameters[3] = new OracleParameter("CategoryValue", OracleDbType.NVarchar2) { Direction = ParameterDirection.Input, Value = entity.CategoryValue };
             parameters[4] = new OracleParameter("CategoryId", entity.CategoryId);
             parameters[5] = new OracleParameter("DictionaryId", entity.DictionaryId);
             parameters[6] = new OracleParameter("IsActive", entity.IsActive);
@@ -95,7 +95,7 @@ namespace vhrm.FrameWork.DataAccess
             parameters[9] = new OracleParameter("pIsEdit", entity.IsEdit);
             parameters[10] = new OracleParameter("pSubCode", entity.SubCode);
             parameters[11] = new OracleParameter("LoginId", loginId);
-            parameters[12] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[12] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_CATEGORY.sp_CategoryValue_Save", parameters);
         }
 
@@ -104,7 +104,7 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] parameters = new OracleParameter[2];
             parameters[0] = new OracleParameter("CategoryId", categoryId);
-            parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_FORMANDMENU.sp_CategoryValue_Get_ByCateId", parameters);
         }
 
@@ -116,13 +116,13 @@ namespace vhrm.FrameWork.DataAccess
         public static DataTable GetCategoryValue_Dictionary()
         {
             OracleParameter[] parameters = new OracleParameter[1];
-            parameters[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_DICTIONARY.SP_Dictioanry_loadForm", parameters);
         }
         public DataTable GetCategoryValue_Dictionary(string LangId)
         {
             OracleParameter[] parameters = new OracleParameter[1];
-            parameters[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_DICTIONARY.SP_Dictioanry_loadForm", parameters);
         }
         #region CategoryItemNm
@@ -169,7 +169,7 @@ namespace vhrm.FrameWork.DataAccess
             param[0] = new OracleParameter("pWorkingTag", pWorkingTag);
             param[1] = new OracleParameter("pListCategory", pCategoryList);
             param[2] = new OracleParameter("pLoginID", pLoginId);
-            param[3] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[3] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
 
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
@@ -181,7 +181,7 @@ namespace vhrm.FrameWork.DataAccess
             OracleParameter[] parameters = new OracleParameter[3];
             parameters[0] = new OracleParameter("pCategoryId", categoryId);
             parameters[1] = new OracleParameter("pParentId", parentId);
-            parameters[2] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_CATEGORY.sp_GetComboboxSkindStaff", parameters);
         }
         
@@ -190,7 +190,7 @@ namespace vhrm.FrameWork.DataAccess
         public DataTable SP_CATEGORY_QRY()
         {
             OracleParameter[] parameters = new OracleParameter[1];
-            parameters[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_CATEGORY.SP_CATEGORY_QRY", parameters);
         }
 
@@ -200,7 +200,7 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] parameters = new OracleParameter[2];
             parameters[0] = new OracleParameter("pCategoryID", pCategoryID);
-            parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_CATEGORY.SP_CATEGORY_VALUE_QRY", parameters);
         }
 
@@ -210,7 +210,7 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] parameters = new OracleParameter[2];
             parameters[0] = new OracleParameter("pCategoryID", pCategoryID);
-            parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_CATEGORY.SP_CATEGORY_DELETE", parameters);
         }
 
@@ -220,7 +220,7 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] parameters = new OracleParameter[2];
             parameters[0] = new OracleParameter("pCatValueID", pCatValueID);
-            parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_CATEGORY.SP_CATEGORY_VALUE_DELETE", parameters);
         }
         /*NHTHIEN SKILL CODE*/
@@ -228,14 +228,14 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] parameters = new OracleParameter[2];
             parameters[0] = new OracleParameter("pCategoryId", categoryId);
-            parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_CATEGORY.SP_GETCOMBOBOXSKILL", parameters); ;
         }
         public DataTable GetSkillLevelByKill(string parentId)
         {
             OracleParameter[] parameters = new OracleParameter[2];
             parameters[0] = new OracleParameter("pParentId", parentId);
-            parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_CATEGORY.SP_GetSkillLevelByKill", parameters); ;
         }
 
@@ -244,7 +244,7 @@ namespace vhrm.FrameWork.DataAccess
             OracleParameter[] parameters = new OracleParameter[3];
             parameters[0] = new OracleParameter("PCATEGORY_ID", categoryId);
             parameters[1] = new OracleParameter("PCATE_MOTHER_ID", categoryMotherId);
-            parameters[2] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
 
             DataTable dtResult = DBHelper.getDataTable_SP("SP_PLACE_QUERY", parameters);
             return dtResult;

@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using System.Data.OracleClient;
+using Oracle.ManagedDataAccess.Client;
 using vhrm.FrameWork.Utility;
 using vhrm.FrameWork.Entity;
 
@@ -13,7 +13,7 @@ namespace vhrm.FrameWork.DataAccess
             string sqlQuery = "PKOPM_FORMANDMENU.sp_OPM_Menu_getALLLangCode";
             OracleParameter[] sqlParams = new OracleParameter[2];
             sqlParams[0] = new OracleParameter("p_Lang", LangCode);
-            sqlParams[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            sqlParams[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable dt = DBHelper.getDataTable_SP(sqlQuery, sqlParams);
             if (dt == null || dt.Rows.Count == 0)
                 return null;
@@ -32,7 +32,7 @@ namespace vhrm.FrameWork.DataAccess
             string sqlQuery = "PKOPM_FORMANDMENU.sp_OPM_Menu_get_by_MenuID";
             OracleParameter[] sqlParams = new OracleParameter[2];
             sqlParams[0] = new OracleParameter("p_MenuID", MenuID);
-            sqlParams[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            sqlParams[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable dt = DBHelper.getDataTable_SP(sqlQuery, sqlParams);
             if (dt == null || dt.Rows.Count == 0)
                 return null;
@@ -101,7 +101,7 @@ namespace vhrm.FrameWork.DataAccess
             string spName = "PKOPM_FORMANDMENU.sp_OPM_Menu_CheckID";
             OracleParameter[] parameters = new OracleParameter[2];
             parameters[0] = new OracleParameter("pMenuID", MenuId);
-            parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable table = DBHelper.getDataTable_SP(spName, parameters);
             int numberRow= int.Parse(table.Rows[0]["NumberRow"].ToString());
             return numberRow;
@@ -113,7 +113,7 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] parameters = new OracleParameter[2];
             parameters[0] = new OracleParameter("pMenu_ID", MenuId);
-            parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKOPM_FORMANDMENU.sp_Delete_Menu", parameters);
         }
 

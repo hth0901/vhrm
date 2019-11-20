@@ -6,7 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Xml.Linq;
 using System.Runtime.Serialization;
-using System.Data.OracleClient;
+//using Oracle.ManagedDataAccess.Client;
+using Oracle.ManagedDataAccess.Client;
 /// <summary>
 /// Summary description for DBHelper
 /// </summary>

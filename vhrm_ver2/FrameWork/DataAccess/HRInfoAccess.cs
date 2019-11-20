@@ -1,7 +1,7 @@
 ﻿
 using System;
 using System.Data;
-using System.Data.OracleClient;
+using Oracle.ManagedDataAccess.Client;
 using System.Drawing;
 using vhrm.FrameWork.Utility;
 using vhrm.FrameWork.Entity;
@@ -20,7 +20,7 @@ namespace vhrm.FrameWork.DataAccess
             param[2] = new OracleParameter("pDeptCd", pDeptCd);
             param[3] = new OracleParameter("pWorkingStatus", pWorkingStatus);
             param[4] = new OracleParameter("planguage", planguage);
-            param[5] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[5] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable dt = DBHelper.getDataTable_SP(spName, param);        
             return dt;
         }
@@ -33,13 +33,13 @@ namespace vhrm.FrameWork.DataAccess
             param[1] = new OracleParameter("pDeptCd", pDeptCd);
             param[2] = new OracleParameter("pWorkingStatus", pWorkingStatus);
             param[3] = new OracleParameter("planguage", planguage);
-            param[4] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
-            param[5] = new OracleParameter("FamilyT_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
-            param[6] = new OracleParameter("DisciplineT_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
-            param[7] = new OracleParameter("RewardQueryT_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
-            param[8] = new OracleParameter("CertificateT_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
-            param[9] = new OracleParameter("TaskT_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
-            param[10] = new OracleParameter("SKILL_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[4] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            param[5] = new OracleParameter("FamilyT_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            param[6] = new OracleParameter("DisciplineT_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            param[7] = new OracleParameter("RewardQueryT_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            param[8] = new OracleParameter("CertificateT_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            param[9] = new OracleParameter("TaskT_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            param[10] = new OracleParameter("SKILL_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataSet dt = DBHelper.getDataSet_SP(spName, param);
             return dt;
         }
@@ -52,7 +52,7 @@ namespace vhrm.FrameWork.DataAccess
             //param[2] = new OracleParameter("pEmpNm", _entity.EmpNm);
             //param[3] = new OracleParameter("pDeptCd", _entity.DeptCd);
             //param[4] = new OracleParameter("pLoginID", LoginID);
-            //param[5] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            //param[5] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
 
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
@@ -63,7 +63,7 @@ namespace vhrm.FrameWork.DataAccess
             OracleParameter[] param = new OracleParameter[3];
             param[0] = new OracleParameter("pEmpId", pEmpId);
             param[1] = new OracleParameter("pidCard", idCard);
-            param[2] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
         }
@@ -72,7 +72,7 @@ namespace vhrm.FrameWork.DataAccess
             string query = "PK_HR_ORGANIZATION.sp_OrgRegistry_TreeView";
             OracleParameter[] parameters = new OracleParameter[2];
             parameters[0] = new OracleParameter("pLoginId", pLoginID);
-            parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP(query, parameters);
         }
         /**********************************************************************************/
@@ -84,7 +84,7 @@ namespace vhrm.FrameWork.DataAccess
             string spName = "PKHR_HRINFO.sp_HRInfo_Save";
             OracleParameter[] param = new OracleParameter[55];
             param[0] = new OracleParameter("pWorkingTag", pWorkingTag);
-            param[1] = new OracleParameter("pEMPNAME", OracleType.NVarChar) { Value = _entity.EMPNAME ?? "" }; //
+            param[1] = new OracleParameter("pEMPNAME", OracleDbType.NVarchar2) { Value = _entity.EMPNAME ?? "" }; //
             param[2] = new OracleParameter("pEMPNAMEEN", _entity.EMPNE??"");
             param[3] = new OracleParameter("pBIRTHDAY", _entity.BIRTHDAY ?? "");
             param[4] = new OracleParameter("pBIRTHPLACE", _entity.BIRTHPLACE ?? "");
@@ -100,7 +100,7 @@ namespace vhrm.FrameWork.DataAccess
             param[13] = new OracleParameter("pIDENTITYCARD", _entity.IDENTITYCARD ?? "");
             param[14] = new OracleParameter("pIDISSUEDDATE", _entity.IDISSUEDDATE ?? "");
             param[15] = new OracleParameter("pRESIDENCEPROVINCE", _entity.RESIDENCEPROVINCE ?? "");
-            param[16] = new OracleParameter("pRESIDENCE", OracleType.NVarChar) { Value = _entity.RESIDENCE ?? "" };//
+            param[16] = new OracleParameter("pRESIDENCE", OracleDbType.NVarchar2) { Value = _entity.RESIDENCE ?? "" };//
            //check
             param[17] = new OracleParameter("pPERMADDPROVINCE", _entity.PERMADDPROVINCE ?? "");
             param[18] = new OracleParameter("pPITNO", _entity.PITNO ?? "");
@@ -122,7 +122,7 @@ namespace vhrm.FrameWork.DataAccess
             param[34] = new OracleParameter("pCardIssuedDate", _entity.CardIssuedDate ?? "");
             param[35] = new OracleParameter("pImgeURL", _entity.ImgeUrl ?? "");
             param[36] = new OracleParameter("pRFID", _entity.RFID ?? "");
-            param[37] = new OracleParameter("pPERMADD", OracleType.NVarChar) { Value = _entity.PERMADD ?? "" };//
+            param[37] = new OracleParameter("pPERMADD", OracleDbType.NVarchar2) { Value = _entity.PERMADD ?? "" };//
             param[38] = new OracleParameter("pCardIssuedPlaceCd", _entity.CardIssuedPlaceCd ?? "");
             param[39] = new OracleParameter("pRFIDSerialCheck", _entity.RFIDSerialCheck ?? "");
             param[40] = new OracleParameter("pREMARK", _entity.ReasonUpdate ?? "");
@@ -140,7 +140,7 @@ namespace vhrm.FrameWork.DataAccess
             param[51] = new OracleParameter("PADD_PROVINCE", _entity.ADD_PROVINCE ?? "");
             param[52] = new OracleParameter("PADD_DISTRICT", _entity.ADD_DISTRICT ?? "");
             param[53] = new OracleParameter("PADD_WARD", _entity.ADD_WARD ?? "");
-            param[54] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[54] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
@@ -160,7 +160,7 @@ namespace vhrm.FrameWork.DataAccess
             param[0] = new OracleParameter("pWorkingTag", pWorkingTag);
             param[1] = new OracleParameter("pListCategory", pCategoryList);
             param[2] = new OracleParameter("pLoginID", pLoginId);
-            param[3] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[3] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
 
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
@@ -173,7 +173,7 @@ namespace vhrm.FrameWork.DataAccess
             param[1] = new OracleParameter("pEmpId", pEmpId);
             param[2] = new OracleParameter("pLoginID", pLoginId);
             param[3] = new OracleParameter("planguage", planguage);
-            param[4] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[4] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
 
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
@@ -187,25 +187,25 @@ namespace vhrm.FrameWork.DataAccess
             param[1] = new OracleParameter("pEmpId", _entity.EMPID);
             param[2] = new OracleParameter("pSerialNo", _entity.FSERIAL);
             param[3] = new OracleParameter("pRelation", _entity.RELATIONSHIP ?? "");
-            param[4] = new OracleParameter("pName", OracleType.NVarChar) { Value = _entity.FULLNAME ?? "" };
+            param[4] = new OracleParameter("pName", OracleDbType.NVarchar2) { Value = _entity.FULLNAME ?? "" };
             param[5] = new OracleParameter("pStatus", _entity.STATUS ?? "");
             param[6] = new OracleParameter("pBirthdate", _entity.BIRTHDATE ?? "");
             param[7] = new OracleParameter("pSubtract", _entity.PITSUBTRACT ?? "");
             param[8] = new OracleParameter("pIdentitycard", _entity.IDENTITYCARD ?? "");
-            param[9] = new OracleParameter("pWorkfor", OracleType.NVarChar) { Value = _entity.WORKFOR ?? "" };
-            param[10] = new OracleParameter("pDepartment", OracleType.NVarChar) { Value = _entity.DEPARTMENT ?? "" };
-            param[11] = new OracleParameter("pPosition", OracleType.NVarChar) { Value = _entity.POSITION ?? "" };
+            param[9] = new OracleParameter("pWorkfor", OracleDbType.NVarchar2) { Value = _entity.WORKFOR ?? "" };
+            param[10] = new OracleParameter("pDepartment", OracleDbType.NVarchar2) { Value = _entity.DEPARTMENT ?? "" };
+            param[11] = new OracleParameter("pPosition", OracleDbType.NVarchar2) { Value = _entity.POSITION ?? "" };
             param[12] = new OracleParameter("pMobile", _entity.MOBILE ?? "");
             param[13] = new OracleParameter("pProvince", _entity.PROVINCE ?? "");
             param[14] = new OracleParameter("pCity", "");
-            param[15] = new OracleParameter("pAddress", OracleType.NVarChar) { Value = _entity.ADDRESS ?? "" };
+            param[15] = new OracleParameter("pAddress", OracleDbType.NVarchar2) { Value = _entity.ADDRESS ?? "" };
             param[16] = new OracleParameter("pValiditydate", _entity.VALIDITYFROM ?? "");
             param[17] = new OracleParameter("pVALIDITYTO", _entity.pVALIDITYTO ?? "");
             param[18] = new OracleParameter("pLoginID", pLoginId ?? "");
             param[19] = new OracleParameter("PIS_CHILDCARE", _entity.IS_CHILDCARE ?? "");
             param[20] = new OracleParameter("PCHILDCARE_START", _entity.CHILDCARE_START ?? "");
             param[21] = new OracleParameter("PCHILDCARE_END", _entity.CHILDCARE_END ?? "");
-            param[22] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[22] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
 
             dtData = DBHelper.getDataTable_SP(spName, param);
 
@@ -226,7 +226,7 @@ namespace vhrm.FrameWork.DataAccess
             param[1] = new OracleParameter("pEmpId", pEmpId);
             param[2] = new OracleParameter("pLoginID", pLoginId);
             param[3] = new OracleParameter("planguage", planguage);
-            param[4] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[4] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
 
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
@@ -246,9 +246,9 @@ namespace vhrm.FrameWork.DataAccess
             param[6] = new OracleParameter("pFromDate", _entity.FROMDATE ?? "");
             param[7] = new OracleParameter("pToDate", _entity.UNTILDATE ?? "");
             param[8] = new OracleParameter("pMonthCount", _entity.MONTHSCOUNT);
-            param[9] = new OracleParameter("pRemark", OracleType.NVarChar ) { Value = _entity.REMARKS ?? ""};
+            param[9] = new OracleParameter("pRemark", OracleDbType.NVarchar2 ) { Value = _entity.REMARKS ?? ""};
             param[10] = new OracleParameter("pLoginID", pLoginId ?? "");
-            param[11] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[11] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             dtData = DBHelper.getDataTable_SP(spName, param);
 
 
@@ -261,7 +261,7 @@ namespace vhrm.FrameWork.DataAccess
             string spName = "PKHR_HRINFO.sp_HRJobDescrition_Query";
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("pEmpId", pEmpId);
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
         }
@@ -274,7 +274,7 @@ namespace vhrm.FrameWork.DataAccess
             param[1] = new OracleParameter("p_TIMEYEAR", _entity.PTimeyear);
             param[2] = new OracleParameter("p_REGISTERID", pLoginId);
             param[3] = new OracleParameter("p_TIMEWEEK", _entity.PTimeweek);
-            param[4] = new OracleParameter("p_DESCRIPTION", OracleType.NVarChar) { Value = _entity.PDescription };
+            param[4] = new OracleParameter("p_DESCRIPTION", OracleDbType.NVarchar2) { Value = _entity.PDescription };
             param[5] = new OracleParameter("p_DOCUMENT", _entity.PDocument);
             param[6] = new OracleParameter("p_TIMEMONTH", _entity.PTimemonth);
             param[7] = new OracleParameter("p_AVERAGE", _entity.PAverage);
@@ -283,7 +283,7 @@ namespace vhrm.FrameWork.DataAccess
             param[10] = new OracleParameter("p_APPROVAL", _entity.PApproval);
             param[11] = new OracleParameter("p_JDID", _entity.PJdid);
             param[12] = new OracleParameter("p_JOBTITLE", _entity.PJobtitle);
-            param[13] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[13] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             dtData = DBHelper.getDataTable_SP(spName, param);
             return dtData;
         }
@@ -293,7 +293,7 @@ namespace vhrm.FrameWork.DataAccess
             string spName = "PKHR_HRINFO.sp_HRJobDescrition_Delete";
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("p_JDID", datakey);
-           param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+           param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             dtData = DBHelper.getDataTable_SP(spName, param);
             return dtData;
         }
@@ -304,7 +304,7 @@ namespace vhrm.FrameWork.DataAccess
             string spName = "PKHR_Reward.sp_Reward_Qry";
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("pEmpId", pEmpId);
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
         }
@@ -317,11 +317,11 @@ namespace vhrm.FrameWork.DataAccess
             param[1] = new OracleParameter("pEmpId", entity.pEmpID);
             param[2] = new OracleParameter("pREWARDDATE", entity.RewarDate);
             param[3] = new OracleParameter("pREWARDKIND", entity.Rewardkind ?? "");
-            param[4] = new OracleParameter("pAMOUNT", value: entity.Amount);
+            param[4] = new OracleParameter("pAMOUNT", obj: entity.Amount);
             param[5] = new OracleParameter("pREMARK", entity.Remark?? "");
             param[6] = new OracleParameter("IsConfirm", entity.isConfirm?? "");
             param[7] = new OracleParameter("plogin", pLoginId);
-            param[8] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[8] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             dtData = DBHelper.getDataTable_SP(spName, param);
             return dtData;
         }
@@ -332,7 +332,7 @@ namespace vhrm.FrameWork.DataAccess
             string spName = "PKHR_HRCertificate.sp_Certificate_Qry";
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("pEmpId", pEmpId);
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
         }
@@ -340,7 +340,7 @@ namespace vhrm.FrameWork.DataAccess
         {
             string spName = "PKHR_HRCertificate.sp_OPM_CATEGORY_Query";
             OracleParameter[] param = new OracleParameter[1];
-            param[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
         }
@@ -353,11 +353,11 @@ namespace vhrm.FrameWork.DataAccess
             param[1] = new OracleParameter("pEmpId", entity.PSysempid);
             param[2] = new OracleParameter("pCER_KIND", entity.PCerKind);
             param[3] = new OracleParameter("pCER_ITEM", entity.PCerItem);
-            param[4] = new OracleParameter("pCER_LEVEL", value: entity.PCerLevel ?? "");
+            param[4] = new OracleParameter("pCER_LEVEL", obj: entity.PCerLevel ?? "");
             param[5] = new OracleParameter("pCER_DATE", entity.PCerDate ?? "");
             param[6] = new OracleParameter("pREMARK", entity.PRemark ?? "");
             param[7] = new OracleParameter("pLogin", pLoginId);
-            param[8] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[8] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             dtData = DBHelper.getDataTable_SP(spName, param);
             return dtData;
         }
@@ -368,7 +368,7 @@ namespace vhrm.FrameWork.DataAccess
             string spName = "PKHR_HRINFO.sp_GetAll_Corporation";
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("pLoginID", pLoginId);
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
 
             DataTable dt = DBHelper.getDataTable_SP(spName, param);
             return dt;
@@ -380,8 +380,8 @@ namespace vhrm.FrameWork.DataAccess
             string spName = "PKHR_HRINFO.sp_T_HR_EMP_PHOTO_Save";
             OracleParameter[] param = new OracleParameter[3];
             param[0] = new OracleParameter("pSYS_EMPID", emIDSys);
-            param[1] = new OracleParameter("pPHOTO", OracleType.Blob) { Value = imagebit };
-            param[2] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("pPHOTO", OracleDbType.Blob) { Value = imagebit };
+            param[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             dtData = DBHelper.getDataTable_SP(spName, param);
             return dtData;
         }
@@ -392,8 +392,8 @@ namespace vhrm.FrameWork.DataAccess
             OracleParameter[] param = new OracleParameter[4];
             param[0] = new OracleParameter("pSYS_EMPID", emIDSys);
             param[1] = new OracleParameter("pUrl", imageUrl);
-            param[2] = new OracleParameter("pPHOTO", OracleType.Blob) { Value = bytesImage };  
-            param[3] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[2] = new OracleParameter("pPHOTO", OracleDbType.Blob) { Value = bytesImage };  
+            param[3] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             dtData = DBHelper.getDataTable_SP(spName, param);
             return dtData;
         }
@@ -403,7 +403,7 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] parameters = new OracleParameter[2];
             parameters[0] = new OracleParameter("pEmpId", pEmpId ?? "");
-            parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKHR_HRINFO.SP_LOAD_Task", parameters);
         }
         public DataTable TaskInsertData(string pWorkingTag, TaskEntity entity)
@@ -419,7 +419,7 @@ namespace vhrm.FrameWork.DataAccess
             param[5] = new OracleParameter("pPARENTTASKID", entity.PARENTTASKID ?? "");
             param[6] = new OracleParameter("pSEQNO", entity.Seqno ?? "");
             param[7] = new OracleParameter("pLogin", entity.LoginID ?? "");
-            param[8] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[8] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             dtData = DBHelper.getDataTable_SP(spName, param);
             return dtData;
         }
@@ -434,7 +434,7 @@ namespace vhrm.FrameWork.DataAccess
             parameters[3] = new OracleParameter("pTyper", pTyper ?? "");
             parameters[4] = new OracleParameter("pRequestBy", pRequestBy ?? "");
             parameters[5] = new OracleParameter("PUserOpenConfirm", pUserOpenConfirm ?? "");
-            parameters[6] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[6] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKHR_HRINFO.sp_Request", parameters);
         }
         #endregion
@@ -448,7 +448,7 @@ namespace vhrm.FrameWork.DataAccess
             OracleParameter[] _param = new OracleParameter[3];
             _param[0] = new OracleParameter("PSYS_EMPID", sys_empid);
             _param[1] = new OracleParameter("PRFID", rfid);
-            _param[2] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            _param[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
 
             return DBHelper.getDataTable_SP(sp_name, _param);
         }
@@ -459,7 +459,7 @@ namespace vhrm.FrameWork.DataAccess
           {
               OracleParameter[] parameters = new OracleParameter[2];
               parameters[0] = new OracleParameter("pEmpId", pEmpId ?? "");
-              parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+              parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
               DataTable dt = DBHelper.getDataTable_SP("PKHR_HRINFO.sp_HRInfo_getemailCompany", parameters);
             string email = "";
             if (dt.Rows.Count>0)
@@ -477,7 +477,7 @@ namespace vhrm.FrameWork.DataAccess
             parameters[3] = new OracleParameter("PUSERAPPROVAL", pUserApproval ?? "");
             parameters[4] = new OracleParameter("pCreateUserid", pCreateUserid ?? "");
             parameters[5] = new OracleParameter("pStatus", pStatus ?? "");
-            parameters[6] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[6] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable dt = DBHelper.getDataTable_SP("PKHR_HRINFO.sp_HRInfo_InsertEmailCompany", parameters);
             return dt;
         }
@@ -490,7 +490,7 @@ namespace vhrm.FrameWork.DataAccess
             //string spName = "HR.sp_HRInfo_Qry";
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("PEMPID", pempid);
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP(spName, param);
         }
 
@@ -501,7 +501,7 @@ namespace vhrm.FrameWork.DataAccess
             //string spName = "HR.sp_HRInfo_Qry";
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("PEMPID", pempid);
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             DataTable table = DBHelper.getDataTable_SP(spName, param);
             return table.Rows[0][0].ToString() == "YES" ? true : false;
         }
@@ -511,7 +511,7 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] parameters = new OracleParameter[2];
             parameters[0] = new OracleParameter("pEmpId", pEmpId ?? "");
-            parameters[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            parameters[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("PKHR_HRINFO.SP_LOAD_SKILL", parameters);
         }
 
@@ -528,7 +528,7 @@ namespace vhrm.FrameWork.DataAccess
             param[5] = new OracleParameter("pKillLevel", _entity.SkillLevel ?? "");
             param[6] = new OracleParameter("pRemark", _entity.Remark ?? "");
             param[7] = new OracleParameter("pLoginID", _entity.UserId ?? "");
-            param[8] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[8] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             dtData = DBHelper.getDataTable_SP(spName, param);
             return dtData;
         }

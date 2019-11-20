@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OracleClient;
+using Oracle.ManagedDataAccess.Client;
 using System.Linq;
 using System.Web;
 using vhrm.Models;
@@ -17,7 +17,7 @@ namespace vhrm.FrameWork.BusinessLayer
             string sqlQuery = "PK_MENU_PROJECT.sp_OPM_MENU_getMenuByUser";
             OracleParameter[] sqlParams = new OracleParameter[2];
             sqlParams[0] = new OracleParameter("pUserID", strUserId);
-            sqlParams[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            sqlParams[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
 
             DataTable dt = new DataTable();
             dt = DBHelper.getDataTable_SP(sqlQuery, sqlParams);

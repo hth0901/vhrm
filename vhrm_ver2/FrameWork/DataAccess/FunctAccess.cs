@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OracleClient;
+using Oracle.ManagedDataAccess.Client;
 using System.Linq;
 using System.Web;
 using vhrm.ViewModels;
@@ -14,7 +14,7 @@ namespace vhrm.FrameWork.DataAccess
         public DataTable GetFunctions()
         {
             OracleParameter[] param = new OracleParameter[1];
-            param[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_DEPTFUNCT.SP_GETALL_T_HR_DEPTFUNCT", param);
         }
         public DataTable InsertFunctions(FunctViewModel functViewModel)
@@ -42,14 +42,14 @@ namespace vhrm.FrameWork.DataAccess
             param[5] = new OracleParameter("pISACTIVE", (object)functViewModel.ISACTIVE ?? DBNull.Value) { Direction = ParameterDirection.Input };
             param[6] = new OracleParameter("pREMARK", (object)functViewModel.REMARK ?? DBNull.Value) { Direction = ParameterDirection.Input };
             param[7] = new OracleParameter("pUPDATE_UID", (object)functViewModel.UPDATE_UID ?? DBNull.Value) { Direction = ParameterDirection.Input };
-            param[8] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[8] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_DEPTFUNCT.SP_UPDATE_T_HR_DEPTFUNCT", param);
         }
         public DataTable GetNewFunctCode(string functCode)
         {
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("pFUNCCODE", functCode);
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_DEPTFUNCT.SP_NEWFUNCTIONCODE_DEPTFUNCT", param);
         }
         #endregion

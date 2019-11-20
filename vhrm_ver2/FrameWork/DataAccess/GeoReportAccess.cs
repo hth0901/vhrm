@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OracleClient;
+using Oracle.ManagedDataAccess.Client;
 using System.Linq;
 using System.Web;
 using vhrm.FrameWork.Entity;
@@ -13,20 +13,20 @@ namespace vhrm.FrameWork.DataAccess
         public DataTable GetGeoReports()
         {
             OracleParameter[] param = new OracleParameter[1];
-            param[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_GETALL_GEO_REPORT", param);
         }
         //SP_GETREGISTERED_GEO_REPORT NEED ADD TO DATABASE.
         public DataTable GetTreeGeoReportsRegistered()
         {
             OracleParameter[] param = new OracleParameter[1];
-            param[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_GETREGISTERED_GEO_REPORT", param);
         }
         public DataTable GetTreeGeoReports()
         {
             OracleParameter[] param = new OracleParameter[1];
-            param[0] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_GETTREE_GEO_REPORT", param);
         }
 
@@ -34,14 +34,14 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("pDEPTCODE", (object)funccode ?? DBNull.Value);
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_GET_USERGEO_REPORT_BY_DEPT", param);
         }
         public static DataTable getReportByDepartment(string deptcode)
         {
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("PDEPTCODE", deptcode);
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             //return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_GET_REPORT_BY_DEPT", param);
             return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_GET_REPORT_BY_DEPT_VER2", param);
         }
@@ -54,7 +54,7 @@ namespace vhrm.FrameWork.DataAccess
             //sqlParam[3] = new OracleParameter("UPDATE_DT", formEntity.UPDATE_DT);
             sqlParam[3] = new OracleParameter("PISACTIVE", eReport.ISACTIVE ? "1" : "0");
             sqlParam[4] = new OracleParameter("PUSER", userId);
-            sqlParam[5] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            sqlParam[5] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             //return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_INSERT_GEO_REPORT", sqlParam);
             return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_INSERT_GEO_REPORT_VER2", sqlParam);
         }
@@ -68,7 +68,7 @@ namespace vhrm.FrameWork.DataAccess
             sqlParam[3] = new OracleParameter("PAPPLYDATE", eReport.APPLYDATE.ToString("yyyyMMdd"));
             sqlParam[4] = new OracleParameter("PISACTIVE", eReport.ISACTIVE ? "1" : "0");
             sqlParam[5] = new OracleParameter("PUSER", userId);
-            sqlParam[6] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            sqlParam[6] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_UPDATE_GEO_REPORT", sqlParam);
         }
     }

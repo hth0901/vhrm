@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OracleClient;
+using Oracle.ManagedDataAccess.Client;
 using System.Linq;
 using System.Web;
 using vhrm.ViewModels;
@@ -15,7 +15,7 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("ISACTIVE", "1");
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_DEPARTMENT.SP_GETALL_ISACTIVE_T_HR_DEPT", param);
         }
    
@@ -47,14 +47,14 @@ namespace vhrm.FrameWork.DataAccess
             param[7] = new OracleParameter("pDEPTCODEOLD", (object)deptViewModel.DEPTCODEOLD ?? DBNull.Value);
             //param[8] = new OracleParameter("pCOMPCODE", (object)deptViewModel.COMPCODE ?? DBNull.Value);
             param[8] = new OracleParameter("pUPDATE_UID", (object)deptViewModel.UPDATE_UID ?? DBNull.Value);
-            param[9] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[9] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_DEPARTMENT.SP_UPDATE_T_HR_DEPT", param);
         }
         public DataTable GetNewDeptCode(string deptCode)
         {
             OracleParameter[] param = new OracleParameter[2];
             param[0] = new OracleParameter("pDEPTCODE", deptCode);
-            param[1] = new OracleParameter("T_TABLE", OracleType.Cursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_DEPARTMENT.SP_NEWDEPTCODE_T_HR_DEPT", param);
         }
         #endregion

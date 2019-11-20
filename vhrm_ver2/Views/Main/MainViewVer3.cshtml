@@ -1,0 +1,133 @@
+﻿@using vhrm.ViewModels;
+@model UserViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>MainViewVer3</title>
+
+    <link rel="shortcut icon" href="~/libs_ver3/img/favicon.png" />
+    <link href="~/libs_ver3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/libs_ver3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/libs_ver3/css/simple-line-icons.css" rel="stylesheet">
+    <link href="~/libs_ver3/css/template.css" rel="stylesheet">
+    <link href="~/libs_ver3/css/animate.css" rel="stylesheet">
+    <link href="~/libs_ver3/css/style.css" rel="stylesheet">
+    <!-- Chart -->
+    <script src="~/libs_ver3/js/fusioncharts.js"></script>
+    <script src="~/libs_ver3/js/fusioncharts.powercharts.js"></script>
+    <script src="~/libs_ver3/js/fusioncharts.charts.js"></script>
+
+    <script src="~/libs_ver3/js/fusioncharts.maps.js"></script>
+    <script src="~/libs_ver3/js/fusioncharts.theme.fint.js"></script>
+    <script src="~/libs_ver3/js/fusioncharts.world.js"></script>
+    <script src="~/libs_ver3/js/fusioncharts.usa.js"></script>
+</head>
+<body class="pace-running">
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            @{
+                Html.RenderAction("GetMenuByUser");
+            }
+        </nav>
+        <div id="page-wrapper" style="background:#F6F6F6;">
+            <div class="row">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                        <div class="logo"><a href="#"><img src="img/logo.png" alt=""></a></div>
+                        <div class="top-menu">
+                            <ul>
+                                <li>
+                                    <div class="dropdown">
+                                        <a id="dLabel" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Model.UserName</a>
+                                        <input type="hidden" id="userLogin" />
+                                        <ul class="dropdown-menu  manager" aria-labelledby="dLabel">
+                                            <li><a href="#"><i class="icon-user-following icons"></i> My Profile</a></li>
+                                            <li><a href="#"><i class="icon-calendar icons"></i> My Calender</a></li>
+                                            <li><a href="#"><i class="icon-envelope-open icons"></i> My Inbox</a></li>
+                                            <li class="last"><a href="#"><i class="icon-logout icons"></i> Log Out</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="main">
+                <div class="sub-header alert">
+                    <span id="page_name">Home</span>
+                </div>
+
+                <div class="content" id="screen_body">
+
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="pull-right"><strong>&copy; 2016 </strong> K-System & K-Solution Co., ltd </div>
+            </div>
+        </div>
+    </div>
+
+    <!---------------MODAL - 1---------------->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!---------------MODAL - 2---------------->
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal 2, title task</h4>
+                </div>
+                <div class="modal-body">
+                    isplum
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Mainly scripts -->
+    <script src="~/libs_ver3/js/jquery-2.1.1.js"></script>
+    <script src="~/libs_ver3/js/bootstrap.min.js"></script>
+    <script src="~/libs_ver3/js/jquery.metisMenu.js"></script>
+    <script src="~/libs_ver3/js/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="~/libs_ver3/js/inspinia.js"></script>
+    <script src="~/libs_ver3/js/pace.min.js"></script>
+
+    <!-- jQuery UI -->
+    <script src="~/libs_ver3/js/jquery-ui.min.js"></script>
+
+    <script src="~/libs_ver3/js/config.js"></script>
+</body>
+</html>

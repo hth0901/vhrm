@@ -1,0 +1,33 @@
+﻿
+@using vhrm.ViewModels;
+@model IEnumerable<MenuFirstLevel>
+
+<div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+        @foreach (MenuFirstLevel mn_1 in Model)
+        {
+            <li>
+                <a href="javascript:;" menu_url="@mn_1.menuUrl" menu_path="@mn_1.menuName" menu_id="@mn_1.menuId"><i class="fa fa-tasks" aria-hidden="true"></i>&nbsp;<span class="nav-label">@mn_1.menuName</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    @foreach (MenuSecondLevel mn_2 in mn_1.menuSecondLevel)
+                    {
+                        <li>
+                            <a href="javascript:;" menu_url="@mn_2.menuUrl" menu_path="@mn_2.menuPath" menu_id="@mn_2.menuId" menu_name="@mn_2.menuName">@mn_2.menuName<span class="fa arrow"></span></a>
+                            <ul class="nav child_menu">
+                                @foreach (MenuThirdLevel mn_3 in mn_2.menuThirdLevel)
+                                {
+                                    <li>
+                                        <a href="javascript:;" menu_url="@mn_3.url" menu_path="@mn_3.menuPath" menu_id="@mn_3.menuId" menu_name="@mn_3.menuName">@mn_3.menuName</a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</div>
+
+<script>
+</script>

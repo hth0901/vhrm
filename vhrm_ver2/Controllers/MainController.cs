@@ -24,7 +24,8 @@ namespace vhrm.Controllers
             user.UserName = Session["UserName"].ToString();
             //return View("kdc", user);
             //return View("mainview", user);
-            return View("mainviewver2", user);
+            //return View("mainviewver2", user);
+            return View("mainviewver3", user);
         }
 
         public ActionResult GetMenuByUser()
@@ -32,7 +33,8 @@ namespace vhrm.Controllers
             List<MenuFirstLevel> menuList = new List<MenuFirstLevel>();
             menuList = bMainMenu.LoadMenu(Session["UserId"].ToString(), "en");
             //menuList = bMainMenu.LoadMenu("super", "en");
-            return PartialView("MenuPartial", menuList);
+            //return PartialView("MenuPartial", menuList);
+            return PartialView("MenuPartialVer3", menuList);
         }
     }
 }

@@ -3769,7 +3769,7 @@ to{background-position:22px 0}
 .k-grid-add {background:#124461de; color:#FFF!important; font-weight:bold}
 
 .hrm-block-tree {width: 100%; float:left; background:#EEE;}
-.hrm-tree-left {width: 400px; float:left; background:#EEE; padding:10px 0 0 10px}
+.hrm-tree-left {width: 400px; float:left; background:#EEE; padding:10px 0 0 10px; overflow: auto; max-height:600px}
 .hrm-block-right {width: calc(100% - 400px); float:left; background:#FFF; padding:10px}
 .hrm-block-right .form-group {margin-bottom:10px!important}
 .hrm-block-right label{text-align: right;

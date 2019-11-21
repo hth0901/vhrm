@@ -1,13 +1,9 @@
-
-
 body.boxed-layout #wrapper { background-color: #2f4050; max-width: 1200px; margin: 0 auto;
   -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
 }
 body.boxed-layout {  background: #FFF;}
-
-
 .mini-navbar .nav > li > a  {text-align:center}
 .mini-navbar .nav > li > ul > li > a  {text-align:left}
 .mini-navbar .nav > li > ul > li > a span {display:block!important} 
@@ -43,7 +39,7 @@ body.boxed-layout {  background: #FFF;}
 .nav.nav-second-level.collapse[style] { height: auto !important;}
 .nav-header a {color: #DFE4ED;}
 .nav-header .text-muted { color: #8095a8;}
-.minimalize-styl-2 { padding: 5px 10px; margin: 12px 20px 12px 10px ; font-size: 14px; float: left;}
+.minimalize-styl-2 { padding: 5px 10px; margin: 8px 20px 8px 10px ; font-size: 14px; float: left;}
 .navbar-form-custom { float: left; height: 50px;  padding: 0; width: 200px;  display: inline-table;}
 .navbar-form-custom .form-group { margin-bottom: 0;}
 .nav.navbar-top-links a { font-size: 14px;}

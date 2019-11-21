@@ -9,7 +9,7 @@
     <div class="form-group" style="margin-left: 10px">
         @*</div> action="SaveEmployee" method='POST'>*@
         <fieldset class="scheduler-border">
-            <legend style="width: inherit; padding:0 10px; border-bottom: none">Basic Info</legend>
+            <legend style="width: inherit; padding:0 10px; border-bottom: none">Basic Info edit</legend>
             <div class="row">
                 <div class="col-md-3">
                     <div class="img_section" id="emp_image" style="margin-left:20px;">
@@ -64,22 +64,9 @@
                     <div class="box-body vhrm_employee_basic">
                         <div class="form-group">
                             <div class="row">
-                                @*--------*@
-                                @*<input type="hidden" id="hdviewEMPID" value="@ViewBag.EMPID" />
-                            <input type="hidden" id="hdviewGEODIRECTREPORT" value="@ViewBag.GEODIRECTREPORT" />
-
-                            <input type="hidden" id="hdviewFUNCDIRECTREPORT" value="@ViewBag.FUNCDIRECTREPORT" />
-
-                            <input type="hidden" id="hdviewGEOGRAPHICALORG" value="@ViewBag.GEOGRAPHICALORG" />
-
-                            <input type="hidden" id="hdviewFUNCTIONALORG" value="@ViewBag.FUNCTIONALORG" />*@
-                                @*--------*@
-
-                                @*<button type="submit" hidden="hidden" id="btnSaveEdit"></button>*@
                                 @Html.LabelFor(model => model.EMPID, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
                                 <div class="col-md-7">
                                     <input type="text" value="@{if (Model != null) {@Model.EMPID; } }" id="EMPID" style="width:100%; height: 30px; font-size: smaller" class="form-control form-control-sm" disabled="disabled" />
-                                    @*@Html.TextBoxFor(model => model.EMPID, "", new { style = "width:100%", @class = "form-control", @disabled = "disabled" })*@
                                     @Html.HiddenFor(model => model.SYS_EMPID)
                                     @Html.HiddenFor(model => model.EMPID, new { @id = "hfEMPID" })
                                 </div>
@@ -99,7 +86,6 @@
                                 @Html.LabelFor(model => model.GENDER, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
                                 <div class="col-sm-7">
                                     @Html.DropDownListFor(model => model.GENDER, ViewBag.Gender as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
-                                    @*@Html.HiddenFor(model => model.GENDER, new { id = "idGender" })*@
                                     @Html.ValidationMessageFor(model => model.GENDER)
                                 </div>
                             </div>
@@ -110,8 +96,6 @@
                                 <div class="col-sm-7">
                                     <div class="input-group" style="width:100%;">
                                         @(Html.Kendo().DatePickerFor(model => model.BIRTHDATE).HtmlAttributes(new { @class = "form-control" }))
-                                        @*@Html.EditorFor(model => model.BIRTHDATE, "", new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm", @type = "date" })*@
-                                        @*@Html.ValidationMessageFor(model => model.BIRTHDATE)*@
                                     </div>
                                 </div>
                             </div>

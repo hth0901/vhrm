@@ -100,260 +100,265 @@
     </div>
 </script>
 
-<div class="k-content" style="float:left; overflow: auto;width: 300px; max-height: 650px;">
-    @(Html.Kendo().TreeView()
-        .Name("treeviewMenu")
-        .DataTextField("Name")
-        .DataSource(dataSource => dataSource
-            .Read(read => read
-                .Action("getAllMenu", "MenuConfig")
-            )
+<div class="hrm-block-tree">
+    <div class="k-content hrm-tree-left">
+        @(Html.Kendo().TreeView()
+                    .Name("treeviewMenu")
+                    .DataTextField("Name")
+                    .DataSource(dataSource => dataSource
+                        .Read(read => read
+                            .Action("getAllMenu", "MenuConfig")
+                        )
+                    )
+                    .Events(evs =>
+                    {
+                        evs.Change("trvMenuChange");
+                        evs.Select("trvMenuSelect");
+                    })
+                    .HighlightPath(true)
         )
-        .Events(evs =>
-        {
-            evs.Change("trvMenuChange");
-            evs.Select("trvMenuSelect");
-        })
-        .HighlightPath(true)
+    </div>
+
+    @(Html.Kendo().Dialog()
+                .Name("formDialog")
+                .Visible(false)
+                .Title("Members")
+                .Content(
+                    Html.Kendo().Grid<vhrm.FrameWork.Entity.eForm>()
+                        .Name("gridForm")
+                        .AutoBind(false)
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.FORM_CODE).Width(120).Title("Form Id");
+                            columns.Bound(c => c.FORM_NAME).Width(120).Title("Form Name");
+                            columns.Bound(c => c.FILE_PATH).Width(200).Title("File Path");
+                        })
+                        .Selectable(selectable => selectable
+                            .Mode(GridSelectionMode.Single))
+                        .Filterable()
+                        .Sortable()
+                        .Scrollable()
+                        .DataSource(dts =>
+                        {
+                            dts.Ajax()
+                                .Read(read => read.Action("formQuery", "Form"));
+                        })
+                        .ToHtmlString()
+                )
+                .Width(800)
+                //.Height(520)
+                .Modal(true)
+                .Closable(true)
+                .Actions(actions =>
+                {
+                    actions.Add().Text("Cancel");
+                    actions.Add().Text("OК").Primary(true).Action("actionOK");
+                })
+                .Events(ev => ev.Open("openDialogForm"))
     )
-</div>
 
-@(Html.Kendo().Dialog()
-        .Name("formDialog")
-        .Visible(false)
-        .Title("Members")
-        .Content(
-            Html.Kendo().Grid<vhrm.FrameWork.Entity.eForm>()
-                .Name("gridForm")
-                .AutoBind(false)
-                .Columns(columns =>
-                {
-                    columns.Bound(c => c.FORM_CODE).Width(120).Title("Form Id");
-                    columns.Bound(c => c.FORM_NAME).Width(120).Title("Form Name");
-                    columns.Bound(c => c.FILE_PATH).Width(200).Title("File Path");
-                })
-                .Selectable(selectable => selectable
-                    .Mode(GridSelectionMode.Single))
-                .Filterable()
-                .Sortable()
-                .Scrollable()
-                .DataSource(dts =>
-                {
-                    dts.Ajax()
-                        .Read(read => read.Action("formQuery", "Form"));
-                })
-                .ToHtmlString()
-        )
-        .Width(800)
-        //.Height(520)
-        .Modal(true)
-        .Closable(true)
-        .Actions(actions =>
+    <div class="k-content hrm-block-right" style="height : 100vh">
+        @using (Ajax.BeginForm("inserNewMenu", "MenuConfig", new AjaxOptions()
         {
-            actions.Add().Text("Cancel");
-            actions.Add().Text("OК").Primary(true).Action("actionOK");
-        })
-        .Events(ev => ev.Open("openDialogForm"))
-)
+            HttpMethod = "POST",
+            OnSuccess = "onSuccess",
+            OnFailure = "onFailure"
+        }, new
+        {
+            id = "menu_config"
+        }))
+        {
+            <div class="container"> 
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">MenuID</label>
+                            <input type="text" readonly class="form-control" id="menu_id" name="MenuID" placeholder="MenuId">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">MenuName</label>
+                            <input type="text" class="form-control" id="menu_name" name="MenuName" placeholder="MenuName">
+                        </div>
+                    </div>
+                     
 
-<div class="k-content" style="float:left; overflow: auto; width: 700px; padding-left: 10px">
-    @using (Ajax.BeginForm("inserNewMenu", "MenuConfig", new AjaxOptions()
-    {
-        HttpMethod = "POST",
-        OnSuccess = "onSuccess",
-        OnFailure = "onFailure"
-    }, new
-    {
-        id = "menu_config"
-    }))
-    {
-        <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                    <div class="form-group" style="width: 300px">
-                        <label for="formGroupExampleInput">MenuID</label>
-                        <input type="text" readonly class="form-control" id="menu_id" name="MenuID" placeholder="MenuId">
-                    </div>
                 </div>
-                <div class="col-sm">
-                    <div class="form-group" style="width: 300px">
-                        <label for="formGroupExampleInput">MenuName</label>
-                        <input type="text" class="form-control" id="menu_name" name="MenuName" placeholder="MenuName">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm">
-                    <div class="form-group" style="width: 300px">
-                        <label for="formGroupExampleInput">FormId</label>
-                        @*<input type="text" class="form-control" id="menu_form_id" name="FormID" placeholder="FormId">*@
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" id="menu_form_id" name="FormID" placeholder="FormId">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" onclick="openDialog()">Choose</button>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group" >
+                            <label for="formGroupExampleInput">FormId</label>
+                            @*<input type="text" class="form-control" id="menu_form_id" name="FormID" placeholder="FormId">*@
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="menu_form_id" name="FormID" placeholder="FormId">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="openDialog()">Choose</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm">
-                    <div class="form-group" style="width: 300px">
-                        <label for="formGroupExampleInput">Order Index</label>
-                        <input type="number" class="form-control" id="menu_order_index" name="Seq" placeholder="OrderIndex">
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Order Index</label>
+                            <input type="number" class="form-control" id="menu_order_index" name="Seq" placeholder="OrderIndex">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm">
-                    <label for="formGroupExampleInput">Location</label>
-                    <input type="hidden" class="form-control" id="menu_mother_id" name="MotherID" />
-                    <div class="form-group" style="width: 300px">
-                        @(Html.Kendo().DropDownTree()
-                            .Name("drpTreeMenu")
-                            .DataTextField("Name")
-                            .DataValueField("id")
-                            .HtmlAttributes(new { style = "width: 300px;" })
-                            .DataSource(dataSource => dataSource
-                                .Read(read => read
-                                    .Action("getAllMenu", "MenuConfig")
-                                )
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="formGroupExampleInput">Location</label>
+                        <input type="hidden" class="form-control" id="menu_mother_id" name="MotherID" />
+                        <div class="form-group mb-3">
+                            @(Html.Kendo().DropDownTree()
+                                        .Name("drpTreeMenu")
+                                        .DataTextField("Name")
+                                        .DataValueField("id")
+                                        .HtmlAttributes(new { style = "width: 100%" })
+                                        .DataSource(dataSource => dataSource
+                                            .Read(read => read
+                                                .Action("getAllMenu", "MenuConfig")
+                                            )
+                                        )
+                                        .Events(evs =>
+                                        {
+                                            evs.Change("onChangeMotherId");
+                                        })
                             )
-                            .Events(evs =>
-                            {
-                                evs.Change("onChangeMotherId");
-                            })
-                        )
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-check" style="margin-top:30px">
+                            <input type="checkbox" class="form-check-input" id="menu_active" onclick="onSetMenuActive()" />
+                            <label class="form-check-label" for="menu_active" style="line-height:inherit">Is Actived</label>
+                            @*<input type="hidden" id="is_active" name="IsActive" />*@
+                            <input type="hidden" class="form-control" id="menu_is_active" name="IsActive" value="" />
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="menu_active" onclick="onSetMenuActive()" />
-                        <label class="form-check-label" for="menu_active">Is Actived</label>
-                        @*<input type="hidden" id="is_active" name="IsActive" />*@
-                        <input type="hidden" class="form-control" id="menu_is_active" name="IsActive" value="" />
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm">
-                    <div class="form-group">
-                        <input class="btn btn-primary" type="submit" value="Submit">
-                        <input class="btn btn-secondary" type="button" value="New" onclick="onNewMenu()">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <input class="btn btn-primary" type="submit" value="Submit">
+                            <input class="btn btn-secondary" type="button" value="New" onclick="onNewMenu()">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
-
-<script type="text/javascript">
-    let treeview = null;
-    let dropdowntree = null;
-    let menuItem = null;
-    let notification = null;
-    let gridForm = null;
-    $(document).ready(function () {
-        treeview = $("#treeviewMenu").data("kendoTreeView");
-        dropdowntree = $("#drpTreeMenu").data("kendoDropDownTree");
-        notification = $("#notification").data("kendoNotification");
-        gridForm = $("#gridForm").data("kendoGrid");
-    });
-    function trvMenuChange(e) {
-        console.log("change");
-    }
-    function trvMenuSelect(e) {
-        let data = treeview.dataItem(e.node);
-        console.log(data.id);
-        console.log("Selecting: " + this.text(e.node));
-        //dropdowntree.value(data.id);
-        $.get('/MenuConfig/getMenuDetail', { menu_id: data.id }, fillInfo);
-    }
-
-    function fillInfo(menuEntity) {
-        console.log(menuEntity);
-        menuItem = menuEntity
-        document.getElementById("menu_id").value = menuItem.MenuID;
-        document.getElementById("menu_name").value = menuItem.MenuName;
-        document.getElementById("menu_form_id").value = menuItem.FormID;
-        document.getElementById("menu_order_index").value = menuItem.Seq;
-        let isActive = menuItem.IsActive;
-        if (isActive === "1") {
-            document.getElementById("menu_active").checked = true;
-            document.getElementById("menu_is_active").value = "1";
         }
-        else {
+    </div>
+    </div>
+
+    <script type="text/javascript">
+        let treeview = null;
+        let dropdowntree = null;
+        let menuItem = null;
+        let notification = null;
+        let gridForm = null;
+        $(document).ready(function () {
+            treeview = $("#treeviewMenu").data("kendoTreeView");
+            dropdowntree = $("#drpTreeMenu").data("kendoDropDownTree");
+            notification = $("#notification").data("kendoNotification");
+            gridForm = $("#gridForm").data("kendoGrid");
+        });
+        function trvMenuChange(e) {
+            console.log("change");
+        }
+        function trvMenuSelect(e) {
+            let data = treeview.dataItem(e.node);
+            console.log(data.id);
+            console.log("Selecting: " + this.text(e.node));
+            //dropdowntree.value(data.id);
+            $.get('/MenuConfig/getMenuDetail', { menu_id: data.id }, fillInfo);
+        }
+
+        function fillInfo(menuEntity) {
+            console.log(menuEntity);
+            menuItem = menuEntity
+            document.getElementById("menu_id").value = menuItem.MenuID;
+            document.getElementById("menu_name").value = menuItem.MenuName;
+            document.getElementById("menu_form_id").value = menuItem.FormID;
+            document.getElementById("menu_order_index").value = menuItem.Seq;
+            let isActive = menuItem.IsActive;
+            if (isActive === "1") {
+                document.getElementById("menu_active").checked = true;
+                document.getElementById("menu_is_active").value = "1";
+            }
+            else {
+                document.getElementById("menu_active").checked = false;
+                document.getElementById("menu_is_active").value = "0";
+            }
+            let parentId = menuItem.MotherID;
+            document.getElementById("menu_mother_id").value = parentId;
+            dropdowntree.value(parentId);
+            document.getElementById("menu_config").setAttribute("data-ajax-method", "PUT");
+            document.getElementById("menu_config").setAttribute("action", "/MenuConfig/updateMenu");
+        }
+
+        function onSetMenuActive() {
+            let checkBox = document.getElementById("menu_active");
+            // Get the output text
+            let chkBoxValue = document.getElementById("menu_is_active");
+
+            // If the checkbox is checked, display the output text
+            if (checkBox.checked == true) {
+                document.getElementById("menu_is_active").value = "1";
+            } else {
+                document.getElementById("menu_is_active").value = "0";
+            }
+            console.log(chkBoxValue);
+        }
+
+        function onNewMenu() {
+            menuItem = null;
+            document.getElementById("menu_id").value = "";
+            document.getElementById("menu_name").value = "";
+            document.getElementById("menu_form_id").value = "";
+            document.getElementById("menu_order_index").value = "";
             document.getElementById("menu_active").checked = false;
+            document.getElementById("menu_mother_id").value = "";
             document.getElementById("menu_is_active").value = "0";
+            dropdowntree.value("");
+
+            document.getElementById("menu_config").setAttribute("data-ajax-method", "POST");
+            document.getElementById("menu_config").setAttribute("action", "/MenuConfig/inserNewMenu?Length=10");
         }
-        let parentId = menuItem.MotherID;
-        document.getElementById("menu_mother_id").value = parentId;
-        dropdowntree.value(parentId);
-        document.getElementById("menu_config").setAttribute("data-ajax-method", "PUT");
-        document.getElementById("menu_config").setAttribute("action", "/MenuConfig/updateMenu");
-    }
 
-    function onSetMenuActive() {
-        let checkBox = document.getElementById("menu_active");
-        // Get the output text
-        let chkBoxValue = document.getElementById("menu_is_active");
-
-        // If the checkbox is checked, display the output text
-        if (checkBox.checked == true) {
-            document.getElementById("menu_is_active").value = "1";
-        } else {
-            document.getElementById("menu_is_active").value = "0";
+        function openDialog() {
+            $("#formDialog").data("kendoDialog").open();
         }
-        console.log(chkBoxValue);
-    }
 
-    function onNewMenu() {
-        menuItem = null;
-        document.getElementById("menu_id").value = "";
-        document.getElementById("menu_name").value = "";
-        document.getElementById("menu_form_id").value = "";
-        document.getElementById("menu_order_index").value = "";
-        document.getElementById("menu_active").checked = false;
-        document.getElementById("menu_mother_id").value = "";
-        document.getElementById("menu_is_active").value = "0";
-        dropdowntree.value("");
+        function actionOK(e) {
+            let formList = $("#gridForm").data("kendoGrid");
+            let selectedRow = formList.select()[0];
+            let selectedDataItem = formList.dataItem(selectedRow);
+            document.getElementById("menu_form_id").value = selectedDataItem.FORM_CODE;
+        }
 
-        document.getElementById("menu_config").setAttribute("data-ajax-method", "POST");
-        document.getElementById("menu_config").setAttribute("action", "/MenuConfig/inserNewMenu?Length=10");
-    }
+        function onFailure(data) {
+            //alert('HTTP Status Code: ' + data.param1 + "  " + data.param2);
+            notification.show({
+                message: data.param2
+            }, "success");
 
-    function openDialog() {
-        $("#formDialog").data("kendoDialog").open();
-    }
+        }
+        function onSuccess(data) {
+            notification.show({
+                message: data.param2
+            }, "success");
+            //alert('HTTP Status Code: ' + data.param1 + "  " + data.param2);
+            //console.log(data);
+            treeview.dataSource.read();
+            dropdowntree.dataSource.read();
+        }
 
-    function actionOK(e) {
-        let formList = $("#gridForm").data("kendoGrid");
-        let selectedRow = formList.select()[0];
-        let selectedDataItem = formList.dataItem(selectedRow);
-        document.getElementById("menu_form_id").value = selectedDataItem.FORM_CODE;
-    }
+        function onChangeMotherId() {
+            console.log(dropdowntree.value());
+            document.getElementById("menu_mother_id").value = dropdowntree.value();
+        }
 
-    function onFailure(data){
-        //alert('HTTP Status Code: ' + data.param1 + "  " + data.param2);
-        notification.show({
-            message: data.param2
-        }, "success");
-
-    }
-    function onSuccess(data){
-        notification.show({
-            message: data.param2
-        }, "success");
-        //alert('HTTP Status Code: ' + data.param1 + "  " + data.param2);
-        //console.log(data);
-        treeview.dataSource.read();
-        dropdowntree.dataSource.read();
-    }
-
-    function onChangeMotherId() {
-        console.log(dropdowntree.value());
-        document.getElementById("menu_mother_id").value = dropdowntree.value();
-    }
-
-    function openDialogForm() {
-        gridForm.dataSource.read();
-    }
-</script>
+        function openDialogForm() {
+            gridForm.dataSource.read();
+        }
+    </script>

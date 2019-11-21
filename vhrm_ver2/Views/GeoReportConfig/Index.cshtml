@@ -99,8 +99,8 @@
     </div>
 </script>
 
-<div style="width: 1550px;">
-    <div class="k-content" style="float:left; overflow: auto;width: 500px; max-height: 650px;">
+<div class="hrm-block-tree">
+    <div class="k-content hrm-tree-left"  >
         @(Html.Kendo().TreeView()
             .Name("treeViewDept")
             .DataTextField("Name")
@@ -120,90 +120,86 @@
         )
     </div>
 
-    <div style="float: left; margin-left: 20px; width: 1000px">
-        <div class="row" style="margin-top: 5px;">
-            <div class="col-sm">
-                <div class="form-group" style="width: 300px;">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" readonly id="dept_name" name="FormID" placeholder="Department">
-                        <input type="hidden" class="form-control" id="dept_code" />
-                        <div class="input-group-append">
-                            @*<button class="btn btn-outline-primary" type="button" onclick="review()">Review</button>*@
-                            @*<button class="btn btn-outline-primary" type="button" onclick="review()"><i class="fa fa-search"></i></button>*@
+    <div class="hrm-block-right">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" readonly id="dept_name" name="FormID" placeholder="Department">
+                            <input type="hidden" class="form-control" id="dept_code" />
+                            <div class="input-group-append">
+                                @*<button class="btn btn-outline-primary" type="button" onclick="review()">Review</button>*@
+                                @*<button class="btn btn-outline-primary" type="button" onclick="review()"><i class="fa fa-search"></i></button>*@
+                            </div>
                         </div>
                     </div>
                 </div>
+
+            </div>
+
+
+
+            <div class="" style="margin-top: 5px">
+                @(Html.Kendo().Grid<vhrm.FrameWork.Entity.eGeoReportItem>()
+                                                            .Name("reportGrid")
+                                                            .AutoBind(false)
+                                                            .Columns(columns =>
+                                                            {
+                                                                columns.Bound(c => c.EMPNAME).Width(250);
+                                                                columns.Bound(c => c.APPLYDATE).Width(150).Title("VALID DATE").Format("{0:MM/dd/yyyy}");
+                                                                //columns.Bound(c => c.ISACTIVE).Width(80).Title("ACTIVED").Filterable(false);
+                                                                columns.Bound(c => c.ISACTIVE).Width(80).Title("ACTIVED").Filterable(false).ClientTemplate("#= ISACTIVE ? 'Yes' : 'No' #");
+                                                                columns.Command(command =>
+                                                                {
+                                                                    command.Edit();
+                                                                }).Width(50);
+                                                            })
+                                                            .ToolBar(toolbar =>
+                                                            {
+                                                                toolbar.Create();
+                                                            })
+                                                            .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                                                            .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("GeoReportItemEditor"))
+                                                            .HtmlAttributes(new { style = "height: auto" })
+                                                            .Scrollable()
+                                                            .Pageable(pageable => pageable
+                                                                .Refresh(true)
+                                                                .PageSizes(false)
+                                                                .ButtonCount(5))
+                                                            .Selectable(slt => slt
+                                                                .Mode(GridSelectionMode.Single))
+                                                            .Events(evs =>
+                                                            {
+                                                            })
+                                                            .DataSource(dataSource => dataSource
+                                                                .Ajax()
+                                                                .Read(read => read.Action("getGeoReportByDept", "GeoReportConfig").Data("addDitionalQuery"))
+                                                                .ServerOperation(false)
+                                                                .PageSize(20)
+                                                                .Model(model => model.Id(p => p.GEOREPORTCD))
+                                                                //.Update("updateGeoReporter", "GeoReportConfig")
+                                                                .Update(update =>
+                                                                {
+                                                                    update.Action("updateGeoReporter", "GeoReportConfig");
+                                                                    update.Data("addDitionalQuery");
+                                                                })
+                                                                .Create(create =>
+                                                                {
+                                                                    create.Action("createGeoReporter", "GeoReportConfig");
+                                                                    create.Data("addDitionalQuery");
+                                                                })
+                                                                .Events(e =>
+                                                                {
+                                                                    e.RequestEnd("endGeoReportRequest");
+                                                                })
+                                                            )
+                )
             </div>
         </div>
-        <div class="row" style="margin-top: 5px">
-            @(Html.Kendo().Grid<vhrm.FrameWork.Entity.eGeoReportItem>()
-                .Name("reportGrid")
-                .AutoBind(false)
-                .Columns(columns =>
-                {
-                    //columns.Command(command => command.Custom("ViewDetails").Click("showDetails").Text("dkm")).Width(20);
-                    //columns.Template(t => { }).ClientTemplate("#= renderNumber(data) #").Title("NO.").Width(20);
-                    //columns.Bound(c => c.GEOREPORTCD).Width(120).Title("CODE");
-                    //columns.Bound(c => c.DEPTCODE).Width(120).Title("DEPT");
-                    //columns.Bound(c => c.SYS_EMPID).Width(100).Title("EMPID");
-                    //columns.Bound(c => c.EMPNAME).Width(200);
-                    //columns.Bound(c => c.SYS_EMPID).Width(100);
-                    columns.Bound(c => c.EMPNAME).Width(250);
-                    columns.Bound(c => c.APPLYDATE).Width(150).Title("VALID DATE").Format("{0:MM/dd/yyyy}");
-                    //columns.Bound(c => c.ISACTIVE).Width(80).Title("ACTIVED").Filterable(false);
-                    columns.Bound(c => c.ISACTIVE).Width(80).Title("ACTIVED").Filterable(false).ClientTemplate("#= ISACTIVE ? 'Yes' : 'No' #");
-                    columns.Command(command =>
-                    {
-                        command.Edit();
-                    }).Width(50);
-                })
-                .ToolBar(toolbar =>
-                {
-                    toolbar.Create();
-                })
-                .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
-                .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("GeoReportItemEditor"))
-                .HtmlAttributes(new { style = "height: 920px;" })
-                .Scrollable()
-                .Pageable(pageable => pageable
-                    .Refresh(true)
-                    .PageSizes(false)
-                    .ButtonCount(5))
-                .Selectable(slt => slt
-                    .Mode(GridSelectionMode.Single))
-                .Events(evs =>
-                {
-                    //.Change("onSelectGridItem")
-                    //.DataBound("onDataGridBound")
-                    //.DataBinding("onDataBinding")
-                    //.Page("onPaging")
-                    //.Edit("onEditForm")
-                    //.Save("onSave")
-                })
-                .DataSource(dataSource => dataSource
-                    .Ajax()
-                    .Read(read => read.Action("getGeoReportByDept", "GeoReportConfig").Data("addDitionalQuery"))
-                    .ServerOperation(false)
-                    .PageSize(20)
-                    .Model(model => model.Id(p => p.GEOREPORTCD))
-                    //.Update("updateGeoReporter", "GeoReportConfig")
-                    .Update(update =>
-                    {
-                        update.Action("updateGeoReporter", "GeoReportConfig");
-                        update.Data("addDitionalQuery");
-                    })
-                    .Create(create => {
-                        create.Action("createGeoReporter", "GeoReportConfig");
-                        create.Data("addDitionalQuery");
-                    })
-                    .Events(e => {
-                        e.RequestEnd("endGeoReportRequest");
-                    })
-                )
-            )
-        </div>
     </div>
-</div>
+
+    </div>
 
 @(Html.Kendo().Dialog()
     .Name("formDialog")

@@ -78,10 +78,14 @@
         height: 700px;
         background-color: aquamarine;
     }*/
+    .k-grid-header .k-grid-header-wrap th.k-header {
+        text-align: center;
+        vertical-align: middle;
+    }
 </style>
 
 <div style="width: 1550px;">
-    <div id="trvDept" class="k-content" style="float:left; overflow: auto;width: 500px; max-height: 650px;">
+    @*<div id="trvDept" class="k-content" style="float:left; overflow: auto;width: 500px; max-height: 650px;">
         @(Html.Kendo().TreeView()
             .Name("treeViewDept")
             .DataTextField("Name")
@@ -98,13 +102,47 @@
             })
             .HighlightPath(true)
         )
+    </div>*@
+    <div>
+        @(Html.Kendo().Dialog()
+            .Name("dialog")
+            .Visible(false)
+            .Title("Department Tree")
+            .Content(
+                Html.Kendo().TreeView()
+                    .Name("treeViewDept")
+                    .DataTextField("Name")
+                    .DataSource(dataSource => dataSource
+                        .Read(read => read
+                            .Action("getDeptTreeVer2", "OrgConfig")
+                        )
+                    )
+                    .Events(evs =>
+                    {
+                        //evs.Change("trvMenuChange");
+                        evs.Select("trvMenuSelect");
+                        //evs.DataBound("trvDeptBound");
+                    })
+                    .HighlightPath(true)
+                    .ToHtmlString()
+            )
+            .Width(400)
+            .Height(500)
+            .Modal(true)
+            .Closable(true)
+            .Actions(act =>
+            {
+                act.Add().Text("Cancel");
+                act.Add().Text("OK").Primary(true).Action("actionOK");
+            })
+        )
     </div>
     <div id="div_grid" style="float: left; margin-left: 20px; width: 1000px">
         <div class="row" style="margin-top: 5px;">
             <div class="col-sm">
                 <div class="form-group" style="width: 300px;">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" readonly id="dept_name" name="FormID" placeholder="Department">
+                        <input type="text" class="form-control form-control-sm" readonly id="dept_name" name="FormID" placeholder="Choose Department">
                         <input type="hidden" class="form-control" id="dept_code" />
                         <div class="input-group-append">
                             @*<button class="btn btn-outline-primary" type="button" onclick="review()">Review</button>*@
@@ -128,7 +166,9 @@
                     //columns.Bound(c => c.SYS_EMPID).Width(100).Title("EMPID");
                     //columns.Bound(c => c.EMPNAME).Width(200);
                     //columns.Bound(c => c.SYS_EMPID).Width(100);
-                    columns.Bound(c => c.EMPNAME).Width(150);
+                    columns.Bound(c => c.EMPNAME).Width(150).Filterable(ftb => {
+                        ftb.Cell(cell => cell.Operator("contains").ShowOperators(false));
+                    });
                     columns.Bound(c => c.EMPID).Width(100);
                     columns.Bound(c => c.DEPTNODE_CODE).Width(150);
                     columns.Bound(c => c.FUNCNODE_CODE).Width(150);
@@ -154,19 +194,6 @@
                             info.Bound(c => c.FUNC_RP_CODE).Width(100).Title("DEPTCODE");
                         });
                     });
-                    //columns.Bound(c => c.GEO_RP_EMPNAME).Width(150);
-                    //columns.Bound(c => c.GEO_RP_EMPID).Width(100);
-                    //columns.Bound(c => c.GEO_RP_CODE).Width(100);
-                    //columns.Bound(c => c.FUNC_RP_EMPNAME).Width(150);
-                    //columns.Bound(c => c.FUNC_RP_EMPID).Width(100);
-                    //columns.Bound(c => c.FUNC_RP_CODE).Width(100);
-                    //columns.Bound(c => c.APPLYDATE).Width(150).Title("VALID DATE").Format("{0:MM/dd/yyyy}");
-                    //columns.Bound(c => c.ISACTIVE).Width(80).Title("ACTIVED").Filterable(false);
-                    //columns.Bound(c => c.ISACTIVE).Width(80).Title("ACTIVED").Filterable(false).ClientTemplate("#= ISACTIVE ? 'Yes' : 'No' #");
-                    //columns.Command(command =>
-                    //{
-                    //    command.Edit();
-                    //}).Width(50);
                 })
                 .ToolBar(toolbar =>
                 {
@@ -178,9 +205,13 @@
                     //excel.Filterable(true);
                     excel.AllPages(true);
                 })
-                .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                .Filterable(ftb => {
+                    ftb.Mode(GridFilterMode.Menu);
+                    ftb.Enabled(false);
+
+                })
                 //.Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("GeoReportItemEditor"))
-                .HtmlAttributes(new { style = "height: 920px;" })
+                .HtmlAttributes(new { style = "height: 680px;" })
                 .Scrollable()
                 .Pageable(pageable => pageable
                     .Refresh(true)
@@ -201,21 +232,7 @@
                     .Ajax()
                     .Read(read => read.Action("getEmpReportByDept", "OrgConfig").Data("addDitionalQuery"))
                     .ServerOperation(false)
-                    .PageSize(15)
-                //.Model(model => model.Id(p => p.GEOREPORTCD))
-                //.Update("updateGeoReporter", "GeoReportConfig")
-                //.Update(update =>
-                //{
-                //    update.Action("updateGeoReporter", "GeoReportConfig");
-                //    update.Data("addDitionalQuery");
-                //})
-                //.Create(create => {
-                //    create.Action("createGeoReporter", "GeoReportConfig");
-                //    create.Data("addDitionalQuery");
-                //})
-                //.Events(e => {
-                //    e.RequestEnd("endGeoReportRequest");
-                //})
+                    .PageSize(10)
                 )
             )
         </div>
@@ -254,5 +271,16 @@
         //curPage = 1;
         //grid.dataSource.page(curPage);
         reportGrid.dataSource.read();
+        $("#dialog").data("kendoDialog").close();
     }
+
+    function actionOK(e) {
+        //var treeView = $("#deptTree").data("kendoTreeView");
+        //console.log(treeView.select().id);
+    }
+
+    document.getElementById("dept_name").addEventListener('dblclick', function(){
+        console.log('doubleclick');
+        $("#dialog").data("kendoDialog").open();
+    });
 </script>

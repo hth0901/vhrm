@@ -446,10 +446,6 @@ namespace vhrm.Controllers
             ViewBag.Positions = SelectListPositions(employeeMaster.POSITION);
             ViewBag.Skills = SelectListSkills(employeeMaster.SKILL);
             ViewBag.isMode = 0;
-            //if (Session["geoorganizationreport_tree"] == null)
-            //    Session["geoorganizationreport_tree"] = bGeoReport.getTreeGeoDepts();
-            //if (Session["functreport_tree"] == null)
-            //    Session["functreport_tree"] = bFunctionReport.getTreeFunctionDepts();
             ViewBag.geoInline = getGeOrganizations_Default_Inline_Data();
             ViewBag.functInline = getFunctReports_Default_Inline_Data();
             return View(employeeMaster);
@@ -471,7 +467,7 @@ namespace vhrm.Controllers
                 ViewBag.Skills = SelectListSkills(employeeMaster.SKILL);
                 ViewBag.geoInline = getGeOrganizations_Default_Inline_Data();
                 ViewBag.functInline = getFunctReports_Default_Inline_Data();
-                return PartialView(employeeMaster);//View(employeeMaster);
+                return PartialView("New", employeeMaster);//View(employeeMaster);
             }
            else
            {

@@ -15,20 +15,33 @@ a.hiddenanchor{display:none}
 .emp-search-block{width:100%;float:left}
 .emp-search-title{width:80px;padding:5px 10px;text-align:right;float:left;font-size:12px;font-weight:700}
 .emp-search-formsearch{float:left;width:calc(100% - 270px)}
-.emp-search-formsearch input[type="text"]{float:left;width:calc(100% - 31px);margin-right:-3px;height:31px;padding:6px; font-size:14px}
+.emp-search-formsearch input[type="text"]{float:left;width:calc(100% - 31px);margin-right:-3px;height:31px;padding:6px; font-size:14px; border:1px solid #CCC}
 .emp-search-button{float:right;width:180px}
 .emp-search-button button{margin-left:5px}
 
 
 .region{float:right;width:100%;margin-top:10px}
 .em-info-block{width:100%;float:left} 
-.em-info-block .form-group {margin-bottom:0}
+.em-info-block .form-group, .vhrm_employee_basic .form-group{margin-bottom:7px}
 
  
-.title-em-info { text-align:right;  font-size:13px; padding:0!important}
-.form-em-info {width:100%; border:1px solid #F00; padding:3px 8px; border-radius:3px}
+.title-em-info { text-align:right;  font-size:13px; padding:0!important; margin:0; line-height:30px}
+.form-em-info {width:100%; border:1px solid #CCC; padding:5px 10px; border-radius:3px; font-size:13px}
 
-.form-em-date input[type="text"]{ border:1px solid #F00; }
+.em-info-block .k-datepicker .k-picker-wrap, .form-em-date ,.form-em-date:hover{ border:none}
+.form-em-date input[type="text"]{ border:1px solid #CCC;  border-radius:3px 0 0 3px }
+.form-em-select {width:100%; float:left;}
+.form-em-select input[type="text"] {border:1px solid #999; width:calc(100% - 30px); float:left; border-radius:3px 0 0 3px; font-size: 13px;
+    padding: 5px 10px;
+    background: #EEE;}
+.form-em-select button {background:#124461de; width:30px; border-radius:0 3px 3px 0; }
+.form-em-col  {border:1px solid #999; border-radius:3px }
+.form-em-col .form-control {border:none; font-size: 13px;
+    padding: 5px 10px;
+    background: #EEE;}
+
+
+.em-info-block .k-datepicker .k-select  {background: #124461de;border-radius:0 3px 3px 0; color: #fff;}
 
 
 .expandWidth{width:100%}

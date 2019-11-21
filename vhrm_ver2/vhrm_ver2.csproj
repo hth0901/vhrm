@@ -333,6 +333,7 @@
     <Content Include="assets\images\back_disabled.png" />
     <Content Include="assets\images\back_enabled.png" />
     <Content Include="assets\images\back_enabled_hover.png" />
+    <Content Include="assets\images\bg_login.jpg" />
     <Content Include="assets\images\forward_disabled.png" />
     <Content Include="assets\images\forward_enabled.png" />
     <Content Include="assets\images\forward_enabled_hover.png" />

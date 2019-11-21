@@ -1,48 +1,29 @@
 ﻿@model vhrm.FrameWork.Entity.eForm
-@*@Html.TextArea("FirstName", new
-    {
-        rows = 5,
-        cols = 20,
-        @class = "text-wrapp k-textbox",
-        data_bind = "value:FirstName",
-        style = "resize:none"
-    })*@
-@*<div id="form_editor" style="height: 600px;">*@
-<div id="form_editor">
-    <table style="border-spacing: 10px; border-collapse: separate;">
-        <tr>
-            <td>
-                Form id:
-            </td>
-            <td>
-                @Html.EditorFor(model => model.FORM_CODE)
-            </td>
-        </tr>
 
-        <tr>
-            <td>
-                Form Name:
-            </td>
-            <td>
-                @Html.EditorFor(model => model.FORM_NAME)
-            </td>
-        </tr>
+<style>
+    .edit_row{
+        margin-top: -10px;
+    }
+</style>
+<div id="form_editor" class="container">
+    <div class="form-group form-group-sm row edit_row">
+        <label class="col-sm-4 col-form-label">Form Id:</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control form-control-sm" name="FORM_CODE" data-bind="value:FORM_CODE" />
+        </div>
+    </div>
 
-        <tr>
-            <td>
-                File path:
-            </td>
-            <td>
-                @Html.EditorFor(model => model.FILE_PATH)
-            </td>
-        </tr>
-        @*<tr>
-                <td>
-                    File path:
-                </td>
-                <td>
-                    <input class="k-textbox" id="FILE_PATH" name="FILE_PATH" type="text" data-bind="value:FILE_PATH" />
-                </td>
-            </tr>*@
-    </table>
+    <div class="form-group form-group-sm row edit_row">
+        <label class="col-sm-4 col-form-label">Form Name:</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control form-control-sm" name="FORM_NAME" data-bind="value:FORM_NAME" />
+        </div>
+    </div>
+
+    <div class="form-group form-group-sm row edit_row">
+        <label class="col-sm-4 col-form-label">File path:</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control form-control-sm" name="FILE_PATH" data-bind="value:FILE_PATH" />
+        </div>
+    </div>
 </div>

@@ -5,6 +5,8 @@
 
     // Enable/disable fixed top navbar
     $('#fixednavbar').click(function (){
+        console.log('fixednavbar');
+
         if ($('#fixednavbar').is(':checked')){
             $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
             $("body").removeClass('boxed-layout');
@@ -36,6 +38,8 @@
 
     // Enable/disable fixed top navbar
     $('#fixednavbar2').click(function () {
+        console.log('fixednavbar2');
+
         if ($('#fixednavbar2').is(':checked')){
             $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
             $("body").removeClass('boxed-layout');
@@ -65,8 +69,8 @@
 
     // Enable/disable fixed sidebar
     $('#fixedsidebar').click(function () {
-
         console.log('dkmdkm');
+
         if ($('#fixedsidebar').is(':checked')){
             $("body").addClass('fixed-sidebar');
             $('.sidebar-collapse').slimScroll({
@@ -90,6 +94,7 @@
 
     // Enable/disable collapse menu
     $('#collapsemenu').click(function (){
+        console.log('collapsemenu');
         if ($('#collapsemenu').is(':checked')){
             $("body").addClass('mini-navbar');
             SmoothlyMenu();
@@ -110,6 +115,8 @@
 
     // Enable/disable boxed layout
     $('#boxedlayout').click(function (){
+        console.log('boxedlayout');
+
         if ($('#boxedlayout').is(':checked')){
             $("body").addClass('boxed-layout');
             $('#fixednavbar').prop('checked', false);
@@ -147,6 +154,8 @@
 
     // Enable/disable fixed footer
     $('#fixedfooter').click(function (){
+        console.log('fixedfooter');
+
         if ($('#fixedfooter').is(':checked')){
             $('#boxedlayout').prop('checked', false);
             $("body").removeClass('boxed-layout');
@@ -170,6 +179,8 @@
 
     // SKIN Select
     $('.spin-icon').click(function (){
+        console.log('spin-icon');
+
         $(".theme-config-box").toggleClass("show");
     }); 
 

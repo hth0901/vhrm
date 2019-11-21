@@ -1912,7 +1912,7 @@ col.k-sorted,th.k-sorted{background-color:rgba(0,0,0,0.02)}
 .k-rtl .k-treeview .k-in .k-icon,.k-rtl .k-treeview .k-in .k-image,.k-rtl .k-treeview .k-in .k-sprite,.k-treeview[dir=rtl] .k-in .k-icon,.k-treeview[dir=rtl] .k-in .k-image,.k-treeview[dir=rtl] .k-in .k-sprite{margin-left:4px;margin-right:0}
 .k-treeview{color:#003f59}
 .k-treeview .k-in:hover,.k-treeview .k-in.k-state-hover{color:#0099FF;background-color: #FFF}
-.k-treeview .k-in.k-state-selected{color:#039;background-color:#FFF; font-weight: bold}
+.k-treeview .k-in.k-state-selected{color:#039;background-color: inherit; font-weight: bold}
 .k-treeview .k-in.k-state-selected:focus , .k-treeview .k-in.k-state-selected:active, .k-treeview .k-in.k-state-selected{outline:none; border-color:inherit}
 .k-pivot{position:relative}
 .k-pivot .k-grid td{white-space:nowrap}
@@ -3771,9 +3771,8 @@ to{background-position:22px 0}
 .hrm-block-tree {width: 100%; float:left; background:#EEE;}
 .hrm-tree-left {width: 400px; float:left; background:#EEE; padding:10px 0 0 10px}
 .hrm-block-right {width: calc(100% - 400px); float:left; background:#FFF; padding:10px}
-.hrm-block-right label
-{
-text-align: right;
+.hrm-block-right .form-group {margin-bottom:10px!important}
+.hrm-block-right label{text-align: right;
     font-size: 13px;
     padding: 0!important;
     margin: 0;

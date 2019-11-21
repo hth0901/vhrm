@@ -84,7 +84,7 @@
     }
 </style>
 
-<div style="width: 1550px;">
+<div class="container-fluid">
     @*<div id="trvDept" class="k-content" style="float:left; overflow: auto;width: 500px; max-height: 650px;">
         @(Html.Kendo().TreeView()
             .Name("treeViewDept")
@@ -137,8 +137,8 @@
             })
         )
     </div>
-    <div id="div_grid" style="float: left; margin-left: 20px;">
-        <div class="row" style="margin-top: 5px;">
+    <div id="div_grid" style=" margin-top:20px">
+        <div class="row" >
             <div class="col-sm-3">
                 <div class="form-group">
                     <div class="input-group mb-3">
@@ -153,81 +153,85 @@
             </div>
         </div>
 
-        <div class="row" style="margin-top: 5px">
-            @(Html.Kendo().Grid<vhrm.FrameWork.Entity.eReporterItem>()
-                .Name("reportGrid")
-                .AutoBind(false)
-                .Columns(columns =>
-                {
-                    columns.Bound(c => c.EMPNAME).Width(200).Filterable(ftb => {
-                        ftb.Cell(cell => cell.Operator("contains").ShowOperators(false));
-                    });
-                    columns.Bound(c => c.EMPID).Width(90);
-                    columns.Bound(c => c.DEPTNODE_CODE).Width(135).Title("DEPT CODE");
-                    columns.Bound(c => c.FUNCNODE_CODE).Width(135).Title("FUNC CODE");
-                    columns.Bound(c => c.LEVEL0).Width(100);
-                    columns.Bound(c => c.LEVEL1).Width(100);
-                    columns.Group(gr =>
-                    {
-                        gr.Title("GEO Supervisor");
-                        gr.Columns(info =>
-                        {
-                            info.Bound(c => c.GEO_RP_EMPNAME).Width(200).Title("EMP NAME");
-                            info.Bound(c => c.GEO_RP_EMPID).Width(90).Title("EMPID");
-                            info.Bound(c => c.GEO_RP_CODE).Width(135).Title("DEPTCODE");
-                        });
-                    });
-                    columns.Group(gr =>
-                    {
-                        gr.Title("FUNC Supervisor");
-                        gr.Columns(info =>
-                        {
-                            info.Bound(c => c.FUNC_RP_EMPNAME).Width(200).Title("EMP NAME");
-                            info.Bound(c => c.FUNC_RP_EMPID).Width(90).Title("EMPID");
-                            info.Bound(c => c.FUNC_RP_CODE).Width(135).Title("DEPTCODE");
-                        });
-                    });
-                })
-                .ToolBar(toolbar =>
-                {
-                    //toolbar.Create();
-                    toolbar.Excel();
-                })
-                .Excel(excel =>
-                {
-                    //excel.Filterable(true);
-                    excel.AllPages(true);
-                })
-                .Filterable(ftb => {
-                    ftb.Mode(GridFilterMode.Menu);
-                    ftb.Enabled(false);
+        <div class="row">
+            <div class="col-sm-12">
+                @(Html.Kendo().Grid<vhrm.FrameWork.Entity.eReporterItem>()
+                                    .Name("reportGrid")
+                                    .AutoBind(false)
+                                    .Columns(columns =>
+                                    {
+                                        columns.Bound(c => c.EMPNAME).Width(200).Filterable(ftb =>
+                                        {
+                                            ftb.Cell(cell => cell.Operator("contains").ShowOperators(false));
+                                        });
+                                        columns.Bound(c => c.EMPID).Width(90);
+                                        columns.Bound(c => c.DEPTNODE_CODE).Width(135).Title("DEPT CODE");
+                                        columns.Bound(c => c.FUNCNODE_CODE).Width(135).Title("FUNC CODE");
+                                        columns.Bound(c => c.LEVEL0).Width(100);
+                                        columns.Bound(c => c.LEVEL1).Width(100);
+                                        columns.Group(gr =>
+                                        {
+                                            gr.Title("GEO Supervisor");
+                                            gr.Columns(info =>
+                                            {
+                                                info.Bound(c => c.GEO_RP_EMPNAME).Width(200).Title("EMP NAME");
+                                                info.Bound(c => c.GEO_RP_EMPID).Width(90).Title("EMPID");
+                                                info.Bound(c => c.GEO_RP_CODE).Width(135).Title("DEPTCODE");
+                                            });
+                                        });
+                                        columns.Group(gr =>
+                                        {
+                                            gr.Title("FUNC Supervisor");
+                                            gr.Columns(info =>
+                                            {
+                                                info.Bound(c => c.FUNC_RP_EMPNAME).Width(200).Title("EMP NAME");
+                                                info.Bound(c => c.FUNC_RP_EMPID).Width(90).Title("EMPID");
+                                                info.Bound(c => c.FUNC_RP_CODE).Width(135).Title("DEPTCODE");
+                                            });
+                                        });
+                                    })
+                                    .ToolBar(toolbar =>
+                                    {
+                                    //toolbar.Create();
+                                    toolbar.Excel();
+                                    })
+                                    .Excel(excel =>
+                                    {
+                                    //excel.Filterable(true);
+                                    excel.AllPages(true);
+                                    })
+                                    .Filterable(ftb =>
+                                    {
+                                        ftb.Mode(GridFilterMode.Menu);
+                                        ftb.Enabled(false);
 
-                })
-                //.Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("GeoReportItemEditor"))
-                .HtmlAttributes(new { style = "height: 600px;" })
-                .Scrollable()
-                .Pageable(pageable => pageable
-                    .Refresh(true)
-                    .PageSizes(false)
-                    .ButtonCount(5))
-                .Selectable(slt => slt
-                    .Mode(GridSelectionMode.Single))
-                .Events(evs =>
-                {
-                    //.Change("onSelectGridItem")
-                    //.DataBound("onDataGridBound")
-                    //.DataBinding("onDataBinding")
-                    //.Page("onPaging")
-                    //.Edit("onEditForm")
-                    //.Save("onSave")
-                })
-                .DataSource(dataSource => dataSource
-                    .Ajax()
-                    .Read(read => read.Action("getEmpReportByDept", "OrgConfig").Data("addDitionalQuery"))
-                    .ServerOperation(false)
-                    .PageSize(10)
+                                    })
+                                    //.Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("GeoReportItemEditor"))
+                                    .HtmlAttributes(new { style = "height: 600px;" })
+                                    .Scrollable()
+                                    .Pageable(pageable => pageable
+                                        .Refresh(true)
+                                        .PageSizes(false)
+                                        .ButtonCount(5))
+                                    .Selectable(slt => slt
+                                        .Mode(GridSelectionMode.Single))
+                                    .Events(evs =>
+                                    {
+                                    //.Change("onSelectGridItem")
+                                    //.DataBound("onDataGridBound")
+                                    //.DataBinding("onDataBinding")
+                                    //.Page("onPaging")
+                                    //.Edit("onEditForm")
+                                    //.Save("onSave")
+                                })
+                                    .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .Read(read => read.Action("getEmpReportByDept", "OrgConfig").Data("addDitionalQuery"))
+                                        .ServerOperation(false)
+                                        .PageSize(10)
+                                    )
                 )
-            )
+            </div>
         </div>
     </div>
 </div>

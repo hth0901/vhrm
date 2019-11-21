@@ -333,6 +333,7 @@
     <Content Include="assets\images\back_disabled.png" />
     <Content Include="assets\images\back_enabled.png" />
     <Content Include="assets\images\back_enabled_hover.png" />
+    <Content Include="assets\images\bg_login.jpg" />
     <Content Include="assets\images\forward_disabled.png" />
     <Content Include="assets\images\forward_enabled.png" />
     <Content Include="assets\images\forward_enabled_hover.png" />
@@ -4841,6 +4842,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\OrgConfig\OrgChart_.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

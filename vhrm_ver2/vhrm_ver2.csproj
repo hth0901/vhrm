@@ -4909,6 +4909,8 @@
     <Content Include="Views\Main\MainViewVer2_bk20191119.cshtml" />
     <Content Include="Views\Main\MainViewVer3.cshtml" />
     <Content Include="Views\Main\MenuPartialVer3.cshtml" />
+    <Content Include="Views\OrgConfig\OrgChart.cshtml" />
+    <Content Include="Views\OrgConfig\OrgCategory_hieuhtbk.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

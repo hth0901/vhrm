@@ -136,5 +136,10 @@ namespace vhrm.Controllers
             //return Json(dtResult.ToDataSourceResult(request));
             return jsonResult;
         }
+
+        public ActionResult viewChart()
+        {
+            return View("OrgChart");
+        }
     }
 }

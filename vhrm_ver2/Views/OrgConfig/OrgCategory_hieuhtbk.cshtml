@@ -1,0 +1,311 @@
+﻿
+@{
+    ViewBag.Title = "OrgCategory";
+    Layout = "~/Views/Shared/vhrmLayoutBlock.cshtml";
+}
+
+<style>
+    .k-edit-form-container {
+        width: 600px;
+    }
+    /* Notifications */
+    .k-notification h3 {
+        padding: 30px 10px 5px;
+        font-size: 1em;
+        line-height: normal;
+    }
+
+    .k-notification img {
+        margin: 20px;
+        float: left;
+    }
+
+
+    /* Info template */
+    .new-mail {
+        width: 300px;
+        height: 100px;
+    }
+
+    /* Error template */
+    .wrong-pass {
+        width: 300px;
+        height: 100px;
+    }
+
+    /* Success template */
+    .upload-success {
+        width: 300px;
+        height: 100px;
+    }
+
+
+    /* For Bootstrap v4 theme */
+    .k-bootstrap-v4 .k-notification h3 {
+        padding: 10px 10px 5px;
+    }
+
+    .k-bootstrap-v4 .k-notification img {
+        margin: 10px 20px 0 0;
+    }
+
+    .k-bootstrap-v4 .new-mail,
+    .k-bootstrap-v4 .wrong-pass,
+    .k-bootstrap-v4 .upload-success {
+        width: calc( 300px - 2.5rem );
+        height: calc( 100px - 1.5rem );
+    }
+
+
+    /* For Material v2 theme */
+    .k-material-v2 .k-notification h3 {
+        padding: 10px 10px 5px;
+    }
+
+    .k-material-v2 .k-notification img {
+        margin: 10px 20px 0 0;
+    }
+
+    .k-material-v2 .new-mail,
+    .k-material-v2 .wrong-pass,
+    .k-material-v2 .upload-success {
+        width: 270px;
+        height: 70px;
+    }
+    /*#div_grid{
+        float: left;
+        width: 600px;
+        height: 700px;
+        background-color: aquamarine;
+    }*/
+    .k-grid-header .k-grid-header-wrap th.k-header {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+
+<div style="width: 1550px;">
+    @*<div id="trvDept" class="k-content" style="float:left; overflow: auto;width: 500px; max-height: 650px;">
+        @(Html.Kendo().TreeView()
+            .Name("treeViewDept")
+            .DataTextField("Name")
+            .DataSource(dataSource => dataSource
+                .Read(read => read
+                    .Action("getDeptTreeVer2", "OrgConfig")
+                )
+            )
+            .Events(evs =>
+            {
+                //evs.Change("trvMenuChange");
+                evs.Select("trvMenuSelect");
+                //evs.DataBound("trvDeptBound");
+            })
+            .HighlightPath(true)
+        )
+    </div>*@
+    <div>
+        @(Html.Kendo().Dialog()
+            .Name("dialog")
+            .Visible(false)
+            .Title("Department Tree")
+            .Content(
+                Html.Kendo().TreeView()
+                    .Name("treeViewDept")
+                    .DataTextField("Name")
+                    .DataSource(dataSource => dataSource
+                        .Read(read => read
+                            .Action("getDeptTreeVer2", "OrgConfig")
+                        )
+                    )
+                    .Events(evs =>
+                    {
+                        //evs.Change("trvMenuChange");
+                        evs.Select("trvMenuSelect");
+                        //evs.DataBound("trvDeptBound");
+                    })
+                    .HighlightPath(true)
+                    .ToHtmlString()
+            )
+            .Width(400)
+            .Height(500)
+            .Modal(true)
+            .Closable(true)
+            .Actions(act =>
+            {
+                act.Add().Text("Cancel");
+                act.Add().Text("OK").Primary(true).Action("actionOK");
+            })
+        )
+    </div>
+    <div>
+        @(Html.Kendo().Dialog()
+            .Name("dialogChart")
+            .Visible(false)
+            .Title("Department Tree")
+            .Content(
+                @"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
+            )
+            .Width(1000)
+            .Height(600)
+            .Modal(true)
+            .Closable(true)
+            .Actions(act =>
+            {
+                act.Add().Text("Cancel");
+                act.Add().Text("OK").Primary(true).Action("actionOK");
+            })
+        )
+
+
+        @(Html.Kendo().Window()
+            .Name("windowChart")
+            .Title("Org Chart")
+            .Content(
+                @"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
+            )
+            .Draggable()
+            .Resizable()
+            .Width(800)
+            .Height(600)
+            .Actions(actions => actions.Close())
+            .Visible(false)
+            .Modal(true)
+        )
+    </div>
+    <div id="div_grid" style="float: left; margin-left: 20px;">
+        <div class="row" style="margin-top: 5px;">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control form-control-sm" readonly id="dept_name" name="FormID" placeholder="Choose Department">
+                        <input type="hidden" class="form-control" id="dept_code" />
+                        <div class="input-group-append">
+                            @*<button class="btn btn-outline-primary" type="button" onclick="review()">Review</button>*@
+                            @*<button class="btn btn-outline-primary" type="button" onclick="review()"><i class="fa fa-search"></i></button>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 5px">
+            @(Html.Kendo().Grid<vhrm.FrameWork.Entity.eReporterItem>()
+                .Name("reportGrid")
+                .AutoBind(false)
+                .Columns(columns =>
+                {
+                    columns.Bound(c => c.EMPNAME).Width(200).Filterable(ftb => {
+                        ftb.Cell(cell => cell.Operator("contains").ShowOperators(false));
+                    });
+                    columns.Bound(c => c.EMPID).Width(90);
+                    columns.Bound(c => c.DEPTNODE_CODE).Width(135).Title("DEPT CODE");
+                    columns.Bound(c => c.FUNCNODE_CODE).Width(135).Title("FUNC CODE");
+                    columns.Bound(c => c.LEVEL0).Width(100);
+                    columns.Bound(c => c.LEVEL1).Width(100);
+                    columns.Group(gr =>
+                    {
+                        gr.Title("GEO Supervisor");
+                        gr.Columns(info =>
+                        {
+                            info.Bound(c => c.GEO_RP_EMPNAME).Width(200).Title("EMP NAME");
+                            info.Bound(c => c.GEO_RP_EMPID).Width(90).Title("EMPID");
+                            info.Bound(c => c.GEO_RP_CODE).Width(135).Title("DEPTCODE");
+                        });
+                    });
+                    columns.Group(gr =>
+                    {
+                        gr.Title("FUNC Supervisor");
+                        gr.Columns(info =>
+                        {
+                            info.Bound(c => c.FUNC_RP_EMPNAME).Width(200).Title("EMP NAME");
+                            info.Bound(c => c.FUNC_RP_EMPID).Width(90).Title("EMPID");
+                            info.Bound(c => c.FUNC_RP_CODE).Width(135).Title("DEPTCODE");
+                        });
+                    });
+                })
+                .ToolBar(toolbar =>
+                {
+                    //toolbar.Create();
+                    toolbar.Excel();
+                })
+                .Excel(excel =>
+                {
+                    //excel.Filterable(true);
+                    excel.AllPages(true);
+                })
+                .Filterable(ftb => {
+                    ftb.Mode(GridFilterMode.Menu);
+                    ftb.Enabled(false);
+
+                })
+                //.Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("GeoReportItemEditor"))
+                .HtmlAttributes(new { style = "height: 600px;" })
+                .Scrollable()
+                .Pageable(pageable => pageable
+                    .Refresh(true)
+                    .PageSizes(false)
+                    .ButtonCount(5))
+                .Selectable(slt => slt
+                    .Mode(GridSelectionMode.Single))
+                .Events(evs =>
+                {
+                })
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Read(read => read.Action("getEmpReportByDept", "OrgConfig").Data("addDitionalQuery"))
+                    .ServerOperation(false)
+                    .PageSize(10)
+                )
+            )
+        </div>
+    </div>
+</div>
+
+<script>
+    let treeview = null;
+    let reportGrid = null;
+    let gridForm = null;
+    let notification = null;
+    $(document).ready(function () {
+        treeview = $("#treeViewDept").data("kendoTreeView");
+        reportGrid = $("#reportGrid").data("kendoGrid");
+    });
+
+    function addDitionalQuery() {
+        let deptcode = document.getElementById("dept_code").value;
+        return {
+            deptcode: deptcode
+        }
+    }
+
+    function trvMenuSelect(e) {
+        let data = treeview.dataItem(e.node);
+        //$.get('/MenuConfig/getMenuDetail', { menu_id: data.id }, fillInfo);
+        document.getElementById("dept_code").value = data.id;
+        document.getElementById("dept_name").value = data.Name;
+
+        reportGrid.dataSource.data([]);
+
+        let deptcode = data.id;
+        let deptname = data.Name;
+        console.log(deptcode + '---' + deptname);
+
+        //curPage = 1;
+        //grid.dataSource.page(curPage);
+        reportGrid.dataSource.read();
+        $("#dialog").data("kendoDialog").close();
+    }
+
+    function actionOK(e) {
+        //var treeView = $("#deptTree").data("kendoTreeView");
+        //console.log(treeView.select().id);
+    }
+
+    document.getElementById("dept_name").addEventListener('dblclick', function(){
+        console.log('doubleclick');
+        //$("#dialog").data("kendoDialog").open();
+        //$("#dialogChart").data("kendoDialog").open();
+        $("#windowChart").data("kendoWindow").open()
+        $("#windowChart").data("kendoWindow").center();
+    });
+</script>

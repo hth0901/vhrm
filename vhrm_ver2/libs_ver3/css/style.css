@@ -30,7 +30,16 @@ box-shadow:none!important;  }
  
 .logo {float:left; padding-top:12px}
 .logo  img {height:30px}
-.top-menu {float:right; color:#333;margin-right: 40px;} 
+
+
+.mini-navbar .logo-page img { padding-left:20px
+}
+
+.top-menu {
+    float: right;
+    color: #333;
+    margin-right: 40px;
+} 
 .top-menu ul li{float:left; position:relative}
 .top-menu ul li i {font-size:16px; }
 .top-menu ul li a {padding: 21px 10px 10px 10px; display:block;color:#666; text-decoration: none; font-size:12px}
@@ -42,7 +51,6 @@ box-shadow:none!important;  }
 .top-menu ul li a:hover {color:#FFF; background:#AAA} 
 .top-menu ul li .open {color:#FFF; background:#AAA} 
 .top-menu ul li .open a {color:#FFF}
-
 .top-menu ul ul {position:absolute; z-index:99999}
 .top-menu ul ul.dropdown-menu {color:#333; right:0; left:inherit; margin:0; font-size: 14px; background-color: #f6f6f6; border:none; padding:0;  margin-top:6px; border-top: 3px solid #3085c7; 
     border-radius: 0;
@@ -54,7 +62,33 @@ box-shadow:none!important;  }
 .top-menu ul ul li > a {float:left; width:100%; padding:0; margin:0; color:#333!important}
 .top-menu ul ul li > a:hover {background:#EEE}
 
-.search {position:relative; padding:0 5px; margin-top:11px}
+
+
+
+
+.logo-page {
+    width: 100%;
+    float: left;
+    text-align: center;
+    padding:10px 0
+}
+
+    .logo-page img {
+        height: 40px;
+    }
+
+
+
+.sidebar-collapse {
+    width: 100%;
+    float: left} 
+
+
+.search {
+    position: relative;
+    padding: 0 5px;
+    margin-top: 11px
+}
 .search .form-control { width: 200px;  padding: 3px 10px;  font-size:13px;  height:28px; border:1px solid #DDD; 
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;
@@ -79,9 +113,10 @@ box-shadow:none!important;  }
     border-radius: 0 30px 30px 0;
 }
 .search i {font-size:15px!important; color:#666}
-.search .btn-search:active {background:#CCC}
-
-.top-menu .email {min-width:280px}
+.search .btn-search:active {background:#CCC} 
+.top-menu .email {
+    min-width: 280px
+}
 .top-menu .avata-email {width:20%; float:left; padding:0;}
 .top-menu .avata-email img {width:100%; padding:10px;
 -moz-border-radius: 50px;
@@ -112,7 +147,7 @@ border-radius: 50px;
 
 /*===============MAIN=================*/
 .main {width:100%; float:left; }
-.sub-header {background:#FFF; width:100%; float:left ; padding:10px; margin:10px 0 0 0; color:#BBB; }
+.sub-header {background:#FFF; width:100%; float:left ; padding:10px; margin:10px 0 ; color:#666; }
 .sub-header a {color:#666; font-size:12px }
 .sub-header a:after {content:"\f105 ";font-family: 'FontAwesome'; padding:0 5px}
 .sub-header a:hover {color:#09F}
@@ -239,3 +274,5 @@ transform: rotate(180deg) ;
   
 .inbox ul li input[type="checkbox"] {width:16px; height:16px; float:left; margin-right:10px;  margin-top:7px }
  
+
+/*for staff*/

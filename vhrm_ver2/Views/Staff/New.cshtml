@@ -5,22 +5,13 @@
     {
         @Html.AntiForgeryToken();*@
 @*@Html.AntiForgeryToken()*@
-<style>
-    fieldset.scheduler-border {
-        border: 1px groove #ddd !important;
-        padding: 0 1.4em 1.4em 1.4em !important;
-        margin: 0 0 1.5em 0 !important;
-        -webkit-box-shadow: 0px 0px 0px 0px #000;
-        box-shadow: 0px 0px 0px 0px #000;
-    }
-</style>
 <div class="box-body" id="boxbodyNew">
     <div class="form-group" style="margin-left: 10px" action="SaveEmployee" method='POST'>
         <fieldset class="scheduler-border">
             <legend style="width: inherit; padding:0 10px; border-bottom: none">Basic Info</legend>
             <div class="row">
                 <div class="col-md-3">
-                    <div class="img_section" id="emp_image" style="margin-left:20px;">
+                    <div class="img_section" id="emp_image" >
                         <div class="img_emp" style="text-align: center;">
                             <div class="img_emp_content">
                                 @Html.HiddenFor(model => model.IMAGE)
@@ -42,80 +33,80 @@
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <div class="box-body">
+                    <div class="box-body em-info-block">
                         <div class="form-group">
                             <div class="row">
-                                @Html.LabelFor(model => model.EMPID, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                @Html.LabelFor(model => model.EMPID, new { @class = "col-md-5 title-em-info" })
                                 <div class="col-md-7">
-                                    @Html.TextBoxFor(model => model.EMPID, "", new { style = "width:100 %; height: 30px; font - size: smaller", @class = "form-control form-control-sm", @disabled = "disabled" })
+                                    @Html.TextBoxFor(model => model.EMPID, "", new { @class = "form-em-info", @disabled = "disabled" })
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="margin-top: -5px;">
+                        <div class="form-group" >
                             <div class="row">
-                                @Html.LabelFor(model => model.EMPNAME, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                @Html.LabelFor(model => model.EMPNAME, new { @class = "col-md-5 title-em-info" })
                                 <div class="col-md-7">
-                                    @Html.TextBoxFor(model => model.EMPNAME, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                                    @Html.TextBoxFor(model => model.EMPNAME, new {@class = "form-em-info" })
                                     @Html.ValidationMessageFor(model => model.EMPNAME, "", new { data = "EMPNAME", @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="margin-top: -5px;">
+                        <div class="form-group">
                             <div class="row">
-                                @Html.LabelFor(model => model.GENDER, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                @Html.LabelFor(model => model.GENDER, new { @class = "col-md-5 title-em-info" })
                                 <div class="col-sm-7">
-                                    @Html.DropDownListFor(model => model.GENDER, ViewBag.Gender as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                                    @Html.DropDownListFor(model => model.GENDER, ViewBag.Gender as SelectList, new {   @class = "form-em-info" })
                                     @Html.ValidationMessageFor(model => model.GENDER)
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="margin-top: -5px;">
+                        <div class="form-group">
                             <div class="row">
-                                @Html.LabelFor(model => model.BIRTHDATE, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                @Html.LabelFor(model => model.BIRTHDATE, new { @class = "col-md-5 title-em-info" })
                                 <div class="col-sm-7">
                                     <div class="input-group" style="width:100%;">
-                                        @(Html.Kendo().DatePickerFor(model => model.BIRTHDATE).HtmlAttributes(new { @class = "form-control" }))
+                                        @(Html.Kendo().DatePickerFor(model => model.BIRTHDATE).HtmlAttributes(new { @class = "form-em-date " }))
                                         @*@Html.EditorFor(model => model.BIRTHDATE, "dd-MM-yyyy", new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm", @type = "date" })*@
                                         @*@Html.ValidationMessageFor(model => model.BIRTHDATE)*@
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="margin-top: -5px;">
+                        <div class="form-group" >
                             <div class="row">
-                                @Html.LabelFor(model => model.NATIONALITY, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                @Html.LabelFor(model => model.NATIONALITY, new { @class = "col-md-5 title-em-info" })
                                 <div class="col-sm-7">
-                                    @Html.DropDownListFor(model => model.NATIONALITY, ViewBag.Countries as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                                    @Html.DropDownListFor(model => model.NATIONALITY, ViewBag.Countries as SelectList, new {  @class = "form-em-info" })
                                     @Html.ValidationMessageFor(model => model.NATIONALITY)
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="margin-top: -5px;">
+                        <div class="form-group" >
                             <div class="row">
-                                @Html.LabelFor(model => model.IDENTITYCARD, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                @Html.LabelFor(model => model.IDENTITYCARD, new { @class = "col-md-5 title-em-info" })
                                 <div class="col-sm-7">
-                                    @Html.TextBoxFor(model => model.IDENTITYCARD, "", new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                                    @Html.TextBoxFor(model => model.IDENTITYCARD, "", new { @class = "form-em-info" })
                                     @Html.ValidationMessageFor(model => model.IDENTITYCARD, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="margin-top: -5px;">
+                        <div class="form-group" >
                             <div class="row">
-                                @Html.LabelFor(model => model.DATEJOIN, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                @Html.LabelFor(model => model.DATEJOIN, new { @class = "col-md-5 title-em-info" })
                                 <div class="col-sm-7">
-                                    <div class="input-group" style="width:100%;">
-                                        @(Html.Kendo().DatePickerFor(model => model.DATEJOIN).HtmlAttributes(new { @class = "form-control" }))
+                                    <div class="input-group " style="width:100%;">
+                                        @(Html.Kendo().DatePickerFor(model => model.DATEJOIN).HtmlAttributes(new { @class = "form-em-date " }))
                                         @*@Html.EditorFor(model => model.DATEJOIN, "dd-MM-yyyy", new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm", @type = "date" })*@
                                         @Html.ValidationMessageFor(model => model.DATEJOIN, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="margin-top: -5px;">
+                        <div class="form-group" >
                             <div class="row">
-                                @Html.LabelFor(model => model.ACADEMIC, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                                @Html.LabelFor(model => model.ACADEMIC, new { @class = "col-md-5 title-em-info" })
                                 <div class="col-sm-7">
-                                    @Html.DropDownListFor(model => model.ACADEMIC, ViewBag.Academics as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                                    @Html.DropDownListFor(model => model.ACADEMIC, ViewBag.Academics as SelectList, new {  @class = "form-em-info" })
                                     @Html.ValidationMessageFor(model => model.ACADEMIC)
                                 </div>
                             </div>
@@ -431,9 +422,4 @@
         InitData();
     });
 </script>
-<style>
-    .k-header {
-        width: 100%;
-    }
-</style>
 

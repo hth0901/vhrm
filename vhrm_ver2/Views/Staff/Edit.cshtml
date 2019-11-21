@@ -5,15 +5,6 @@
 @*@using (Html.BeginForm("SaveEmployee", "Staff", FormMethod.Post, new { id="frmEmployee", @class = "form-horizontal", style = "margin-right:10px;" }))
     {*@
 @*@Html.AntiForgeryToken()*@
-<style>
-    fieldset.scheduler-border {
-        border: 1px groove #ddd !important;
-        padding: 0 1.4em 1.4em 1.4em !important;
-        margin: 0 0 1.5em 0 !important;
-        -webkit-box-shadow: 0px 0px 0px 0px #000;
-        box-shadow: 0px 0px 0px 0px #000;
-    }
-</style>
 <div class="box-body" id="boxbodyEdit">
     <div class="form-group" style="margin-left: 10px">
         @*</div> action="SaveEmployee" method='POST'>*@
@@ -70,7 +61,7 @@
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <div class="box-body">
+                    <div class="box-body vhrm_employee_basic">
                         <div class="form-group">
                             <div class="row">
                                 @*--------*@
@@ -94,7 +85,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="margin-top: -5px;">
+                        <div class="form-group">
                             <div class="row">
                                 @Html.LabelFor(model => model.EMPNAME, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
                                 <div class="col-md-7">
@@ -103,7 +94,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="margin-top: -5px;">
+                        <div class="form-group">
                             <div class="row">
                                 @Html.LabelFor(model => model.GENDER, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
                                 <div class="col-sm-7">
@@ -480,23 +471,3 @@
         //InitData();
     });
 </script>
-<style>
-
-    input[id="BIRTHDATE"] {
-        width: 100%;
-        height: 30px;
-    }
-
-    input[id="DATEJOIN"] {
-        width: 100%;
-        height: 30px;
-    }
-
-    .k-header {
-        width: 100%;
-    }
-
-    .k-popup {
-        width: 320px;
-    }
-</style>

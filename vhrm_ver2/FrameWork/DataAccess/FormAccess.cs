@@ -39,9 +39,9 @@ namespace vhrm.FrameWork.DataAccess
             sqlParam[1] = new OracleParameter("FormName", formEntity.FormName);
             sqlParam[2] = new OracleParameter("DictionaryID", formEntity.DictionaryID);
             //sqlParam[3] = new OracleParameter("CREATE_DT", formEntity.CREATE_DT);
-            sqlParam[3] = new OracleParameter("CREATE_UID", formEntity.CREATE_UID);
-            sqlParam[4] = new OracleParameter("FilePath", formEntity.FilePath);
-            sqlParam[5] = new OracleParameter("ModuleID", formEntity.ModuleID);
+            sqlParam[3] = new OracleParameter("FilePath", formEntity.FilePath);
+            sqlParam[4] = new OracleParameter("ModuleID", formEntity.ModuleID);
+            sqlParam[5] = new OracleParameter("CREATE_UID", formEntity.CREATE_UID);
             return DBHelper.ExecuteNonQuery_SP("PKOPM_FORMANDMENU.sp_OPM_Form_Insert", sqlParam);
         }
 

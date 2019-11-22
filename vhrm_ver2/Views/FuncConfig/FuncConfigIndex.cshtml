@@ -1,0 +1,389 @@
+﻿
+@{
+    ViewBag.Title = "FuncConfigIndex";
+    Layout = "~/Views/Shared/vhrmLayoutBlock.cshtml";
+}
+
+<style>
+    .k-edit-form-container {
+        width: 600px;
+    }
+    /* Notifications */
+    .k-notification h3 {
+        padding: 30px 10px 5px;
+        font-size: 1em;
+        line-height: normal;
+    }
+
+    .k-notification img {
+        margin: 20px;
+        float: left;
+    }
+
+
+    /* Info template */
+    .new-mail {
+        width: 300px;
+        height: 100px;
+    }
+
+    /* Error template */
+    .wrong-pass {
+        width: 300px;
+        height: 100px;
+    }
+
+    /* Success template */
+    .upload-success {
+        width: 300px;
+        height: 100px;
+    }
+
+
+    /* For Bootstrap v4 theme */
+    .k-bootstrap-v4 .k-notification h3 {
+        padding: 10px 10px 5px;
+    }
+
+    .k-bootstrap-v4 .k-notification img {
+        margin: 10px 20px 0 0;
+    }
+
+    .k-bootstrap-v4 .new-mail,
+    .k-bootstrap-v4 .wrong-pass,
+    .k-bootstrap-v4 .upload-success {
+        width: calc( 300px - 2.5rem );
+        height: calc( 100px - 1.5rem );
+    }
+
+
+    /* For Material v2 theme */
+    .k-material-v2 .k-notification h3 {
+        padding: 10px 10px 5px;
+    }
+
+    .k-material-v2 .k-notification img {
+        margin: 10px 20px 0 0;
+    }
+
+    .k-material-v2 .new-mail,
+    .k-material-v2 .wrong-pass,
+    .k-material-v2 .upload-success {
+        width: 270px;
+        height: 70px;
+    }
+</style>
+
+@(Html.Kendo().Notification()
+            .Name("notification")
+            .Position(p => p.Pinned(true).Top(30).Right(30))
+            .Stacking(NotificationStackingSettings.Down)
+            .AutoHideAfter(1500)
+            .Templates(t =>
+            {
+    //t.Add().Type("info").ClientTemplateID("emailTemplate");
+    t.Add().Type("error").ClientTemplateID("errorTemplate");
+                t.Add().Type("success").ClientTemplateID("successTemplate");
+            })
+)
+
+<script id="successTemplate" type="text/x-kendo-template">
+    <div class="upload-success">
+        <h3 style="margin-left: 15px">#= title #</h3>
+        <p style="margin-left: 25px">#= message #</p>
+    </div>
+</script>
+
+<script id="errorTemplate" type="text/x-kendo-template">
+    <div class="wrong-pass">
+        <h3 style="margin-left: 15px">#= title #</h3>
+        <p style="margin-left: 25px">#= message #</p>
+    </div>
+</script>
+
+<div class="hrm-block-tree">
+    @(Html.Kendo().Dialog()
+        .Name("testDialog")
+        .Visible(false)
+        .Title("Add New Child")
+        .Content("<div class='row' style='margin-top: 5px;'><div class='col-sm'><div class='form-group' style='width: 300px;'><div class='input-group mb-3'><input type='text' class='form-control' readonly id='dept_name' name='FormID' placeholder='Department'><input type='hidden' class='form-control' id='dept_code' /><div class='input-group-append'></div></div></div></div></div>")
+        .Content(@"
+            <div id='form_editor' style='height: 180px'>
+                <div class='container'>
+                    <div class='row'>
+                        <div class='col-sm'>
+                            <div class='form-group'>
+                                <label for='full_name'>Full Name</label>
+                                <input type='text' class='form-control' id='full_name'>
+                            </div>
+                        </div>
+                        <div class='col-sm'>
+                            <div class='form-group'>
+                                <label for='short_name'>Short Name</label>
+                                <input type='text' class='form-control' id='short_name'>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class='row'>
+                        <div class='col-sm'>
+                            <div class='form-group'>
+                                <label for='parent_name'>Parent Node</label>
+                                <input type='text' class='form-control' id='parent_name' disabled>
+                                <input type='hidden' class='form-control' id='parent_code' disabled>
+                            </div>
+                        </div>
+                        <div class='col-sm'>
+                            <div class='form-group' style='margin-top: 37px;'>
+                                <div class='form-check'>
+                                    <input class='form-check-input' type='checkbox' value='' id='is_active'>
+                                    <input type='hidden' class='form-control' id='is_active_value' disabled>
+                                    <label class='form-check-label' for='is_active'>
+                                        Active
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        ")
+        .Width(800)
+        .Modal(true)
+        .Closable(true)
+        .Actions(actions =>
+        {
+            actions.Add().Text("Cancel");
+            actions.Add().Text("OК").Primary(true).Action("actionOK");
+        })
+    )
+
+    <div id="trvDept" class="k-content hrm-tree-left">
+        @(Html.Kendo().TreeView()
+                    .Name("treeViewDept")
+                    .DataTextField("Name")
+                    .DataSource(dataSource => dataSource
+                        .Read(read => read
+                            .Action("getDeptTreeVer2", "OrgConfig")
+                        )
+                    )
+                    .Events(evs =>
+                    {
+                //evs.Change("trvMenuChange");
+                evs.Select("trvMenuSelect");
+                //evs.DataBound("trvDeptBound");
+            })
+                    .HighlightPath(true)
+        )
+    </div>
+
+    <div class="hrm-block-right" style="height:100vh">
+        @using (Ajax.BeginForm("updateDept", "OrgConfig", new AjaxOptions()
+        {
+            HttpMethod = "PUT",
+            OnSuccess = "onUpdateSuccess",
+            OnFailure = "onUpdateFailure"
+        }, new
+        {
+            id = "dept_config"
+        }))
+        {
+            <input type="hidden" class="form-control" id="dept_code" />
+
+            <div class='container'>
+                <div class='row'>
+                    <div class="col-sm-6">
+                        <div class='form-group'>
+                            <label for='full_name'>Full Name</label>
+                            <input type='text' class='form-control' name="DEPTNAME" id="dept_name_update">
+                            <input type="hidden" name="DEPTCODE" id="dept_id_update" />
+                        </div>
+                    </div>
+                    <div class='col-sm-6'>
+                        <div class='form-group'>
+                            <label for='short_name'>Short Name</label>
+                            <input type='text' class='form-control' name="DEPTSHORTNAME" id="dept_shortname_update">
+                        </div>
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='col-sm-6'>
+                        <div class='form-group'>
+                            <label for='parent_name'>Parent Node</label>
+                            <input type='text' class='form-control' disabled id="dept_parentname_update" />
+                        </div>
+                    </div>
+                    <div class='col-sm-6'>
+                        <div class='form-group' style='margin-top: 37px;'>
+                            <div class='form-check'>
+                                <input class='form-check-input' type='checkbox' value='' id="is_active_update">
+                                <input type="hidden" name="ISACTIVE" id="is_active_update_val" />
+                                <label class='form-check-label' for='is_active_update'>
+                                    Active
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <input type="submit" id="btnSave" class="btn btn-primary" value="Save" disabled />
+
+                        <input type="button" class="btn btn-primary" id="btnAddNew" value="Add New Child" />
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+<script>
+    let notification = null;
+    $(document).ready(function () {
+        console.log("ready!");
+
+        notification = $("#notification").data("kendoNotification");
+
+        document.getElementById('is_active').addEventListener('click', function (evt) {
+            let isActive = evt.target.checked;
+            if (isActive)
+                document.getElementById('is_active_value').value = '1';
+            else
+                document.getElementById('is_active_value').value = '0';
+        });
+    });
+    document.querySelector('#treeViewDept').addEventListener('click', function (evt) {
+        //console.log(evt.target);
+        //console.log(evt.target.className);
+        let targetClass = evt.target.className;
+        if (targetClass.includes('k-in') || targetClass.includes('k-icon')) {
+            document.getElementById('btnSave').disabled = false;
+            return;
+        }
+        resetDept();
+        let treeview = $("#treeViewDept").data("kendoTreeView");
+        treeview.select($());
+        document.getElementById("dept_code").value = '';
+        document.getElementById('btnSave').disabled = true;
+    });
+
+    document.querySelector('#btnAddNew').addEventListener('click', function (evt) {
+        resetInput();
+        $("#testDialog").data("kendoDialog").open();
+    });
+
+    document.getElementById('is_active_update').addEventListener('click', function (evt) {
+        //console.log(evt.target.checked)
+        let isActive = evt.target.checked;
+        if (isActive)
+            document.getElementById('is_active_update_val').value = '1';
+        else
+            document.getElementById('is_active_update_val').value = '0';
+    });
+
+    function trvMenuSelect(e) {
+        let treeview = $("#treeViewDept").data("kendoTreeView");
+        let data = treeview.dataItem(e.node);
+        $.get('/OrgConfig/getDeptDetail', { deptcode: data.id }, fillInfo);
+    }
+
+    function actionOK(e) {
+
+        let deptname = document.getElementById('full_name').value;
+        let deptShortName = document.getElementById('short_name').value;
+        let parentCode = document.getElementById('parent_code').value;
+        let isActive = document.getElementById('is_active_value').value;
+
+        let entity = {
+            DEPTNAME: deptname,
+            DEPTPARENT: parentCode,
+            DEPTSHORTNAME: deptShortName,
+            ISACTIVE: isActive
+        }
+
+        $.post("/OrgConfig/insertNewDept", entity, function (result) {
+            console.log(result);
+            let status = result.param1;
+            let strResult = result.param2;
+            let strMess = result.param3;
+            if (status === 400 || strResult === 'error') {
+                notification.show({
+                    title: "Error",
+                    message: strMess
+                }, "error");
+
+                return;
+            }
+
+            notification.show({
+                title: "Success",
+                message: strMess
+            }, "success");
+            let treeview = $("#treeViewDept").data("kendoTreeView");
+            treeview.dataSource.read();
+        });
+    }
+
+    function resetInput() {
+        document.getElementById('full_name').value = '';
+        document.getElementById('short_name').value = '';
+        document.getElementById('parent_name').value = document.getElementById('dept_shortname_update').value;
+        document.getElementById('parent_code').value = document.getElementById('dept_id_update').value;
+        document.getElementById('is_active').checked = true;
+        document.getElementById('is_active_value').value = 1;
+    }
+
+    function resetDept() {
+        document.getElementById('dept_name_update').value = '';
+        document.getElementById('dept_id_update').value = '';
+        document.getElementById('dept_shortname_update').value = '';
+        document.getElementById('dept_parentname_update').value = '';
+        document.getElementById('is_active_update_val').value = '';
+        document.getElementById('is_active_update').checked = true;
+    }
+
+    function onUpdateSuccess(data) {
+        onEndRequest(data);
+    }
+
+    function onUpdateFailure(data) {
+        console.log(data);
+        onEndRequest(data);
+    }
+
+    function onEndRequest(result) {
+        let status = result.param1;
+        let strResult = result.param2;
+        let strMess = result.param3;
+        if (status === 400 || strResult === 'error') {
+            notification.show({
+                title: "Error",
+                message: strMess
+            }, "error");
+
+            return;
+        }
+
+        notification.show({
+            title: "Success",
+            message: strMess
+        }, "success");
+        let treeview = $("#treeViewDept").data("kendoTreeView");
+        treeview.dataSource.read();
+    }
+
+    function fillInfo(deptEntity) {
+        document.getElementById('dept_name_update').value = deptEntity.deptName;
+        document.getElementById('dept_id_update').value = deptEntity.deptcode;
+        document.getElementById('dept_shortname_update').value = deptEntity.deptShortName;
+        document.getElementById('dept_parentname_update').value = deptEntity.parent_name;
+        document.getElementById('is_active_update_val').value = deptEntity.isActive;
+        if (deptEntity.isActive === '1')
+            document.getElementById('is_active_update').checked = true;
+        else
+            document.getElementById('is_active_update').checked = false;
+    }
+</script>

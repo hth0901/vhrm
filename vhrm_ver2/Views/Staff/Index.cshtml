@@ -192,6 +192,9 @@
         .Events(ev => ev.Open("openDialogForm"))
 )
 <script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+       console.log(window.name); 
+    });
     var treeGeoDirectReport;
     var treeFunctionDirectReport;
     var treeemployeeOfOrg;

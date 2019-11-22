@@ -15,7 +15,7 @@ namespace vhrm.FrameWork.Entity
         [Display(Name = "Name")]
         public string EMPNAME { get; set; }
         public string COMPCODE { get; set; }        
-        [Display(Name = "Linked Organization")]
+        [Display(Name = "Corporation")]
         public string DISPLAYDEPTCODE { get; set; }
         [Required(ErrorMessage = "Please enter department.")]
         public string DEPTCODE { get; set; }

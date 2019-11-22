@@ -83,6 +83,14 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
+                                <label class="col-md-5 col-form-label-sm" style="text-align: right;">Major Register</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control form-control-sm" style="width:100%; height: 30px; font-size: smaller" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
                                 @Html.LabelFor(model => model.GENDER, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
                                 <div class="col-sm-7">
                                     @Html.DropDownListFor(model => model.GENDER, ViewBag.Gender as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
@@ -97,15 +105,6 @@
                                     <div class="input-group" style="width:100%;">
                                         @(Html.Kendo().DatePickerFor(model => model.BIRTHDATE).HtmlAttributes(new { @class = "form-control" }))
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" style="margin-top: -5px;">
-                            <div class="row">
-                                @Html.LabelFor(model => model.NATIONALITY, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
-                                <div class="col-sm-7">
-                                    @Html.DropDownListFor(model => model.NATIONALITY, ViewBag.Countries as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
-                                    @Html.ValidationMessageFor(model => model.NATIONALITY)
                                 </div>
                             </div>
                         </div>
@@ -143,11 +142,28 @@
                 </div>
             </div>
         </fieldset>
-        
+
     </div>
     <div style="margin-left:10px;">
         <fieldset class="scheduler-border">
             <legend style="width: inherit; padding:0 10px; border-bottom: none">VHRM Info</legend>
+            <div class="form-group" style="margin-top: -5px; display:none">
+                <div class="row">
+                    <label class="col-md-5 col-form-label-sm" style="text-align: right;">Major Selection</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control form-control-sm" style="width:100%; height: 30px; font-size: smaller" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: -5px; display:none">
+                <div class="row">
+                    @Html.LabelFor(model => model.NATIONALITY, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
+                    <div class="col-sm-7">
+                        @Html.DropDownListFor(model => model.NATIONALITY, ViewBag.Countries as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                        @Html.ValidationMessageFor(model => model.NATIONALITY)
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <div class="row">
                     @Html.LabelFor(model => model.DISPLAYDEPTCODE, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
@@ -163,22 +179,22 @@
                         <div id="showOrganization">
                             <div class="demo-section k-content" id="employeeOfOrg">
                                 @(Html.Kendo().DropDownTree()
-                                    .Name("treeemployeeOfOrg")
-                                    .DataTextField("DEPTNAME")
-                                    .HtmlAttributes(new { style = "width: 100%" })
-                                    .DataValueField("DEPTCODE")
-                                    .DataSource(dataSource => dataSource
-                                    .Model(m => m
-                                                .Id("DEPTCODE")
-                                                )//.Children("DeptViewModels")
-                                        .Read(read => read
-                                            .Action("getGeOrganizations", "GeoOrganization")
-                                        )
-                                    ).Filter("contains")
-                                    .Events(events => events
-                                            .Change("onChangedtreeemployeeOfOrg")
-                                            .Select("onSelectdtreeemployeeOfOrg")
-                                    ).Value("000000")
+                                                                    .Name("treeemployeeOfOrg")
+                                                                    .DataTextField("DEPTNAME")
+                                                                    .HtmlAttributes(new { style = "width: 100%" })
+                                                                    .DataValueField("DEPTCODE")
+                                                                    .DataSource(dataSource => dataSource
+                                                                    .Model(m => m
+                                                                                .Id("DEPTCODE")
+                                                                                )//.Children("DeptViewModels")
+                                                                        .Read(read => read
+                                                                            .Action("getGeOrganizations", "GeoOrganization")
+                                                                        )
+                                                                    ).Filter("contains")
+                                                                    .Events(events => events
+                                                                            .Change("onChangedtreeemployeeOfOrg")
+                                                                            .Select("onSelectdtreeemployeeOfOrg")
+                                                                    ).Value("000000")
                                 )
                             </div>
                         </div>
@@ -198,28 +214,28 @@
                             <div id="showGeoReport" style="width: 100%;">
                                 <div class="demo-section k-content">
                                     @(Html.Kendo().DropDownTree()
-                                        .Name("treeGeoReport")
-                                        .HtmlAttributes(new { style = "width: 100%" })
-                                        .BindTo((IEnumerable<GeoDeptViewModel>)ViewBag.geoInline, (NavigationBindingFactory<DropDownTreeItem> mappings) =>
-                                        {
-                                            mappings.For<GeoDeptViewModel>(binding => binding.ItemDataBound((item, geoReport) =>
-                                            {
-                                                item.Text = geoReport.DEPTNAME;
-                                                item.Id = geoReport.DEPTCODE;
-                                            })
-                                                .Children(category => category.GeoDeptViewModels));
+                                                                        .Name("treeGeoReport")
+                                                                        .HtmlAttributes(new { style = "width: 100%" })
+                                                                        .BindTo((IEnumerable<GeoDeptViewModel>)ViewBag.geoInline, (NavigationBindingFactory<DropDownTreeItem> mappings) =>
+                                                                        {
+                                                                            mappings.For<GeoDeptViewModel>(binding => binding.ItemDataBound((item, geoReport) =>
+                                                                            {
+                                                                                item.Text = geoReport.DEPTNAME;
+                                                                                item.Id = geoReport.DEPTCODE;
+                                                                            })
+                                                                                .Children(category => category.GeoDeptViewModels));
 
-                                            mappings.For<GeoDeptViewModel>(binding => binding.ItemDataBound((item, child) =>
-                                            {
-                                                item.Text = child.DEPTNAME;
-                                                item.Id = child.DEPTCODE;
-                                            }));
-                                        }).Filter("contains")
-                                        .Events(evs =>
-                                        {
-                                            evs.Select("onSelectdtreeGeoReport");
-                                            evs.DataBound("onBoundtreeGeoReport");
-                                        })
+                                                                            mappings.For<GeoDeptViewModel>(binding => binding.ItemDataBound((item, child) =>
+                                                                            {
+                                                                                item.Text = child.DEPTNAME;
+                                                                                item.Id = child.DEPTCODE;
+                                                                            }));
+                                                                        }).Filter("contains")
+                                                                        .Events(evs =>
+                                                                        {
+                                                                            evs.Select("onSelectdtreeGeoReport");
+                                                                            evs.DataBound("onBoundtreeGeoReport");
+                                                                        })
                                     )
                                 </div>
                             </div>
@@ -259,28 +275,28 @@
                             <div id="showFunctionReport" style="width: 100%;">
                                 <div class="demo-section k-content">
                                     @(Html.Kendo().DropDownTree()
-                                        .Name("treeFunctionReport")
-                                        .HtmlAttributes(new { style = "width: 100%" })
-                                        .BindTo((IEnumerable<FunctionReportViewModel>)ViewBag.functInline, (NavigationBindingFactory<DropDownTreeItem> mappings) =>
-                                                {
-                                                    mappings.For<FunctionReportViewModel>(binding => binding.ItemDataBound((item, functReport) =>
-                                                    {
-                                                        item.Text = functReport.FUNCNAME;
-                                                        item.Id = functReport.FUNCCODE;
-                                                    })
-                                                        .Children(category => category.FunctionReportViewModels));
+                                                                        .Name("treeFunctionReport")
+                                                                        .HtmlAttributes(new { style = "width: 100%" })
+                                                                        .BindTo((IEnumerable<FunctionReportViewModel>)ViewBag.functInline, (NavigationBindingFactory<DropDownTreeItem> mappings) =>
+                                                                                {
+                                                                                    mappings.For<FunctionReportViewModel>(binding => binding.ItemDataBound((item, functReport) =>
+                                                                                    {
+                                                                                        item.Text = functReport.FUNCNAME;
+                                                                                        item.Id = functReport.FUNCCODE;
+                                                                                    })
+                                                                                        .Children(category => category.FunctionReportViewModels));
 
-                                                    mappings.For<FunctionReportViewModel>(binding => binding.ItemDataBound((item, child) =>
-                                                    {
-                                                        item.Text = child.FUNCNAME;
-                                                        item.Id = child.FUNCCODE;
-                                                    }));
-                                                }).Filter("contains")
-                                        .Events(evs =>
-                                        {
-                                            evs.Select("onSelectdtreeFunctReport");
-                                        }).Filter("contains")
-                                        .Value("000000")
+                                                                                    mappings.For<FunctionReportViewModel>(binding => binding.ItemDataBound((item, child) =>
+                                                                                    {
+                                                                                        item.Text = child.FUNCNAME;
+                                                                                        item.Id = child.FUNCCODE;
+                                                                                    }));
+                                                                                }).Filter("contains")
+                                                                        .Events(evs =>
+                                                                        {
+                                                                            evs.Select("onSelectdtreeFunctReport");
+                                                                        }).Filter("contains")
+                                                                        .Value("000000")
                                     )
                                 </div>
                             </div>
@@ -306,28 +322,43 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group" style="margin-top: -5px; display:none">
-                <div class="row">
-                    @Html.LabelFor(model => model.POSITION, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
-                    <div class="col-md-7">
-                        @Html.DropDownListFor(model => model.POSITION, ViewBag.Positions as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
-                        @*@Html.EditorFor(model => model.POSITION, "", new { htmlAttributes = new { @class = "form-control" } })*@
-                        @Html.ValidationMessageFor(model => model.ACADEMIC)
+            <div class="form-group" style="margin-top: -5px; display:none">              
+            </div>           
+        </fieldset>
+
+    </div>
+    <div style="margin-left:10px;">
+        <fieldset class="scheduler-border">
+            <legend style="width: inherit; padding:0 10px; border-bottom: none">Skill Info</legend>
+            <div class="em-info-block">
+                <div class="form-group">
+                    <div class="row">
+                        @Html.LabelFor(model => model.POSITION, new { @class = "col-md-5 title-em-info"})
+                        <div class="col-md-7">
+                            @Html.DropDownListFor(model => model.POSITION, ViewBag.Positions as SelectList, new { disabled = "disabled"  style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                            @Html.ValidationMessageFor(model => model.POSITION)
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group" style="margin-top: -5px; display:none">
-                <div class="row">
-                    @Html.LabelFor(model => model.SKILL, new { @class = "col-md-5 col-form-label-sm", style = "text-align: right;" })
-                    <div class="col-md-7">
-                        @Html.DropDownListFor(model => model.SKILL, ViewBag.Skills as SelectList, new { style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
-                        @*@Html.EditorFor(model => model.SKILL, "", new { htmlAttributes = new { @class = "form-control" } })*@
-                        @Html.ValidationMessageFor(model => model.SKILL)
+                <div class="form-group">
+                    <div class="row">
+                        @Html.LabelFor(model => model.SKILL, new { @class = "col-md-5 title-em-info" })
+                        <div class="col-md-7">
+                            @Html.DropDownListFor(model => model.SKILL, ViewBag.Skills as SelectList, new { disabled = "disabled"  style = "width:100%; height: 30px; font-size: smaller", @class = "form-control form-control-sm" })
+                            @Html.ValidationMessageFor(model => model.SKILL)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-md-5 title-em-info">Skill Level</label>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control form-control-sm" disabled = "disabled"  style="width:100%; height: 30px; font-size: smaller" />
+                        </div>
                     </div>
                 </div>
             </div>
         </fieldset>
-        
     </div>
 </div>
 @*}*@

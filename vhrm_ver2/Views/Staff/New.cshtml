@@ -224,12 +224,12 @@
                             <div class="form-em-col">
                                 @Html.HiddenFor(model => model.GEODIRECTREPORT)
                                 <div class="row">
-                                    <div class="col-md-4" style="display: none">
+                                    <div class="col-md-4" style="">        @* HIEUHT EDITED *@
                                         <div class="autocomplete" style="width:100%;">
                                             <input id="GEODIRECTSYSIDREPORT_Code" name="GEODIRECTSYSIDREPORT_Code" type="text" value="" class="form-control" style="height: 30px; font-size: smaller;width: 95px; margin-right:5px;background:#007bff38" />
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-8">
                                         @Html.TextBoxFor(model => model.DISPLAYGEODIRECTREPORT, "", new { @class = "form-control form-control-sm", @disabled = "disabled" })
                                     </div>
                                 </div>
@@ -287,12 +287,12 @@
                             <div class="form-em-col">
                                 @Html.HiddenFor(model => model.FUNCDIRECTREPORT)
                                 <div class="row">
-                                    <div class="col-md-4" style="display: none">
+                                    <div class="col-md-4" style="">        @* HIEUHT EDIT *@
                                         <div class="autocomplete" style="width:100%;">
                                             <input id="FUNCDIRECTSYSIDREPORT_Code" name="FUNCDIRECTSYSIDREPORT_Code" type="text" value="" class="form-control " style="height: 30px; font-size: smaller;width: 95px; margin-right:5px; background:#007bff38">
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-8">
                                         @Html.TextBoxFor(model => model.DISPLAYFUNCDIRECTREPORT, "", new { @class = "form-control form-control-sm", @disabled = "disabled" })
                                     </div>
 

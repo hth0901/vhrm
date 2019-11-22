@@ -102,20 +102,20 @@ t.Add().Type("error").ClientTemplateID("errorTemplate");
 <div class="hrm-block-tree">
     <div class="k-content hrm-tree-left">
         @(Html.Kendo().TreeView()
-                                    .Name("treeViewDept")
-                                    .DataTextField("Name")
-                                    .DataSource(dataSource => dataSource
-                                        .Read(read => read
-                                            .Action("getFunctTree", "FuncReportConfig")
-                                        )
-                                    )
-                                    .Events(evs =>
-                                    {
-                                //evs.Change("trvMenuChange");
-                                evs.Select("trvMenuSelect");
-                                        evs.DataBound("trvDeptBound");
-                                    })
-                                    .HighlightPath(true)
+            .Name("treeViewDept")
+            .DataTextField("Name")
+            .DataSource(dataSource => dataSource
+                .Read(read => read
+                    .Action("getFunctTree", "FuncReportConfig")
+                )
+            )
+            .Events(evs =>
+            {
+                //evs.Change("trvMenuChange");
+                evs.Select("trvMenuSelect");
+                evs.DataBound("trvDeptBound");
+            })
+            .HighlightPath(true)
         )
     </div>
 
@@ -138,71 +138,71 @@ t.Add().Type("error").ClientTemplateID("errorTemplate");
             <div class="row">
                 <div class="col-sm-12">
                     @(Html.Kendo().Grid<vhrm.FrameWork.Entity.eFunctReportItem>()
-                                                                        .Name("reportGrid")
-                                                                        .AutoBind(false)
-                                                                        .Columns(columns =>
-                                                                        {
-                                                                                //columns.Command(command => command.Custom("ViewDetails").Click("showDetails").Text("dkm")).Width(20);
-                                                                                //columns.Template(t => { }).ClientTemplate("#= renderNumber(data) #").Title("NO.").Width(20);
-                                                                                //columns.Bound(c => c.GEOREPORTCD).Width(120).Title("CODE");
-                                                                                //columns.Bound(c => c.DEPTCODE).Width(120).Title("DEPT");
-                                                                                //columns.Bound(c => c.SYS_EMPID).Width(100).Title("EMPID");
-                                                                                //columns.Bound(c => c.EMPNAME).Width(200);
-                                                                                //columns.Bound(c => c.SYS_EMPID).Width(100);
-                                                                                columns.Bound(c => c.EMPNAME).Width(250);
-                                                                            columns.Bound(c => c.APPLYDATE).Width(150).Title("VALID DATE").Format("{0:MM/dd/yyyy}");
-                                                                                //columns.Bound(c => c.ISACTIVE).Width(80).Title("ACTIVED").Filterable(false);
-                                                                                columns.Bound(c => c.ISACTIVE).Width(80).Title("ACTIVED").Filterable(false).ClientTemplate("#= ISACTIVE ? 'Yes' : 'No' #");
-                                                                            columns.Command(command =>
-                                                                            {
-                                                                                command.Edit();
-                                                                            }).Width(50);
-                                                                        })
-                                                                        .ToolBar(toolbar =>
-                                                                        {
-                                                                            toolbar.Create();
-                                                                        })
-                                                                        .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
-                                                                        .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("FunctReportItemEditor"))
-                                                                        .HtmlAttributes(new { style = " height: 600px;" })
-                                                                        .Scrollable()
-                                                                        .Pageable(pageable => pageable
-                                                                            .Refresh(true)
-                                                                            .PageSizes(false)
-                                                                            .ButtonCount(5))
-                                                                        .Selectable(slt => slt
-                                                                            .Mode(GridSelectionMode.Single))
-                                                                        .Events(evs =>
-                                                                        {
-                                                                                //.Change("onSelectGridItem")
-                                                                                //.DataBound("onDataGridBound")
-                                                                                //.DataBinding("onDataBinding")
-                                                                                //.Page("onPaging")
-                                                                                //.Edit("onEditForm")
-                                                                                //.Save("onSave")
-                                                                            })
-                                                                        .DataSource(dataSource => dataSource
-                                                                            .Ajax()
-                                                                            .Read(read => read.Action("getFunctReportByDept", "FuncReportConfig").Data("addDitionalQuery"))
-                                                                            .ServerOperation(false)
-                                                                            .PageSize(20)
-                                                                            .Model(model => model.Id(p => p.FUNCREPORTCD))
-                                                                            //.Update("updateGeoReporter", "GeoReportConfig")
-                                                                            .Update(update =>
-                                                                            {
-                                                                                update.Action("updateFunctReporter", "FuncReportConfig");
-                                                                                update.Data("addDitionalQuery");
-                                                                            })
-                                                                            .Create(create =>
-                                                                            {
-                                                                                create.Action("createFunctReporter", "FuncReportConfig");
-                                                                                create.Data("addDitionalQuery");
-                                                                            })
-                                                                            .Events(e =>
-                                                                            {
-                                                                                e.RequestEnd("endFunctReportRequest");
-                                                                            })
-                                                                        )
+                        .Name("reportGrid")
+                        .AutoBind(false)
+                        .Columns(columns =>
+                        {
+                                //columns.Command(command => command.Custom("ViewDetails").Click("showDetails").Text("dkm")).Width(20);
+                                //columns.Template(t => { }).ClientTemplate("#= renderNumber(data) #").Title("NO.").Width(20);
+                                //columns.Bound(c => c.GEOREPORTCD).Width(120).Title("CODE");
+                                //columns.Bound(c => c.DEPTCODE).Width(120).Title("DEPT");
+                                //columns.Bound(c => c.SYS_EMPID).Width(100).Title("EMPID");
+                                //columns.Bound(c => c.EMPNAME).Width(200);
+                                //columns.Bound(c => c.SYS_EMPID).Width(100);
+                                columns.Bound(c => c.EMPNAME).Width(250);
+                            columns.Bound(c => c.APPLYDATE).Width(150).Title("VALID DATE").Format("{0:MM/dd/yyyy}");
+                                //columns.Bound(c => c.ISACTIVE).Width(80).Title("ACTIVED").Filterable(false);
+                                columns.Bound(c => c.ISACTIVE).Width(80).Title("ACTIVED").Filterable(false).ClientTemplate("#= ISACTIVE ? 'Yes' : 'No' #");
+                            columns.Command(command =>
+                            {
+                                command.Edit();
+                            }).Width(50);
+                        })
+                        .ToolBar(toolbar =>
+                        {
+                            toolbar.Create();
+                        })
+                        .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                        .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("FunctReportItemEditor"))
+                        .HtmlAttributes(new { style = " height: 600px;" })
+                        .Scrollable()
+                        .Pageable(pageable => pageable
+                            .Refresh(true)
+                            .PageSizes(false)
+                            .ButtonCount(5))
+                        .Selectable(slt => slt
+                            .Mode(GridSelectionMode.Single))
+                        .Events(evs =>
+                        {
+                                //.Change("onSelectGridItem")
+                                //.DataBound("onDataGridBound")
+                                //.DataBinding("onDataBinding")
+                                //.Page("onPaging")
+                                //.Edit("onEditForm")
+                                //.Save("onSave")
+                            })
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .Read(read => read.Action("getFunctReportByDept", "FuncReportConfig").Data("addDitionalQuery"))
+                            .ServerOperation(false)
+                            .PageSize(20)
+                            .Model(model => model.Id(p => p.FUNCREPORTCD))
+                            //.Update("updateGeoReporter", "GeoReportConfig")
+                            .Update(update =>
+                            {
+                                update.Action("updateFunctReporter", "FuncReportConfig");
+                                update.Data("addDitionalQuery");
+                            })
+                            .Create(create =>
+                            {
+                                create.Action("createFunctReporter", "FuncReportConfig");
+                                create.Data("addDitionalQuery");
+                            })
+                            .Events(e =>
+                            {
+                                e.RequestEnd("endFunctReportRequest");
+                            })
+                        )
                     )
                 </div>
             </div>

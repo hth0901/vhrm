@@ -41,7 +41,8 @@ namespace vhrm.Controllers
 
         public ActionResult OrgCategory()
         {
-            return View();
+            //return View("OrgCategory_hieuhtbk");
+            return View("OrgCategory");
         }
 
         [HttpGet]

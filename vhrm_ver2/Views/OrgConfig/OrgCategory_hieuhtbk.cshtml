@@ -5,6 +5,21 @@
 }
 
 <style>
+    .hrm-block-right input[type="submit"], .hrm-block-right input[type="button"] {
+        background: #124461de;
+        color: #fff;
+        border: none;
+        font-weight: bold;
+        font-size: 14px
+    }
+
+    .hrm-block-right button {
+        height: 30px;
+        line-height: 3px;
+    }
+</style>
+
+<style>
     .k-edit-form-container {
         width: 600px;
     }
@@ -138,7 +153,7 @@
         )
     </div>
     <div>
-        @(Html.Kendo().Dialog()
+        @*@(Html.Kendo().Dialog()
             .Name("dialogChart")
             .Visible(false)
             .Title("Department Tree")
@@ -154,19 +169,20 @@
                 act.Add().Text("Cancel");
                 act.Add().Text("OK").Primary(true).Action("actionOK");
             })
-        )
+        )*@
 
 
         @(Html.Kendo().Window()
             .Name("windowChart")
             .Title("Org Chart")
             .Content(
-                @"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
+            //@"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
+                ""
             )
             .Draggable()
             .Resizable()
-            .Width(800)
-            .Height(600)
+            .Width(900)
+            .Height(700)
             .Actions(actions => actions.Close())
             .Visible(false)
             .Modal(true)
@@ -185,6 +201,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-primary float-md-right">hihihaha</button>
             </div>
         </div>
 
@@ -305,7 +324,9 @@
         console.log('doubleclick');
         //$("#dialog").data("kendoDialog").open();
         //$("#dialogChart").data("kendoDialog").open();
-        $("#windowChart").data("kendoWindow").open()
-        $("#windowChart").data("kendoWindow").center();
+        let wd = $("#windowChart").data("kendoWindow");
+        wd.content("<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 95%; width: 100%'></iframe>");
+        wd.open()
+        wd.center();
     });
 </script>

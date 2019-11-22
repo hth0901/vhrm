@@ -48,7 +48,7 @@
             .Ajax()
             .Read(read => read.Action("formQuery", "Form"))
             .ServerOperation(false)
-            .PageSize(30)
+            .PageSize(10)
             .Model(model => model.Id(p => p.FORM_ID))
             .Update("updateForm", "Form")
             .Create("createForm", "Form")

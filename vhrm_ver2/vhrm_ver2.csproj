@@ -144,6 +144,7 @@
     <Compile Include="Controllers\DeptFunctionController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\FormController.cs" />
+    <Compile Include="Controllers\FuncConfigController.cs" />
     <Compile Include="Controllers\FuncReportConfigController.cs" />
     <Compile Include="Controllers\FunctReportConfigController.cs" />
     <Compile Include="Controllers\GeoOrganizationController.cs" />
@@ -4917,6 +4918,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Employee\" />
+    <Folder Include="Views\FuncConfig\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>

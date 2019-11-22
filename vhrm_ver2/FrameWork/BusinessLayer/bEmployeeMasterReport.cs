@@ -11,6 +11,25 @@ namespace vhrm.FrameWork.BusinessLayer
 {
     public class bEmployeeMasterReport
     {
+        public static List<SupervisorViewModel> GeSupervisors()
+        {
+            List<SupervisorViewModel> dtEmployees = new List<SupervisorViewModel>();
+            EmployeeMasterReportAccess access = new EmployeeMasterReportAccess();
+            DataTable dtResult = access.getEmployeeReportToChart();
+            foreach (DataRow dtr in dtResult.Rows)
+            {
+                SupervisorViewModel item = new SupervisorViewModel
+                {
+                    SYS_EMPID = dtr["SYS_EMPID"].ToString(),
+                    DEPTCODEGEO = dtr["DEPTCODEGEO"].ToString(),
+                    IMAGE = dtr["IMAGE"].ToString(),
+                    EMPNAME = dtr["EMPNAME"].ToString()
+                };
+                dtEmployees.Add(item);
+            }
+            return dtEmployees;
+        }
+
         public static List<EmployeeMasterReport> GetEmployeeReports()
         {
             List<EmployeeMasterReport> dtEmployees = new List<EmployeeMasterReport>();

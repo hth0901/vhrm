@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using vhrm.FrameWork.BusinessLayer;
 using vhrm.FrameWork.DataAccess;
 using vhrm.FrameWork.Entity;
+using vhrm.ViewModels;
 
 namespace vhrm.Controllers
 {
@@ -44,7 +45,12 @@ namespace vhrm.Controllers
             //return View("OrgCategory_hieuhtbk");
             return View("OrgCategory");
         }
-
+        public JsonResult _OrgChartData()
+        {
+            //if (string.IsNullOrEmpty(deptcode)) return Json(0, JsonRequestBehavior.AllowGet);
+            List<OrgNodeViewModel> data = bDept.getOrganizationChartData("000002");
+            return Json(new { nodes = data }, JsonRequestBehavior.AllowGet);
+        }
         [HttpGet]
         public JsonResult getDeptDetail(string deptcode)
         {

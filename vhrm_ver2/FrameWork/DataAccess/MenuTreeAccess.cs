@@ -53,14 +53,14 @@ namespace vhrm.FrameWork.DataAccess
         public static bool InsertMenu(MenuTreeEntity menuEntity)
         {
             OracleParameter[] sqlParam = new OracleParameter[8];
-            sqlParam[6] = new OracleParameter("p_MenuID", menuEntity.MenuID);
-            sqlParam[0] = new OracleParameter("p_MenuName", menuEntity.MenuName);
-            sqlParam[1] = new OracleParameter("p_MotherID", menuEntity.MotherID);
-            sqlParam[2] = new OracleParameter("p_Seq", menuEntity.Seq);
-            sqlParam[3] = new OracleParameter("p_FormCode", menuEntity.FormID);
-            sqlParam[4] = new OracleParameter("p_DictionaryID", menuEntity.DictionaryID);
+            sqlParam[0] = new OracleParameter("p_MenuID", menuEntity.MenuID);
+            sqlParam[1] = new OracleParameter("p_MenuName", menuEntity.MenuName);
+            sqlParam[2] = new OracleParameter("p_MotherID", menuEntity.MotherID);
+            sqlParam[3] = new OracleParameter("p_Seq", menuEntity.Seq);
+            sqlParam[4] = new OracleParameter("p_FormCode", menuEntity.FormID);
+            sqlParam[5] = new OracleParameter("p_DictionaryID", menuEntity.DictionaryID);
+            sqlParam[6] = new OracleParameter("p_CREATE_UID", menuEntity.CREATE_UID);
             sqlParam[7] = new OracleParameter("p_IsActive", menuEntity.IsActive);
-            sqlParam[5] = new OracleParameter("p_CREATE_UID", menuEntity.CREATE_UID);
 
             return DBHelper.ExecuteNonQuery_SP("PKOPM_FORMANDMENU.sp_OPM_Menu_Insert", sqlParam);
         }
@@ -79,10 +79,10 @@ namespace vhrm.FrameWork.DataAccess
             sqlParam[1] = new OracleParameter("p_MenuName", menuEntity.MenuName);
             sqlParam[2] = new OracleParameter("p_MotherID", menuEntity.MotherID);
             sqlParam[3] = new OracleParameter("p_Seq", menuEntity.Seq);
-            sqlParam[4] = new OracleParameter("p_DictionaryID", menuEntity.DictionaryID);
-            sqlParam[5] = new OracleParameter("p_FormCode", menuEntity.FormID);
-            sqlParam[6] = new OracleParameter("p_IsActive", menuEntity.IsActive);
-            sqlParam[7] = new OracleParameter("p_UPDATE_UID", menuEntity.UPDATE_UID);
+            sqlParam[4] = new OracleParameter("p_FormCode", menuEntity.FormID);
+            sqlParam[5] = new OracleParameter("p_DictionaryID", menuEntity.DictionaryID);
+            sqlParam[6] = new OracleParameter("p_UPDATE_UID", menuEntity.UPDATE_UID);
+            sqlParam[7] = new OracleParameter("p_IsActive", OracleDbType.Char) { Value = menuEntity.IsActive };
             return DBHelper.ExecuteNonQuery_SP("PKOPM_FORMANDMENU.sp_OPM_Menu_Update", sqlParam);
 
         }

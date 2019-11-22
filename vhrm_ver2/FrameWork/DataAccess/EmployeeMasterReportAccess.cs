@@ -10,6 +10,12 @@ namespace vhrm.FrameWork.DataAccess
 {
     public class EmployeeMasterReportAccess
     {
+        public DataTable getEmployeeReportToChart()
+        {
+            OracleParameter[] param = new OracleParameter[1];
+            param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            return DBHelper.getDataTable_SP("HR_EMP_REPORT.SP_GET_EMP_REPORT_TOCHART", param);
+        }
         public DataTable GetEmployeeReports()
         {
             OracleParameter[] param = new OracleParameter[1];

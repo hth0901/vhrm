@@ -23,6 +23,16 @@
             width: 100%;
             height: 100%;
         }
+        .supervisorimg {
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+        }
+        .lbsupervisor {
+            color: white;
+            /*margin-left:-23px;
+            margin-top:10px;*/
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://balkangraph.com/js/latest/OrgChart.js"></script>
@@ -30,118 +40,51 @@
 <body>
     <div id="tree"></div>
     <script>
-
-        
-        //window.onload = function () {
-        //    OrgChart.templates.myTemplate = Object.assign({}, OrgChart.templates.ana);
-        //    OrgChart.templates.myTemplate.field_0 = '<text style="font-size: 24px;" fill="#ffffff" x="120" y="25" text-anchor="middle">{val}</text>';
-        //    OrgChart.templates.myTemplate.html = '<foreignobject class="node" x="50" y="50" width="200" height="100">{val}</foreignobject>';
-        //    var chart = new OrgChart(document.getElementById("tree"),
-        //        {
-        //            template: "myTemplate",
-        //            menu: {
-        //                pdf: { text: "Export PDF" },
-        //                png: { text: "Export PNG" }
-        //            },
-        //            tags: {
-        //                "assistant": {
-        //                    template: "ula"
-        //                }
-        //            },
-        //            nodeBinding: {
-        //                field_0: "name",
-        //                html: "geosupervisor"
-        //            },
-        //            nodes: [
-        //                { id: 1, pid: null, name: "VIET NAM", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-        //                { id: 2, pid: 1 , name: "PKS2", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-        //                { id: 3, pid: 1, name: "PKS3", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-        //                { id: 4, pid: 1, name: "PKS1", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-        //                { id: 5, pid: 1, name: "JSC", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-        //                { id: 6, pid: 1, name: "BKPT", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-        //                { id: 7, pid: 2, name: "MANAGEMENT", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-        //                { id: 8, pid: 2, name: "SELL", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-        //                { id: 9, pid: 2, name: "PRODUCTION", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-        
-        //            ]
-        //        });
-        //};
-
         document.addEventListener("DOMContentLoaded", function (event) {
-            //do work
-            console.log("loaded");
-            OrgChart.templates.myTemplate = Object.assign({}, OrgChart.templates.ana);
-            OrgChart.templates.myTemplate.field_0 = '<text style="font-size: 24px;" fill="#ffffff" x="120" y="25" text-anchor="middle">{val}</text>';
-            OrgChart.templates.myTemplate.html = '<foreignobject class="node" x="50" y="50" width="200" height="100">{val}</foreignobject>';
-            var chart = new OrgChart(document.getElementById("tree"),
-                {
-                    template: "myTemplate",
-                    menu: {
-                        pdf: { text: "Export PDF" },
-                        png: { text: "Export PNG" }
-                    },
-                    tags: {
-                        "assistant": {
-                            template: "ula"
-                        }
-                    },
-                    nodeBinding: {
-                        field_0: "name",
-                        html: "geosupervisor"
-                    },
-                    nodes: [
-                        { id: 1, pid: null, name: "VIET NAM", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 2, pid: 1 , name: "PKS2", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 3, pid: 1, name: "PKS3", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 4, pid: 1, name: "PKS1", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 5, pid: 1, name: "JSC", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 6, pid: 1, name: "BKPT", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 7, pid: 2, name: "MANAGEMENT", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 8, pid: 2, name: "SELL", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 9, pid: 2, name: "PRODUCTION", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
+           $.get("@Url.Action("_OrgChartData", "OrgConfig")").done(function (response) {
 
-                    ]
-                });
+           OrgChart.templates.myTemplate = Object.assign({}, OrgChart.templates.ana);
+
+           OrgChart.templates.myTemplate.field_0 = '<text style="font-size: 14px; font-weight: bold;" fill="#ffffff" x="120" y="24" text-anchor="middle">{val}</text>';
+           OrgChart.templates.myTemplate.img_0 ='<image preserveAspectRatio="xMidYMid slice" xlink:href="{val}" x="0" y="30" width="250" height="1"></image>';
+           OrgChart.templates.myTemplate.html = '<foreignobject class="node" x="10" y="25" width="200" height="100">{val}</foreignobject>';
+
+           console.log(response.nodes);
+
+           var chart = new OrgChart(document.getElementById("tree"),
+               {
+                   template: "myTemplate",
+                   layout: OrgChart.treeLeftOffset,
+                   menu: {
+                       pdf: { text: "Export PDF" },
+                       png: { text: "Export PNG" }
+                   },
+                   tags: {
+                       "assistant": {
+                           template: "ula"
+                       }
+                   },
+                   nodeBinding: {
+                       field_0: "DEPTNAME",
+                       img_0: "IMG",
+                       html: "SUPERVISORS"
+                   },
+                   nodes: response.nodes
+
+               });
+
+           chart.on('click', function (sender, node) {
+               var focusedElements = document.querySelectorAll('.focused');
+               for (var i = 0; i < focusedElements.length; i++) {
+                   focusedElements[i].classList.remove('focused');
+               }
+               var nodeElement = sender.getNodeElement(node.id);
+               nodeElement.classList.add('focused');
+               return false;
+           });
+
         });
-        
-
-        /*
-        setTimeout(function(){ 
-            OrgChart.templates.myTemplate = Object.assign({}, OrgChart.templates.ana);
-            OrgChart.templates.myTemplate.field_0 = '<text style="font-size: 24px;" fill="#ffffff" x="120" y="25" text-anchor="middle">{val}</text>';
-            OrgChart.templates.myTemplate.html = '<foreignobject class="node" x="50" y="50" width="200" height="100">{val}</foreignobject>';
-            var chart = new OrgChart(document.getElementById("tree"),
-                {
-                    template: "myTemplate",
-                    menu: {
-                        pdf: { text: "Export PDF" },
-                        png: { text: "Export PNG" }
-                    },
-                    tags: {
-                        "assistant": {
-                            template: "ula"
-                        }
-                    },
-                    nodeBinding: {
-                        field_0: "name",
-                        html: "geosupervisor"
-                    },
-                    nodes: [
-                        { id: 1, pid: null, name: "VIET NAM", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 2, pid: 1 , name: "PKS2", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 3, pid: 1, name: "PKS3", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 4, pid: 1, name: "PKS1", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 5, pid: 1, name: "JSC", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 6, pid: 1, name: "BKPT", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 7, pid: 2, name: "MANAGEMENT", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 8, pid: 2, name: "SELL", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 9, pid: 2, name: "PRODUCTION", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-        
-                    ]
-                });
-        }, 3000);
-
-        */
+        });
     </script>
 </body>
 </html>

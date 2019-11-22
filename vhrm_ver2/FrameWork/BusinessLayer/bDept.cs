@@ -11,6 +11,62 @@ namespace vhrm.FrameWork.BusinessLayer
 {
     public class bDept
     {
+        public static List<OrgNodeViewModel> getOrganizationChartData(string deptCode)
+        {
+            var data = getActivedDepartments();
+            List<OrgNodeViewModel> deptList = new List<OrgNodeViewModel>();
+            var empReport = bEmployeeMasterReport.GeSupervisors();
+            foreach (OrgNodeViewModel org in data)
+            {
+                var geosupervisors = empReport.Where(er => er.DEPTCODEGEO == org.id);
+                if (geosupervisors == null || geosupervisors.Count() == 0)
+                    org.SUPERVISORS = "<div></div>";
+                else
+                    org.SUPERVISORS = formatHTML(geosupervisors);
+                org.IMG = "/FileServer/Photos/lineorg.png";
+            }
+            return data;
+        }
+        private static string formatHTML(IEnumerable<SupervisorViewModel> supervisors)
+        {
+            string html = "<div><br>";
+            foreach (var item in supervisors)
+            {
+                var str = string.Empty;
+                if (string.IsNullOrEmpty(item.IMAGE))//style='border-radius: 50%; width:20px; height:20px;'
+                    str = "<img class='supervisorimg' src='/FileServer/Photos/default.jpg'><label class='lbsupervisor'>" + item.EMPNAME + "</lable><br/>";//style='color: white;'>
+                else
+                {
+                    str = "<img class='supervisorimg' src='/FileServer/Photos/" + item.IMAGE + "'><label class='lbsupervisor'>" + item.EMPNAME + "</lable><br/>";
+                }
+                html = html + str;
+            }
+            html = html + "</div>";
+            return html;
+        }
+
+        public static List<OrgNodeViewModel> getActivedDepartments()
+        {
+            List<OrgNodeViewModel> dtDept = new List<OrgNodeViewModel>();
+            DeptAccess access = new DeptAccess();
+            DataTable dtResult = access.GetActivedDepartments();
+            int level = 0;
+            foreach (DataRow dtr in dtResult.Rows)
+            {
+                int.TryParse(dtr["DEPTLEVEL"].ToString(), out var oLevel);
+                level = oLevel;
+                if (level > 3) continue;
+                OrgNodeViewModel item = new OrgNodeViewModel
+                {
+                    id = dtr["DEPTCODE"].ToString(),
+                    DEPTNAME = dtr["DEPTNAME"].ToString(),
+                    pid = string.IsNullOrEmpty(dtr["DEPTPARENT"].ToString()) ? null : dtr["DEPTPARENT"].ToString()
+                };
+                dtDept.Add(item);
+            }
+            return dtDept;
+        }
+
         public static List<DeptViewModel> getActivedDepts()
         {
             List<DeptViewModel> dtDept = new List<DeptViewModel>();

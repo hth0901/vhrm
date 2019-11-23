@@ -245,7 +245,11 @@
         }
 
         if (array.indexOf(id) == -1) {
-            let k = '<iframe scrolling="no" name="' + id + '" id="' + id + '" src="' + url + '" frameborder="0" style="height: 778px; width: 100%"></iframe>';
+            let iHeight = "778px";
+            if (id === "mn247")
+                iHeight = "1100px";
+            console.log(id);
+            let k = '<iframe scrolling="no" name="' + id + '" id="' + id + '" src="' + url + '" frameborder="0" style="height: ' + iHeight + '; width: 100%"></iframe>';
             //let k = `<iframe scrolling="no" name="${id}" id="${id}" src="${url}" frameborder="0" style="height: 820px; width: 100%"></iframe>`;
             document.getElementById('screen_body').insertAdjacentHTML('beforeend', k);
 

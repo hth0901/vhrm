@@ -39,6 +39,7 @@
                                 @Html.LabelFor(model => model.EMPID, new { @class = "col-md-5 title-em-info" })
                                 <div class="col-md-7">
                                     @Html.TextBoxFor(model => model.EMPID, "", new { @class = "form-em-info", @disabled = "disabled" })
+                                    @Html.HiddenFor(model => model.SYS_EMPID)     @*---hieuht add*@  
                                 </div>
                             </div>
                         </div>

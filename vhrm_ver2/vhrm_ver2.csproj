@@ -144,6 +144,7 @@
     <Compile Include="Controllers\DeptFunctionController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\FormController.cs" />
+    <Compile Include="Controllers\FuncConfigController.cs" />
     <Compile Include="Controllers\FuncReportConfigController.cs" />
     <Compile Include="Controllers\FunctReportConfigController.cs" />
     <Compile Include="Controllers\GeoOrganizationController.cs" />
@@ -347,6 +348,7 @@
     <Content Include="assets\js\custom_hrm.js" />
     <Content Include="assets\js\custom_bk.js" />
     <Content Include="assets\js\custom_hrm_ver2.js" />
+    <Content Include="assets\js\orgchart.js" />
     <Content Include="Content\all.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -4913,6 +4915,7 @@
     <Content Include="Views\Main\MenuPartialVer3.cshtml" />
     <Content Include="Views\OrgConfig\OrgChart.cshtml" />
     <Content Include="Views\OrgConfig\OrgCategory_hieuhtbk.cshtml" />
+    <Content Include="Views\FuncConfig\FuncConfigIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

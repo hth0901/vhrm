@@ -328,17 +328,18 @@
         //}
     }
 
-    function onSelectdtreeGeoReport(e) {
-        var dataItem = this.dataItem(e.node);
-        var displayTree = [];
-        displayTree = DisplayTreeInTextBox(dataItem, "org")
-        $("#DISPLAYGEOGRAPHICALORG").val(displayTree.join(" > "));
-        //treeParentsOrganization.dataSource.read({ functCode: dataItem.DEPTCODE });
-        //treeParentsOrganization.value(dataItem.DEPTCODE);
-        //Input FUNCCODE.
+    function onSelectdtreeGeoReport(e)
+    {
+        var item = this.dataItem(e.node);
+        //var displayTree = [];
+        //displayTree = DisplayTreeInTextBox(dataItem, "org")
+        //$("#DISPLAYGEOGRAPHICALORG").val(displayTree.join(" > "));
+        ////treeParentsOrganization.dataSource.read({ functCode: dataItem.DEPTCODE });
+        ////treeParentsOrganization.value(dataItem.DEPTCODE);
+        ////Input FUNCCODE.
+        $("#GEOGRAPHICALORG").val(item.DEPTCODE);
         $("#DISPLAYGEODIRECTREPORT").val("");
-        $("#GEOGRAPHICALORG").val(dataItem.id);
-
+      
 
         /*18-11-2019
         var nodeDataItem = geoOrganization.dataSource.get(dataItem.id);
@@ -378,14 +379,25 @@
                 }
 
     function onSelectdtreeFunctReport(e) {
-                    var dataItem = this.dataItem(e.node);
-                    var displayTree = [];
-                    displayTree = DisplayTreeInTextBox(dataItem, "fun")
-                    $("#DISPLAYFUNCTIONALORG").val(displayTree.join(" > "));
-                    //treeParentsOrganization.dataSource.read({ functCode: dataItem.FUNCCODE });
-                    //treeParentsOrganization.value(dataItem.FUNCCODE);
-                    //Input FUNCCODE.
-                    $("#DISPLAYFUNCDIRECTREPORT").val("");
+
+        var dataItem = this.dataItem(e.node);
+        $("#FUNCTIONALORG").val(dataItem.FUNCCODE);
+        var displayTree = [];
+        displayTree.push(dataItem.FUNCNAME);
+        while (dataItem.parentNode()) {
+            dataItem = dataItem.parentNode();
+            displayTree.push(dataItem.FUNCNAME);
+        }
+        $("#DISPLAYFUNCTIONALORG").val(displayTree.join(" > "));
+        $("#DISPLAYFUNCDIRECTREPORT").val("");
+                    //var dataItem = this.dataItem(e.node);
+                    //var displayTree = [];
+                    //displayTree = DisplayTreeInTextBox(dataItem, "fun")
+                    //$("#DISPLAYFUNCTIONALORG").val(displayTree.join(" > "));
+                    ////treeParentsOrganization.dataSource.read({ functCode: dataItem.FUNCCODE });
+                    ////treeParentsOrganization.value(dataItem.FUNCCODE);
+                    ////Input FUNCCODE.
+                    //$("#DISPLAYFUNCDIRECTREPORT").val("");
 
 
                     /*18-11-2019
@@ -527,6 +539,7 @@
         {
             var dataItem = this.dataItem(e.node);
             currentNode = dataItem.DEPTCODE;
+            alert(dataItem.DEPTCODE);
         $("#DEPTCODE").val(dataItem.DEPTCODE);
             var displayTree = [];
             displayTree.push(dataItem.DEPTNAME);
@@ -538,6 +551,22 @@
         $("#DISPLAYDEPTCODE").val(displayTree.join(" > "));
         $("#DEPTCODE").val(dataItem.DEPTCODE);
         $("span[data-valmsg-for=DEPTCODE]").text("");
+    }
+
+        function onSelectdDeptGeo(e) {
+            var dataItem = this.dataItem(e.node);   
+            $("#GEOGRAPHICALORG").val(dataItem.DEPTCODE);
+            var displayTree = [];
+            displayTree.push(dataItem.DEPTNAME);
+            while (dataItem.parentNode()) {
+                dataItem = dataItem.parentNode();
+                displayTree.push(dataItem.DEPTNAME);
+            }
+            displayTree.reverse();
+
+            $("#DISPLAYGEOGRAPHICALORG").val(displayTree.join(" > "));            
+           
+            $("#DISPLAYGEODIRECTREPORT").val("");
         }
         function onChangedtreeemployeeOfOrg(e)
         {
@@ -957,8 +986,8 @@
         treeFunctionDirectReport = $("#treeFunctionDirectReport").data("kendoTreeView");
        
         gridFunctReportEmployees = $("#gridFunctReportEmployees").data("kendoGrid");
-        treeGeoReport = $("#treeGeoReport").data("kendoDropDownTree");
-        treeFunctionReport = $("#treeFunctionReport").data("kendoDropDownTree");
+        treeGeoReport = $("#DeptGeo").data("kendoDropDownTree");
+        treeFunctionReport = $("#treeFunctReport").data("kendoDropDownTree");
 
         /*18-11-2019
         diagram = $("#diagram").data("kendoDiagram");

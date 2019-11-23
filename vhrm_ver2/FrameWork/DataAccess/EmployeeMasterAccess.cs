@@ -142,7 +142,11 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] param = new OracleParameter[3];
             param[0] = new OracleParameter("pDEPTCODE", (object)deptCode ?? DBNull.Value);
-            param[1] = new OracleParameter("pDATEJOIN", (object)joinDate ?? DBNull.Value);
+            if (joinDate == null)
+                param[1] = new OracleParameter("pDATEJOIN", (object)joinDate ?? DBNull.Value);
+            else
+                param[1] = new OracleParameter("pDATEJOIN", (object)joinDate.ToString() ?? DBNull.Value);
+
             param[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_EMPLOYEE.SP_CREATE_EMPID", param);
         }

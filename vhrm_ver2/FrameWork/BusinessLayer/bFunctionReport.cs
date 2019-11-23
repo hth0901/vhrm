@@ -82,7 +82,7 @@ namespace vhrm.FrameWork.BusinessLayer
         {
             List<EmployeeMaster> functionReports = new List<EmployeeMaster>();
             FunctionReportAccess access = new FunctionReportAccess();
-            DataTable dtResult = access.GetUsersFunctionReports(functCode);
+            DataTable dtResult = access.GetUsersFunctionForReports(functCode);
             foreach (DataRow dtr in dtResult.Rows)
             {
                 EmployeeMaster item = new EmployeeMaster

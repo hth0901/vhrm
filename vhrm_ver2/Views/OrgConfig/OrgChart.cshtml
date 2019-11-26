@@ -23,11 +23,13 @@
             width: 100%;
             height: 100%;
         }
+
         .supervisorimg {
             border-radius: 50%;
             width: 20px;
             height: 20px;
         }
+
         .lbsupervisor {
             color: white;
             /*margin-left:-23px;
@@ -35,56 +37,48 @@
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    @*<script src="~/assets/js/orgchart.js"></script>*@
     <script src="https://balkangraph.com/js/latest/OrgChart.js"></script>
 </head>
 <body>
     <div id="tree"></div>
     <script>
-        document.addEventListener("DOMContentLoaded", function (event) {
-           $.get("@Url.Action("_OrgChartData", "OrgConfig")").done(function (response) {
-
-           OrgChart.templates.myTemplate = Object.assign({}, OrgChart.templates.ana);
-
-           OrgChart.templates.myTemplate.field_0 = '<text style="font-size: 14px; font-weight: bold;" fill="#ffffff" x="120" y="24" text-anchor="middle">{val}</text>';
-           OrgChart.templates.myTemplate.img_0 ='<image preserveAspectRatio="xMidYMid slice" xlink:href="{val}" x="0" y="30" width="250" height="1"></image>';
-           OrgChart.templates.myTemplate.html = '<foreignobject class="node" x="10" y="25" width="200" height="100">{val}</foreignobject>';
-
-           console.log(response.nodes);
-
-           var chart = new OrgChart(document.getElementById("tree"),
-               {
-                   template: "myTemplate",
-                   layout: OrgChart.treeLeftOffset,
-                   menu: {
-                       pdf: { text: "Export PDF" },
-                       png: { text: "Export PNG" }
-                   },
-                   tags: {
-                       "assistant": {
-                           template: "ula"
-                       }
-                   },
-                   nodeBinding: {
-                       field_0: "DEPTNAME",
-                       img_0: "IMG",
-                       html: "SUPERVISORS"
-                   },
-                   nodes: response.nodes
-
-               });
-
-           chart.on('click', function (sender, node) {
-               var focusedElements = document.querySelectorAll('.focused');
-               for (var i = 0; i < focusedElements.length; i++) {
-                   focusedElements[i].classList.remove('focused');
-               }
-               var nodeElement = sender.getNodeElement(node.id);
-               nodeElement.classList.add('focused');
-               return false;
-           });
-
+        document.addEventListener("DOMContentLoaded", function (event)
+        {
+            //TUYEN DEPTCODE VAO DAY.
+            $.get("@Url.Action("_OrgChartData", "OrgConfig",new { deptcode = 100001})").done(function (response)
+            {
+                OrgChart.REMOVE_GROUP_IF_HAS_ONE_NODE = false;
+                OrgChart.templates.empty = Object.assign({}, OrgChart.templates.base);
+                OrgChart.templates.empty.size = [210, 40];
+                OrgChart.templates.empty.node = '';
+                OrgChart.templates.empty.plus = '';
+                OrgChart.templates.empty.minus = '';
+                var gr = response.groups;
+                var nr = response.nodes;
+                console.log(gr);
+                console.log(nr);
+                var chart = new OrgChart(document.getElementById("tree"), {
+                    template: "ana",
+                    layout: OrgChart.treeRightOffset,
+                    menu: {
+                        pdf: { text: "Export PDF" },
+                        png: { text: "Export PNG" }
+                    },
+                    enableDragDrop: true,
+                    nodeBinding: {
+                        field_0: "EMPNAME",
+                        field_1: "EMPID",
+                        field_2: "EMAIL",
+                        field_3: "POSITION",
+                        img_0: "IMAGE"
+                    },
+                    tags: JSON.parse(gr),
+                    nodes: JSON.parse(nr)
+                });               
+            });
         });
-        });
+        
     </script>
 </body>
 </html>

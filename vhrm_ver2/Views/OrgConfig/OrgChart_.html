@@ -32,45 +32,116 @@
 
 
         window.onload = function () {
-            OrgChart.templates.myTemplate = Object.assign({}, OrgChart.templates.ana);
+             OrgChart.REMOVE_GROUP_IF_HAS_ONE_NODE = false;    
+    OrgChart.templates.empty = Object.assign({}, OrgChart.templates.base);
+    OrgChart.templates.empty.size = [210, 40];
+    OrgChart.templates.empty.node = '';
+    OrgChart.templates.empty.plus = '';
+    OrgChart.templates.empty.minus = '';
+	
+     var chart = new OrgChart(document.getElementById("tree"), {
+        template: "olivia",
+		 menu: {
+				pdf: { text: "Export PDF" },
+				png: { text: "Export PNG" }
+			},
+        enableDragDrop: true,       
+        nodeBinding: {
+            field_0: "EMPNAME",
+            field_1: "EMPID",
+			field_2: "EMAIL",
+			field_3: "POSITION",
+            img_0: "IMAGE"
+        },
+        tags: {
+		    empty: {
+              template: "empty"
+            },			
+            VIETNAM: {
+                group: true,
+                groupName: "VIETNAM",
+                groupState: OrgChart.EXPAND,
+                template: "group_grey"
+            },
+            PKS1: {
+                group: true,
+                groupName: "PKS1",
+                groupState: OrgChart.EXPAND,
 
+                template: "group_grey"
+            },
+            PKS2: {
+                group: true,
+                groupName: "PKS2",
+                groupState: OrgChart.EXPAND,
+                template: "group_grey"
+            },
+            PKS3: {
+                group: true,
+                groupName: "PKS3",
+                groupState: OrgChart.EXPAND,
+                template: "group_grey"
+            },
+            MANAGEMENT: {
+                group: true,
+                groupName: "MANAGEMENT",
+                groupState: OrgChart.EXPAND,
+                template: "group_grey"
+            },
+			SALE: {
+                group: true,
+                groupName: "SALES",
+                groupState: OrgChart.EXPAND,
+                template: "group_grey"
+            },
+			PRODUCTION: {
+                group: true,
+                groupName: "PRODUCTION",
+                groupState: OrgChart.EXPAND,
+                template: "group_grey"
+            },
+			LINE: {
+                group: true,
+                groupName: "LINE 1",
+                groupState: OrgChart.EXPAND,
+                template: "group_grey"
+            },
+			FACTORY: {
+                group: true,
+                groupName: "FACTORY SP",
+                groupState: OrgChart.EXPAND,
+                template: "group_grey"
+            }
+        },
+        nodes: [
+            { id: 1, tags: ["VIETNAM"], EMPNAME: "Billy Moore",EMPID:"0023338",EMAIL:"geo@gmail.com",POSITION:"CEO", IMAGE: "https://balkangraph.com/js/img/2.jpg" },            
 
-            OrgChart.templates.myTemplate.field_0 = '<text style="font-size: 24px;" fill="#ffffff" x="120" y="25" text-anchor="middle">{val}</text>';
-            //OrgChart.templates.myTemplate.field_1 = '<text style="font-size: 16px;" fill="#ffffff" x="120" y="70" text-anchor="middle">{val}</text>';
-            //OrgChart.templates.myTemplate.field_2 = '<text style="font-size: 16px;" fill="#ffffff" x="120" y="100" text-anchor="middle">{val}</text>';
-            //OrgChart.templates.myTemplate.img_0 = '<clipPath id="ulaImg"><line x1="0" y1="40" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" /></clipPath><image preserveAspectRatio="xMidYMid slice" clip-path="url(#ulaImg)" xlink:href="{val}" x="0" y="40"  width="200" height="1"></image>';
-            OrgChart.templates.myTemplate.html = '<foreignobject class="node" x="50" y="50" width="200" height="100">{val}</foreignobject>';
+            { id: 5, pid: 1, tags: ["PKS1"], EMPNAME: "Glenn Bell",EMPID:"0023338",EMAIL:"geo@gmail.com",POSITION:"Manager", IMAGE: "https://balkangraph.com/js/img/10.jpg" },
+            
+            { id: 10, pid: 5, tags: ["MANAGEMENT"], EMPNAME: "Jordan Harris",EMPID:"0023338",EMAIL:"geo@gmail.com",POSITION:"Manager", IMAGE: "https://balkangraph.com/js/img/6.jpg" },
+			
+			{ id: 11, pid: 5, tags: ["SALE"], EMPNAME: "Jordan Harris",EMPID:"0023338",EMAIL:"geo@gmail.com",POSITION:"Manager", IMAGE: "https://balkangraph.com/js/img/6.jpg" },
+            
+			{ id: 8, pid: 1, tags: ["PKS2"], EMPNAME: "Jordan Harris",EMPID:"0023338",EMAIL:"geo@gmail.com",POSITION:"Manager", IMAGE: "https://balkangraph.com/js/img/6.jpg" },
+			
+			{ id: 9, pid: 1, tags: ["PKS3"], EMPNAME: "Jordan Harris",EMPID:"0023338",EMAIL:"geo@gmail.com",POSITION:"Manager", IMAGE: "https://balkangraph.com/js/img/6.jpg" },
+		
+			{ id: 12, pid: 5, tags:["empty","PRODUCTION"],EMPNAME:"",EMPID:"",EMAIL:"",POSITION:"", IMAGE: "" },
+			
+			{ id: 13, pid: 12, tags:["empty","LINE"],EMPNAME:"",EMPID:"",EMAIL:"",POSITION:"", IMAGE: "" },
+			
+			{ id: 14, pid: 12, tags: ["FACTORY"], EMPNAME: "Jordan Harris",EMPID:"0023338",EMAIL:"geo@gmail.com",POSITION:"Manager", IMAGE: "https://balkangraph.com/js/img/6.jpg" },
+			
+			{ id: 15, pid: 12, tags: ["FACTORY"], EMPNAME: "David",EMPID:"0023338",EMAIL:"geo@gmail.com",POSITION:"Manager", IMAGE: "https://balkangraph.com/js/img/6.jpg" },
+            
+			{ id: 16, pid: 12, tags: ["FACTORY"], EMPNAME: "Maria",EMPID:"0023338",EMAIL:"geo@gmail.com",POSITION:"Manager", IMAGE: "https://balkangraph.com/js/img/6.jpg" },
+			
+			{ id: 17, pid: 12, tags: ["FACTORY"], EMPNAME: "Maria",EMPID:"0023338",EMAIL:"geo@gmail.com",POSITION:"Manager", IMAGE: "https://balkangraph.com/js/img/6.jpg" },
+			
+			{ id: 18, pid: 12, tags: ["FACTORY"], EMPNAME: "Maria",EMPID:"0023338",EMAIL:"geo@gmail.com",POSITION:"Manager", IMAGE: "https://balkangraph.com/js/img/6.jpg" },
 
-
-
-            var chart = new OrgChart(document.getElementById("tree"),
-                {
-                    template: "myTemplate",
-                    menu: {
-                        pdf: { text: "Export PDF" },
-                        png: { text: "Export PNG" }
-                    },
-                    tags: {
-                        "assistant": {
-                            template: "ula"
-                        }
-                    },
-                    nodeBinding: {
-                        field_0: "name",
-                        html: "geosupervisor"
-                    },
-                    nodes: [
-                        { id: 1, name: "VIET NAM", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 2, pid: 1, name: "PKS2", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 3, pid: 1, name: "PKS3", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 4, pid: 1, name: "PKS1", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 5, pid: 1, name: "JSC", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 6, pid: 1, name: "BKPT", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 7, pid: 2, name: "MANAGEMENT", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 8, pid: 2, name: "SELL", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                        { id: 9, pid: 2, name: "PRODUCTION", geosupervisor: "<div style='align:center;'><label><b>PARK HANG JOON</b><br/></label><label><b>SANG JOO HUE</b></label></div>" },
-                    ]
-                });
+        ]
+    });  
         };
 
     </script>

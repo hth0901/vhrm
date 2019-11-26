@@ -1,5 +1,7 @@
 ﻿using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -45,11 +47,17 @@ namespace vhrm.Controllers
             //return View("OrgCategory_hieuhtbk");
             return View("OrgCategory");
         }
-        public JsonResult _OrgChartData()
+        public JsonResult _OrgChartData(string deptcode)
         {
-            //if (string.IsNullOrEmpty(deptcode)) return Json(0, JsonRequestBehavior.AllowGet);
-            List<OrgNodeViewModel> data = bDept.getOrganizationChartData("000002");
-            return Json(new { nodes = data }, JsonRequestBehavior.AllowGet);
+            KeyValuePair<JObject, List<JObject>> data = bDept.getDataForChart(deptcode);
+            JObject tagData = data.Key;
+            List<JObject> nodeData = data.Value;
+            string jsonG = JsonConvert.SerializeObject(tagData);
+            string jsonN = JsonConvert.SerializeObject(nodeData);
+            jsonN = jsonN.Replace("\"[", "[");
+            jsonN = jsonN.Replace("]\"", "]");
+            jsonN = jsonN.Replace("'", "\"");
+            return Json(new { nodes = jsonN, groups = jsonG }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult getDeptDetail(string deptcode)

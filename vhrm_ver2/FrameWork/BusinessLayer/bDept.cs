@@ -6,67 +6,182 @@ using System.Linq;
 using System.Web;
 using vhrm.FrameWork.DataAccess;
 using vhrm.ViewModels;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace vhrm.FrameWork.BusinessLayer
 {
     public class bDept
     {
-        public static List<OrgNodeViewModel> getOrganizationChartData(string deptCode)
+        //23-11-2019        
+        public static KeyValuePair<JObject, List<JObject>> getDataForChart(string deptCode)
         {
-            var data = getActivedDepartments();
-            List<OrgNodeViewModel> deptList = new List<OrgNodeViewModel>();
-            var empReport = bEmployeeMasterReport.GeSupervisors();
-            foreach (OrgNodeViewModel org in data)
-            {
-                var geosupervisors = empReport.Where(er => er.DEPTCODEGEO == org.id);
-                if (geosupervisors == null || geosupervisors.Count() == 0)
-                    org.SUPERVISORS = "<div></div>";
-                else
-                    org.SUPERVISORS = formatHTML(geosupervisors);
-                org.IMG = "/FileServer/Photos/lineorg.png";
-            }
-            return data;
-        }
-        private static string formatHTML(IEnumerable<SupervisorViewModel> supervisors)
-        {
-            string html = "<div><br>";
-            foreach (var item in supervisors)
-            {
-                var str = string.Empty;
-                if (string.IsNullOrEmpty(item.IMAGE))//style='border-radius: 50%; width:20px; height:20px;'
-                    str = "<img class='supervisorimg' src='/FileServer/Photos/default.jpg'><label class='lbsupervisor'>" + item.EMPNAME + "</lable><br/>";//style='color: white;'>
-                else
-                {
-                    str = "<img class='supervisorimg' src='/FileServer/Photos/" + item.IMAGE + "'><label class='lbsupervisor'>" + item.EMPNAME + "</lable><br/>";
-                }
-                html = html + str;
-            }
-            html = html + "</div>";
-            return html;
-        }
-
-        public static List<OrgNodeViewModel> getActivedDepartments()
-        {
-            List<OrgNodeViewModel> dtDept = new List<OrgNodeViewModel>();
+            List<DeptViewModel> depts = new List<DeptViewModel>();
+            //DUNG DE DUYET LUA CHON NODE HIEN THI.
+            List<ElementViewModel> result = new List<ElementViewModel>();
+            #region "TAO TAT CA CAC GROUPS"
+            JObject groupElements = new JObject();
             DeptAccess access = new DeptAccess();
-            DataTable dtResult = access.GetActivedDepartments();
-            int level = 0;
+            DataTable dtResult = access.GetChildsByDeptCodeIsActive(deptCode);
             foreach (DataRow dtr in dtResult.Rows)
             {
-                int.TryParse(dtr["DEPTLEVEL"].ToString(), out var oLevel);
-                level = oLevel;
-                if (level > 3) continue;
-                OrgNodeViewModel item = new OrgNodeViewModel
+                JObject group = new JObject();
+                group["group"] = true;
+                group["groupName"] = dtr["DEPTNAME"].ToString();
+                group["groupState"] = "";
+                group["template"] = "group_grey";
+                string key = "A" + dtr["DEPTCODE"].ToString();
+                DeptViewModel item = new DeptViewModel
                 {
-                    id = dtr["DEPTCODE"].ToString(),
+                    DEPTCODE = dtr["DEPTCODE"].ToString(),
                     DEPTNAME = dtr["DEPTNAME"].ToString(),
-                    pid = string.IsNullOrEmpty(dtr["DEPTPARENT"].ToString()) ? null : dtr["DEPTPARENT"].ToString()
+                    DEPTPARENT = dtr["DEPTPARENT"].ToString(),
+                    DEPTLEVEL = dtr["DEPTLEVEL"].ToString(),
+                    ORDERINDEX = dtr["ORDERINDEX"].ToString(),
+                    ISACTIVE = dtr["ISACTIVE"].ToString(),
+                    REMARK = dtr["REMARK"].ToString()
                 };
-                dtDept.Add(item);
+                depts.Add(item);
+                ElementViewModel g = new ElementViewModel
+                {
+                    display = true,
+                    id = dtr["DEPTCODE"].ToString(),
+                    pid = dtr["DEPTPARENT"].ToString()
+                };
+                result.Add(g);                
+                groupElements[key] = group;
             }
-            return dtDept;
-        }
 
+            //LAY VE NODE TUONG UNG DEPTCODE TUYEN VAO.
+            if (deptCode != "-1")
+            {
+                #region "NODE ROOT NEU DEPTCODE !=-1 (LAY TAT CA)"
+
+                dtResult = access.GetByDeptCodeIsActive(deptCode);
+                foreach (DataRow dtr in dtResult.Rows)
+                {
+                    int.TryParse(dtr["DEPTLEVEL"].ToString(), out var oLevel);
+                    JObject group = new JObject();
+                    group["group"] = true;
+                    group["groupName"] = dtr["DEPTNAME"].ToString();
+                    group["groupState"] = "";
+                    group["template"] = "group_grey";
+                    string key = "A" + dtr["DEPTCODE"].ToString();
+                    DeptViewModel item = new DeptViewModel
+                    {
+                        DEPTCODE = dtr["DEPTCODE"].ToString(),
+                        DEPTNAME = dtr["DEPTNAME"].ToString(),
+                        DEPTPARENT = dtr["DEPTPARENT"].ToString(),
+                        DEPTLEVEL = dtr["DEPTLEVEL"].ToString(),
+                        ORDERINDEX = dtr["ORDERINDEX"].ToString(),
+                        ISACTIVE = dtr["ISACTIVE"].ToString(),
+                        REMARK = dtr["REMARK"].ToString()
+                    };
+                    depts.Add(item);
+                    ElementViewModel g = new ElementViewModel
+                    {
+                        display = true,
+                        id = dtr["DEPTCODE"].ToString(),
+                        pid = dtr["DEPTPARENT"].ToString()
+                    };
+                    result.Add(g);
+                    groupElements[key] = group;
+                }
+                #endregion
+            }
+            #region "TAO GROUP EMPTY"
+            JObject egroup = new JObject();
+            egroup["group"] = false;
+            egroup["groupName"] = "";
+            egroup["groupState"] = "";
+            egroup["template"] = "empty";
+            groupElements["empty"] = egroup;
+            #endregion
+            #endregion
+
+            #region "TAO CAC NODES EMPTY"
+            List<JObject> nodeElements = new List<JObject>();
+            #region "TAO CAC GEO SUPERVISOR"
+            var empReporter = bEmployeeMasterReport.GeSupervisors();
+            Dictionary<string,string> deptCodeDeptParents = new Dictionary<string,string>();
+            //LAY CAC GEO SUPERVISOR
+            foreach (var geo in empReporter)
+            {                
+                var dept = result.Where(d => d.id == geo.DEPTCODEGEO).FirstOrDefault();               
+                if (dept == null) continue;
+                //DANH DAU KO HIEN THI
+                dept.display = false;
+                var list = result.Where(d => d.pid == dept.id);
+                //TAO MOT NODE SUPERVISOR.
+                JObject group = new JObject();
+                
+                //CAP NHAT LAI PID TRO VAO GEO SUPERVISOR
+                foreach (var g in list)
+                {
+                    g.pid = geo.SYS_EMPID;
+                } 
+                group["id"] = geo.SYS_EMPID;
+                var edept = result.Where(d => d.pid == dept.pid && d.display == false).FirstOrDefault();
+                if (edept != null)
+                {
+                    var el = empReporter.Where(em => em.DEPTCODEGEO == dept.pid).FirstOrDefault();
+                    if(el != null)
+                        group["pid"] = el.SYS_EMPID;
+                    else
+                        group["pid"] = dept.pid;
+                }                
+                group["tags"] = "[" + "'A" + geo.DEPTCODEGEO + "']";
+                group["EMPNAME"] = geo.EMPNAME;
+                group["EMPID"] = geo.EMPID;
+                group["EMAIL"] = geo.EMAIL;
+                group["POSITION"] = geo.POSITION;
+                group["IMAGE"] = "/FileServer/Photos/" + geo.IMAGE;
+                nodeElements.Add(group);
+            }
+            #endregion
+
+            //KIEM TRA ROOT CO GEO SUPERVISOR.
+            if (deptCode != "-1")
+            {
+                ElementViewModel e = result.Where(d => d.id == deptCode && d.display == true).FirstOrDefault();
+                if (e != null)
+                {
+                    JObject rgroup = new JObject();
+                    rgroup["id"] = e.id;
+                    rgroup["pid"] = e.pid;
+                    rgroup["tags"] = "[" + "'empty','A" + deptCode + "']";
+                    rgroup["EMPNAME"] = "";
+                    rgroup["EMPID"] = "";
+                    rgroup["EMAIL"] = "";
+                    rgroup["POSITION"] = "";
+                    rgroup["IMAGE"] = "";
+                    nodeElements.Add(rgroup);
+                }
+            }
+           
+            foreach (var d in depts)
+            {
+                ElementViewModel node = result.Where(dp => dp.id == d.DEPTCODE && dp.display == true).FirstOrDefault();
+                if (node != null)
+                {
+                    JObject group = new JObject();
+                    group["id"] = node.id;
+                    group["pid"] = node.pid;
+                    group["tags"] = "[" + "'empty','A" + d.DEPTCODE + "']";
+                    group["EMPNAME"] = "";
+                    group["EMPID"] = "";
+                    group["EMAIL"] = "";
+                    group["POSITION"] = "";
+                    group["IMAGE"] = "";
+                    nodeElements.Add(group);
+                }
+
+            }
+            #endregion
+
+            KeyValuePair<JObject, List<JObject>> data = new KeyValuePair<JObject, List<JObject>>(groupElements, nodeElements);
+            return data;
+        }
         public static List<DeptViewModel> getActivedDepts()
         {
             List<DeptViewModel> dtDept = new List<DeptViewModel>();

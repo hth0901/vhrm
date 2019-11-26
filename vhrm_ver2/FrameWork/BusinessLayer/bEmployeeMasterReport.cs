@@ -16,14 +16,18 @@ namespace vhrm.FrameWork.BusinessLayer
             List<SupervisorViewModel> dtEmployees = new List<SupervisorViewModel>();
             EmployeeMasterReportAccess access = new EmployeeMasterReportAccess();
             DataTable dtResult = access.getEmployeeReportToChart();
+            Random random = new Random();
             foreach (DataRow dtr in dtResult.Rows)
             {
                 SupervisorViewModel item = new SupervisorViewModel
                 {
-                    SYS_EMPID = dtr["SYS_EMPID"].ToString(),
+                    SYS_EMPID = dtr["SYS_EMPID"].ToString() + random.Next(8, 10).ToString(),
                     DEPTCODEGEO = dtr["DEPTCODEGEO"].ToString(),
+                    EMPID = dtr["EMPID"].ToString(),
                     IMAGE = dtr["IMAGE"].ToString(),
-                    EMPNAME = dtr["EMPNAME"].ToString()
+                    EMPNAME = dtr["EMPNAME"].ToString(),
+                    EMAIL = dtr["EMAIL"].ToString(),
+                    POSITION = dtr["POSITION"].ToString()
                 };
                 dtEmployees.Add(item);
             }

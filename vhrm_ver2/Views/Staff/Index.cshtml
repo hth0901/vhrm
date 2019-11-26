@@ -649,19 +649,23 @@
             var dataItem = this.dataItem(e.node);
             if (dataItem != null)
             {
-                if ($("#GEOGRAPHICALORG").val() == dataItem.Key)
-            {
+                console.log("childNodes[j].Key ==" + dataItem.Key);
+              if ($("#GEOGRAPHICALORG").val() == dataItem.Key)
+              {                  
                     var childNodes = dataItem.children.view();
                     for (var j = 0; j < childNodes.length; j++)
                     {
-                        if (childNodes[j].Key == $("#GEODIRECTREPORT").val()) {
+                        if (childNodes[j].Key == $("#GEODIRECTREPORT").val())
+                        {
+                            console.log("Key ==" + childNodes[j].Key);
+                            console.log("#GEODIRECTREPORT ==" + $("#GEODIRECTREPORT").val());
                         var selectItem = treeGeoDirectReport.findByUid(childNodes[j].uid);
                         treeGeoDirectReport.select(selectItem);
-                        break;
-                    }
+                            break;
+                        }
+                  }
                 }
             }
-        }
     }
     function onDataBoundFunctionDirectReport(e) {
         this.expand(".k-item");
@@ -799,7 +803,7 @@
                 function (data) {
             });
             $('#StaffPartial').load('/Staff/Edit', { empId: empIdSearch });
-            console.log("before success: function (respond)");
+           
             //Load Diagram.
             //Get DeptCode and FuncCode.
             $.ajax({
@@ -807,12 +811,11 @@
                 type: 'POST',
                 data: { empId: empIdSearch },
                 OnComplete: function () {
-                    console.log("OnComplete: function (respond)");
+                   
                 },
                 success: function (respond) {
 
-                    try {
-                        console.log("success: function (respond)");
+                    try {                       
                         var GEOGRAPHICALORG = respond.result.Data.GEOGRAPHICALORG;
                         var GEODIRECTREPORT = respond.result.Data.GEODIRECTREPORT;
                         var FUNCTIONALORG = respond.result.Data.FUNCTIONALORG;
@@ -820,6 +823,10 @@
                         var GEOUSERNAME = respond.result.Data.DISPLAYGEODIRECTREPORT;
                         var FUNCTUSERNAME = respond.result.Data.DISPLAYFUNCDIRECTREPORT;
 
+                        console.log("GEOGRAPHICALORG =::::::=" + GEOGRAPHICALORG);
+                        console.log("GEODIRECTREPORT =::::::=" + GEODIRECTREPORT);
+                        console.log("FUNCTIONALORG =:::::::=" + FUNCTIONALORG);
+                        console.log("FUNCDIRECTREPORT =:::::::=" + FUNCDIRECTREPORT);
                         /*18-11-2019
                         diagram.dataSource.read({ empId: empIdSearch });
                         diagramGeo.dataSource.read({ empId: empIdSearch }); 
@@ -829,7 +836,6 @@
                        
                         //Process related data.
                         //Process for Geo Organization.
-                        console.log("GEOGRAPHICALORG ===" + GEOGRAPHICALORG);
                         if (GEOGRAPHICALORG != '' && GEOGRAPHICALORG != null) {
                             /*18-11-2019
                             var nodeDataItem = geoOrganization.dataSource.get(GEOGRAPHICALORG);
@@ -839,7 +845,7 @@
                             18-11-2019*/
 
                             treeGeoDirectReport.dataSource.read({ deptcode: GEOGRAPHICALORG });
-                            console.log("GEODIRECTREPORT = " + GEODIRECTREPORT)
+                            $("#GEODIRECTSYSIDREPORT_Code").val(GEODIRECTREPORT);
                             /*18-11-2019 
                             geoOrganization.select(select);
                             geoOrganization.trigger('select', { node: select });
@@ -859,11 +865,8 @@
                             geoOrganization.select(null);
                             18-11-2019*/
                         }
-                        console.log("END GEOGRAPHICALORG ===" + GEOGRAPHICALORG);
                         //End for Geo Organization.
                         //Process for Funct Report.
-
-                        console.log("FUNCTIONALORG ===" + FUNCTIONALORG);
                         if (FUNCTIONALORG != '' && GEOGRAPHICALORG != null) {
 
                             /*18-11-2019
@@ -901,6 +904,8 @@
 
 
                             treeFunctionDirectReport.dataSource.read({ funccode: FUNCTIONALORG });
+
+                            $("#FUNCDIRECTSYSIDREPORT_Code").val(FUNCDIRECTREPORT);
                         }
                         else {
                             treeFunctionDirectReport.dataSource.read({ funccode: null });
@@ -908,7 +913,7 @@
                             treeFuncDirectReport.select(null);
                             18-11-2019*/
                         }
-
+                        
                     }
                     finally {
                         kendo.ui.progress($("#window"), false);
@@ -939,8 +944,7 @@
 
                 }
             });
-            $("#GEODIRECTSYSIDREPORT_Code").val(geouser);
-            $("#FUNCDIRECTSYSIDREPORT_Code").val(functuser);
+            
         }
         finally {
             //kendo.ui.progress($("#window"), false);

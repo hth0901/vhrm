@@ -26,7 +26,7 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] param = new OracleParameter[1];
             param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
-            return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GETTREE_FUNC_REPORT", param);
+            return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GETTREE_NEW_FUNC_REPORT", param);
         }
         
         public DataTable GetUsersFunctionReports(string funccode)

@@ -309,6 +309,7 @@
     <Compile Include="ViewModels\CategoryItemViewModel.cs" />
     <Compile Include="ViewModels\DepartmentTreeViewItem.cs" />
     <Compile Include="ViewModels\DeptViewModel.cs" />
+    <Compile Include="ViewModels\ElementViewModel.cs" />
     <Compile Include="ViewModels\EmployeeDiagramViewModel.cs" />
     <Compile Include="ViewModels\EmployeeImageViewModel.cs" />
     <Compile Include="ViewModels\EmployeeItemViewModel.cs" />
@@ -317,6 +318,7 @@
     <Compile Include="ViewModels\FunctionReportViewModel.cs" />
     <Compile Include="ViewModels\FunctionUsersViewModel.cs" />
     <Compile Include="ViewModels\FunctViewModel.cs" />
+    <Compile Include="ViewModels\GeoChartViewModel.cs" />
     <Compile Include="ViewModels\GeoDeptViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuFirstLevel.cs" />

@@ -317,7 +317,10 @@
 
     function onShowChart() {
         let wd = $("#windowChart").data("kendoWindow");
-        wd.content("<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 95%; width: 100%'></iframe>");
+        let deptcode = document.getElementById("dept_code").value;
+        let chartContent = "<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart?deptCode=" + deptcode + "' frameborder='0' style='height: 95%; width: 100%'></iframe>";
+        //wd.content("<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart?deptCode=' frameborder='0' style='height: 95%; width: 100%'></iframe>");
+        wd.content(chartContent);
         wd.open()
         wd.center();
     }

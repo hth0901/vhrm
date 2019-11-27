@@ -166,15 +166,17 @@ namespace vhrm.Controllers
             return Json(result.ToList(), JsonRequestBehavior.AllowGet);
             //return Json(data, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult getUserInGeoReportByDeptCode(string deptCode)
+        public JsonResult getUserInGeoReportByDeptCode([DataSourceRequest]DataSourceRequest request,string deptCode)
         {
             var data = bGeoReport.getUserInGeoReportByDeptCode(deptCode);
-            return Json(data, JsonRequestBehavior.AllowGet);
+            return Json(data.ToDataSourceResult(request));
+            //return Json(data, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult getUserInFunctReportByDeptCode(string functCode)
+        public JsonResult getUserInFunctReportByDeptCode([DataSourceRequest]DataSourceRequest request, string functCode)
         {
             var data = bFunctionReport.getUserInFunctReportByDeptCode(functCode);
-            return Json(data, JsonRequestBehavior.AllowGet);
+            return Json(data.ToDataSourceResult(request));
+            //return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult getFunctReports(string FUNCCODE)

@@ -18,34 +18,34 @@
         {
             @Html.AntiForgeryToken()
             <div class="box-body">
-               
-                    <div class="emp-search-block">
-                        <div class="emp-search-title">
-                            <label class=" " >EMPID</label>
-                            <input type="hidden" id="hdMode" value="@ViewBag.isMode" />
-                            @*@Html.LabelFor(model => model.EMPID, htmlAttributes: new { style = "width:100%", @class = "col-md-3 control-label" })*@
-                        </div>
 
-                        <div class="emp-search-formsearch">    
-                            <input id="empIdSearch" ondblclick="openSearchEmployee()" name="empIdSearch" type="text" value="" class="" >     
-                            <button type="button" class="btn btn-default btn-sm btnOpacity" title="FIND" id="findEmployee"><i class="fa fa-search" aria-hidden="true"></i></button> 
-                        </div>
-                        <div id="window"></div>
-                        <div class="emp-search-button">                         
-                            <button type="button" id="newEmployee" class="btn btn-default btn-sm btnOpacity pull-right" title="New" ><i class="fa fa-plus"></i></button>
-                            <button type="button" id="btnDeleteEmployee" class="btn btn-default btn-sm btnOpacity pull-right" title="Delete employee" ><i class="fa fa-times" aria-hidden="true"></i></button>
-                            <button type="button" id="btnEdit" class="btn btn-default btn-sm btnOpacity pull-right" title="Edit"><i class="fa fa-edit"></i></button>
-                            <button type="button" id="btnSave" class="btn btn-default btn-sm btnOpacity pull-right" title="Save"><i class="fa fa-save"></i></button>
-                            <button type="button" id="btnCancel" class="btn btn-default btn-sm btnOpacity pull-right"  title="Cancel" ><i class="fa fa-ban"></i></button>                         
-                        </div>
+                <div class="emp-search-block">
+                    <div class="emp-search-title">
+                        <label class=" ">EMPID</label>
+                        <input type="hidden" id="hdMode" value="@ViewBag.isMode" />
+                        @*@Html.LabelFor(model => model.EMPID, htmlAttributes: new { style = "width:100%", @class = "col-md-3 control-label" })*@
                     </div>
-              
-                
+
+                    <div class="emp-search-formsearch">
+                        <input id="empIdSearch" ondblclick="openSearchEmployee()" name="empIdSearch" type="text" value="" class="">
+                        <button type="button" class="btn btn-default btn-sm btnOpacity" title="FIND" id="findEmployee"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
+                    <div id="window"></div>
+                    <div class="emp-search-button">
+                        <button type="button" id="newEmployee" class="btn btn-default btn-sm btnOpacity pull-right" title="New"><i class="fa fa-plus"></i></button>
+                        <button type="button" id="btnDeleteEmployee" class="btn btn-default btn-sm btnOpacity pull-right" title="Delete employee"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        <button type="button" id="btnEdit" class="btn btn-default btn-sm btnOpacity pull-right" title="Edit"><i class="fa fa-edit"></i></button>
+                        <button type="button" id="btnSave" class="btn btn-default btn-sm btnOpacity pull-right" title="Save"><i class="fa fa-save"></i></button>
+                        <button type="button" id="btnCancel" class="btn btn-default btn-sm btnOpacity pull-right" title="Cancel"><i class="fa fa-ban"></i></button>
+                    </div>
+                </div>
+
+
                 <div id="StaffPartial" class="region">
                     @if (ViewBag.isMode == 1)
                     {
-                        //Html.RenderPartial("Edit", Model);
-                        Html.RenderPartial("New", Model);
+                        Html.RenderPartial("Edit", Model);
+                        //Html.RenderPartial("New", Model);
                     }
                     else
                     {
@@ -59,75 +59,75 @@
     <div id="GeoOrganizationInforPartial" class="GeoOrganizationInforPartial" style="">
         <div class="demo-section k-content">
             @(Html.Kendo().TabStrip()
-                .Name("tabstrip")
-                    .Events(e => e
-                            //.Select("tabstrip_select")
-                            .Activate("onTabStripActivate")
-                    )
-                .Animation(animation =>
-                {
-                    animation.Enable(ViewBag.animation == "expand:vertical" || true);
+                                .Name("tabstrip")
+                                    .Events(e => e
+                                            //.Select("tabstrip_select")
+                                            .Activate("onTabStripActivate")
+                                    )
+                                .Animation(animation =>
+                                {
+                                    animation.Enable(ViewBag.animation == "expand:vertical" || true);
 
-                    animation.Open(config =>
-                    {
-                        if (ViewBag.animation != "toggle")
-                        {
-                            config.Expand(ExpandDirection.Vertical);
-                        }
+                                    animation.Open(config =>
+                                    {
+                                        if (ViewBag.animation != "toggle")
+                                        {
+                                            config.Expand(ExpandDirection.Vertical);
+                                        }
 
-                        if (ViewBag.opacity == true)
-                        {
-                            config.Fade(FadeDirection.In);
-                        }
+                                        if (ViewBag.opacity == true)
+                                        {
+                                            config.Fade(FadeDirection.In);
+                                        }
 
-                        config.Duration(AnimationDuration.Fast);
-                    });
-                }
-                )
-                .SelectedIndex(0)
-                .Items(tabstrip =>
-                {
-                    /*18-11-2019
-                    tabstrip.Add().Text("Geo. Organization").Enabled(true)
-                        .Content
-                        (
-                                @Html.Partial("EmployeeGeoOrganization").ToHtmlString()
-                            );
-                    18-11-2019*/
+                                        config.Duration(AnimationDuration.Fast);
+                                    });
+                                }
+                                )
+                                .SelectedIndex(0)
+                                .Items(tabstrip =>
+                                {
+                                /*18-11-2019
+                                tabstrip.Add().Text("Geo. Organization").Enabled(true)
+                                    .Content
+                                    (
+                                            @Html.Partial("EmployeeGeoOrganization").ToHtmlString()
+                                        );
+                                18-11-2019*/
 
-                    tabstrip.Add().Text("Geo. Direct Report").
-                        Content
-                        (
-                                @Html.Partial("EmployeeGeoDirectReport").ToHtmlString()
-                        );
-                    tabstrip.Add().Text("Func Direct Report").
-                       Content
-                       (
-                               @Html.Partial("EmployeeFunctionDirectReport").ToHtmlString()
-                       );
-                    /*18-11-2019
-                    tabstrip.Add().Text("Func. Organization").Enabled(true)
-                        .Content
-                        (
-                                @Html.Partial("EmployeeFuncDirectReport").ToHtmlString()
-                        );
-                    tabstrip.Add().Text("Func Direct Report").
-                        Content
-                        (
-                                @Html.Partial("EmployeeListFuncDirectReport").ToHtmlString()
-                        );
-                    tabstrip.Add().Text("Geo Direct View")
-                        .Content
-                        (
-                                @Html.Partial("EmployeeGeoDirectView").ToHtmlString()
-                        );
-                    tabstrip.Add().Text("Func Direct View")
-                        .Content
-                        (
-                                @Html.Partial("EmployeeFuncDirectView").ToHtmlString()
-                        );
-                        18-11-2019*/
-                })
+                                    tabstrip.Add().Text("Geo. Direct Report").
+                                        Content
+                                        (
+                                                @Html.Partial("EmployeeGeoDirectReport").ToHtmlString()
+                                        );
+                                    tabstrip.Add().Text("Func Direct Report").
+                                       Content
+                                       (
+                                               @Html.Partial("EmployeeFunctionDirectReport").ToHtmlString()
+                                       );
+                                /*18-11-2019
+                                tabstrip.Add().Text("Func. Organization").Enabled(true)
+                                    .Content
+                                    (
+                                            @Html.Partial("EmployeeFuncDirectReport").ToHtmlString()
+                                    );
+                                tabstrip.Add().Text("Func Direct Report").
+                                    Content
+                                    (
+                                            @Html.Partial("EmployeeListFuncDirectReport").ToHtmlString()
+                                    );
+                                tabstrip.Add().Text("Geo Direct View")
+                                    .Content
+                                    (
+                                            @Html.Partial("EmployeeGeoDirectView").ToHtmlString()
+                                    );
+                                tabstrip.Add().Text("Func Direct View")
+                                    .Content
+                                    (
+                                            @Html.Partial("EmployeeFuncDirectView").ToHtmlString()
+                                    );
+                                    18-11-2019*/
+                                })
             )
 
         </div>
@@ -142,69 +142,171 @@
     }
 </style>
 @(Html.Kendo().Dialog()
-                .Name("formDialog")
-                .Visible(false)
-                .Title("Search Employees")
-                .HtmlAttributes(new { style = "display: flex; left: 90px; top: 70px; z - index: 10004;" })
-                .Content(
-                    Html.Kendo().Grid<vhrm.FrameWork.Entity.eEmpBasicInfo>()
-                        .Name("gridForm")
-                        .AutoBind(false)
-                        .Columns(columns =>
-                        {
-                            //columns.Bound(c => c.SYS_EMPID).Width(120).Title("sys_empid");
-                            columns.Bound(c => c.EMPID).Width(120).Title("EMPID");
-                            columns.Bound(c => c.EMPNAME).Width(200).Title("EMPNAME");
-                        })
-                        .Selectable(selectable => selectable
-                            .Mode(GridSelectionMode.Single))
-                        .Filterable(ft =>
-                        {
-                            ft.Extra(false);
-                            ft.Mode(GridFilterMode.Row);
-                            ft.Operators(ops => ops.ForString(str => str.Clear().Contains("Contains")));
-                        })
-                        .Sortable()
-                        .Scrollable()
-                        .Pageable(pg =>
-                        {
-                            pg.PageSizes(false);
-                            pg.Refresh(false);
-                            pg.ButtonCount(5);
-                        })
-                        .DataSource(dts =>
-                        {
-                            dts.Ajax()
-                                .Read(read => read.Action("getEmpBasicInfo", "Employee"))
-                                .PageSize(50);
-                        })
-                        .ToHtmlString()
-                )
-                .Width(500)
-        //.Height(520)
-        .Modal(true)
-        .Closable(true)
-        .Actions(actions =>
-        {
-            actions.Add().Text("Cancel");
-            actions.Add().Text("OК").Primary(true).Action("actionOK");
-        })
-        .Events(ev => ev.Open("openDialogForm"))
+                        .Name("formDialog")
+                        .Visible(false)
+                        .Title("Search Employees")
+                        .HtmlAttributes(new { style = "display: flex; left: 90px; top: 70px; z - index: 10004;" })
+                        .Content(
+                            Html.Kendo().Grid<vhrm.FrameWork.Entity.eEmpBasicInfo>()
+                                .Name("gridForm")
+                                .AutoBind(false)
+                                .Columns(columns =>
+                                {
+                        //columns.Bound(c => c.SYS_EMPID).Width(120).Title("sys_empid");
+                        columns.Bound(c => c.EMPID).Width(120).Title("EMPID");
+                                    columns.Bound(c => c.EMPNAME).Width(200).Title("EMPNAME");
+                                })
+                                .Selectable(selectable => selectable
+                                    .Mode(GridSelectionMode.Single))
+                                .Filterable(ft =>
+                                {
+                                    ft.Extra(false);
+                                    ft.Mode(GridFilterMode.Row);
+                                    ft.Operators(ops => ops.ForString(str => str.Clear().Contains("Contains")));
+                                })
+                                .Sortable()
+                                .Scrollable()
+                                .Pageable(pg =>
+                                {
+                                    pg.PageSizes(false);
+                                    pg.Refresh(false);
+                                    pg.ButtonCount(5);
+                                })
+                                .DataSource(dts =>
+                                {
+                                    dts.Ajax()
+                                        .Read(read => read.Action("getEmpBasicInfo", "Employee"))
+                                        .PageSize(50);
+                                })
+                                .ToHtmlString()
+                        )
+                        .Width(500)
+                //.Height(520)
+                .Modal(true)
+                .Closable(true)
+                .Actions(actions =>
+                {
+                    actions.Add().Text("Cancel");
+                    actions.Add().Text("OК").Primary(true).Action("actionOK");
+                })
+                .Events(ev => ev.Open("openDialogForm"))
+)
+
+
+@*FORM GEO SUPERVISOR*@
+@(Html.Kendo().Dialog()
+                        .Name("formGeoDialog")
+                        .Visible(false)
+                        .Title("Search Employees")
+                        .HtmlAttributes(new { style = "display: flex; left: 90px; top: 200px; z - index: 10004;" })
+                        .Content(
+                            Html.Kendo().Grid<vhrm.FrameWork.Entity.eEmpBasicInfo>()
+                                .Name("gridGeoForm")
+                                .AutoBind(false)
+                                .Columns(columns =>
+                                {
+                        //columns.Bound(c => c.SYS_EMPID).Width(120).Title("sys_empid");
+                        columns.Bound(c => c.EMPID).Width(120).Title("EMPID");
+                                    columns.Bound(c => c.EMPNAME).Width(200).Title("EMPNAME");
+                                    columns.Bound(c => c.DEPTCODE).Width(120).Title("DEPTCODE");
+                                })
+                                .Selectable(selectable => selectable
+                                    .Mode(GridSelectionMode.Single))
+                                .Filterable(ft =>
+                                {
+                                    ft.Extra(false);
+                                    ft.Mode(GridFilterMode.Row);
+                                    ft.Operators(ops => ops.ForString(str => str.Clear().Contains("Contains")));
+                                })
+                                .Sortable()
+                                .Scrollable()
+                                .Pageable(pg =>
+                                {
+                                    pg.PageSizes(false);
+                                    pg.Refresh(false);
+                                    pg.ButtonCount(5);
+                                })
+                                .DataSource(dts =>
+                                {
+                                    dts.Ajax()
+                                        .Read(read => read.Action("getUserInGeoReportByDeptCode", "Staff"))
+                                        .PageSize(50);
+                                })
+                                .ToHtmlString()
+                        )
+                        .Width(500)
+                //.Height(520)
+                .Modal(true)
+                .Closable(true)
+                .Actions(actions =>
+                {
+                    actions.Add().Text("Cancel");
+                    actions.Add().Text("OК").Primary(true).Action("actionGeoOK");
+                })
+                .Events(ev => ev.Open("openGeoDialogForm"))
+)
+@*FORM FUNCTION*@
+
+@(Html.Kendo().Dialog()
+                    .Name("formFunctionDialog")
+                    .Visible(false)
+                    .Title("Search Employees")
+                    .HtmlAttributes(new { style = "display: flex; left: 90px; top: 200px; z - index: 10004;" })
+                    .Content(
+                        Html.Kendo().Grid<vhrm.FrameWork.Entity.eEmpBasicInfo>()
+                            .Name("gridFunctionForm")
+                            .AutoBind(false)
+                            .Columns(columns =>
+                            {
+                                //columns.Bound(c => c.SYS_EMPID).Width(120).Title("sys_empid");
+                                columns.Bound(c => c.EMPID).Width(120).Title("EMPID");
+                                columns.Bound(c => c.EMPNAME).Width(200).Title("EMPNAME");
+                                columns.Bound(c => c.DEPTCODE).Width(120).Title("FUNCDEPT");
+                            })
+                            .Selectable(selectable => selectable
+                                .Mode(GridSelectionMode.Single))
+                            .Filterable(ft =>
+                            {
+                                ft.Extra(false);
+                                ft.Mode(GridFilterMode.Row);
+                                ft.Operators(ops => ops.ForString(str => str.Clear().Contains("Contains")));
+                            })
+                            .Sortable()
+                            .Scrollable()
+                            .Pageable(pg =>
+                            {
+                                pg.PageSizes(false);
+                                pg.Refresh(false);
+                                pg.ButtonCount(5);
+                            })
+                            .DataSource(dts =>
+                            {
+                                dts.Ajax()
+                                    .Read(read => read.Action("getUserInFunctReportByDeptCode", "Staff"))
+                                    .PageSize(50);
+                            })
+                            .ToHtmlString()
+                    )
+                    .Width(500)
+            //.Height(520)
+            .Modal(true)
+            .Closable(true)
+            .Actions(actions =>
+            {
+                actions.Add().Text("Cancel");
+                actions.Add().Text("OК").Primary(true).Action("actionFunctionOK");
+            })
+            .Events(ev => ev.Open("openFunctionDialogForm"))
 )
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
-       console.log(window.name); 
+       console.log(window.name);
     });
     var treeGeoDirectReport;
     var treeFunctionDirectReport;
     var treeemployeeOfOrg;
-
-
-
-   
     var geoOrganization;
-    
-   
+
     var gridFunctReportEmployees;
     var functReportCode;
     var isSaveStatus;
@@ -221,6 +323,10 @@
     var windowWidget;
     let gridForm = null;
 
+    let gridGeoForm = null;
+
+    let gridFunctionForm = null;
+
     var counter = 1;
     var curPage = 1;
     //---------
@@ -236,6 +342,50 @@
     function openSearchEmployee() {
         $("#formDialog").data("kendoDialog").open();
     }
+
+    //GEO SUPERVISOR USER
+    function actionGeoOK(e) {
+        //let formList = $("#gridForm").data("kendoGrid");
+        let selectedRow = gridGeoForm.select()[0];
+        let selectedDataItem = gridGeoForm.dataItem(selectedRow);
+        $("#GEODIRECTSYSIDREPORT_Code").val(selectedDataItem.EMPID);
+        $('#DISPLAYGEODIRECTREPORT').val(selectedDataItem.EMPNAME);
+        $("#GEODIRECTREPORT").val(selectedDataItem.SYS_EMPID);
+        $("#GEOGRAPHICALORG").val(selectedDataItem.DEPTCODE);
+
+        //HIEN THI CAY VA ACTIVE SELECTED NODE
+        treeGeoReport.dataSource.filter({});
+        treeGeoReport.value(selectedDataItem.DEPTCODE);
+    }
+    function openGeoDialogForm() {
+        gridGeoForm.dataSource.read({ deptcode: $("#GEOGRAPHICALORG").val()});
+    }
+    function openGeoSearchEmployee() {
+        $("#formGeoDialog").data("kendoDialog").open();
+    }
+
+    //FUNCTION USER
+    function actionFunctionOK(e) {
+        //let formList = $("#gridForm").data("kendoGrid");
+        let selectedRow = gridFunctionForm.select()[0];
+        let selectedDataItem = gridFunctionForm.dataItem(selectedRow);
+        $("#FUNCDIRECTSYSIDREPORT_Code").val(selectedDataItem.EMPID);
+        $('#DISPLAYFUNCDIRECTREPORT').val(selectedDataItem.EMPNAME);
+        $("#FUNCDIRECTREPORT").val(selectedDataItem.SYS_EMPID);
+        $("#FUNCTIONALORG").val(selectedDataItem.DEPTCODE);
+
+        //HIEN THI CAY VA ACTIVE SELECTED NODE
+        treeFunctionReport.dataSource.filter({}); 
+        treeFunctionReport.value(selectedDataItem.DEPTCODE);
+    }
+    function openFunctionDialogForm() {
+        gridFunctionForm.dataSource.read({ deptcode: $("#FUNCTIONALORG").val() });
+    }
+    function openFunctionSearchEmployee() {
+        $("#formFunctionDialog").data("kendoDialog").open();
+    }
+
+
     function onDataGridBoundGridEmployees(e)
     {
         $("[name='SYS_EMPID']").change(function (e) {
@@ -304,7 +454,7 @@
             /*18-11-2019
             treeParentsOrganization.dataSource.filter({ field: "id", operator: "eq", value: id })
             var node = treeParentsOrganization.dataSource.get(id);
-            treeParentsOrganization.value(node);            
+            treeParentsOrganization.value(node);
 
             if ($("#FUNCDIRECTREPORT").val() != '' && $("#FUNCDIRECTREPORT").val() != 'undefined') {
                 var user = gridFunctReportEmployees.dataSource.get($("#FUNCDIRECTREPORT").val());
@@ -342,7 +492,7 @@
         ////Input FUNCCODE.
         $("#GEOGRAPHICALORG").val(item.DEPTCODE);
         $("#DISPLAYGEODIRECTREPORT").val("");
-      
+
 
         /*18-11-2019
         var nodeDataItem = geoOrganization.dataSource.get(dataItem.id);
@@ -557,7 +707,7 @@
     }
 
         function onSelectdDeptGeo(e) {
-            var dataItem = this.dataItem(e.node);   
+            var dataItem = this.dataItem(e.node);
             $("#GEOGRAPHICALORG").val(dataItem.DEPTCODE);
             var displayTree = [];
             displayTree.push(dataItem.DEPTNAME);
@@ -567,8 +717,8 @@
             }
             displayTree.reverse();
 
-            $("#DISPLAYGEOGRAPHICALORG").val(displayTree.join(" > "));            
-           
+            $("#DISPLAYGEOGRAPHICALORG").val(displayTree.join(" > "));
+
             $("#DISPLAYGEODIRECTREPORT").val("");
         }
         function onChangedtreeemployeeOfOrg(e)
@@ -651,7 +801,7 @@
             {
                 console.log("childNodes[j].Key ==" + dataItem.Key);
               if ($("#GEOGRAPHICALORG").val() == dataItem.Key)
-              {                  
+              {
                     var childNodes = dataItem.children.view();
                     for (var j = 0; j < childNodes.length; j++)
                     {
@@ -803,7 +953,7 @@
                 function (data) {
             });
             $('#StaffPartial').load('/Staff/Edit', { empId: empIdSearch });
-           
+
             //Load Diagram.
             //Get DeptCode and FuncCode.
             $.ajax({
@@ -811,11 +961,11 @@
                 type: 'POST',
                 data: { empId: empIdSearch },
                 OnComplete: function () {
-                   
+
                 },
                 success: function (respond) {
 
-                    try {                       
+                    try {
                         var GEOGRAPHICALORG = respond.result.Data.GEOGRAPHICALORG;
                         var GEODIRECTREPORT = respond.result.Data.GEODIRECTREPORT;
                         var FUNCTIONALORG = respond.result.Data.FUNCTIONALORG;
@@ -829,11 +979,11 @@
                         console.log("FUNCDIRECTREPORT =:::::::=" + FUNCDIRECTREPORT);
                         /*18-11-2019
                         diagram.dataSource.read({ empId: empIdSearch });
-                        diagramGeo.dataSource.read({ empId: empIdSearch }); 
+                        diagramGeo.dataSource.read({ empId: empIdSearch });
                         gridFunctReportEmployees.dataSource.read({ empId: null, functCode: FUNCTIONALORG });
                         18-11-2019*/
 
-                       
+
                         //Process related data.
                         //Process for Geo Organization.
                         if (GEOGRAPHICALORG != '' && GEOGRAPHICALORG != null) {
@@ -846,7 +996,7 @@
 
                             treeGeoDirectReport.dataSource.read({ deptcode: GEOGRAPHICALORG });
                             $("#GEODIRECTSYSIDREPORT_Code").val(GEODIRECTREPORT);
-                            /*18-11-2019 
+                            /*18-11-2019
                             geoOrganization.select(select);
                             geoOrganization.trigger('select', { node: select });
                             if (select.length > 0) {
@@ -913,7 +1063,7 @@
                             treeFuncDirectReport.select(null);
                             18-11-2019*/
                         }
-                        
+
                     }
                     finally {
                         kendo.ui.progress($("#window"), false);
@@ -930,7 +1080,7 @@
                     console.log("error : ");
                     $("#EMPID").val("");
                     /*18-11-2019
-                    geoOrganization.select(null);                    
+                    geoOrganization.select(null);
                     treeFuncDirectReport.select(null);
                     gridFunctReportEmployees.dataSource.read({ empId: null, functCode: null });
                     treeParentsOrganization.dataSource.filter({ field: "id", operator: "eq", value: 0 });
@@ -944,54 +1094,24 @@
 
                 }
             });
-            
+
         }
         finally {
             //kendo.ui.progress($("#window"), false);
         }
 
     }
-    function InitData()
-    {
-        //var empIdSearch = $("#empIdSearch").val().trim();
-        //$.ajax({
-        //    url: "/Staff/getDeptCodeAndFuncCode",
-        //    type: 'POST',
-        //    data: { empId: empIdSearch },
-        //    OnComplete: function () {
-        //    },
-        //    success: function (respond) {
-        //        try {
-        //            //kendo.ui.progress($("#window"), true);
-        //            var GEOGRAPHICALORG = respond.result.Data.GEOGRAPHICALORG;
-        //            var FUNCTIONALORG = respond.result.Data.FUNCTIONALORG;
-        //            geouser = respond.result.Data.GEOUSER;
-        //            functuser = respond.result.Data.FUNCUSER;
-        //            //treeParentsOrganization.dataSource.read({ functCode: FUNCTIONALORG });
-        //            //treeGeoDirectReport = $("#treeGeoDirectReport").data("kendoTreeView");
-        //            //treeParentsOrganization = $("#treeParentsOrganization").data("kendoDropDownTree");
-        //            //treeGeoDirectReport.dataSource.read({ deptcode: GEOGRAPHICALORG });
-        //            //treeParentsOrganization.dataSource.read({ functCode: FUNCTIONALORG });
-        //            //treeParentsOrganization.value(FUNCTIONALORG);
-        //        } finally {
-        //            //kendo.ui.progress($("#window"), false);
-        //        }
-        //        //treeParentsOrganization.bind("select", onSelectdtreeFunctionReport);
-        //    },
-        //    error: function (error) {
-        //    }
-        //});
-    }
+   
     $(document).ready(function () {
         treeemployeeOfOrg = $("#treeemployeeOfOrg").data("kendoDropDownTree");
         /*18-11-2019
-        geoOrganization = $("#treeGeoOrganization").data("kendoTreeView");        
+        geoOrganization = $("#treeGeoOrganization").data("kendoTreeView");
         treeFuncDirectReport = $("#treeFuncDirectReport").data("kendoTreeView");
         treeParentsOrganization = $("#treeParentsOrganization").data("kendoDropDownTree");
         18-11-2019*/
         treeGeoDirectReport = $("#treeGeoDirectReport").data("kendoTreeView");
         treeFunctionDirectReport = $("#treeFunctionDirectReport").data("kendoTreeView");
-       
+
         gridFunctReportEmployees = $("#gridFunctReportEmployees").data("kendoGrid");
         treeGeoReport = $("#DeptGeo").data("kendoDropDownTree");
         treeFunctionReport = $("#treeFunctReport").data("kendoDropDownTree");
@@ -1003,11 +1123,13 @@
 
         tabStrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
         gridForm = $("#gridForm").data("kendoGrid");
+        gridGeoForm = $("#gridGeoForm").data("kendoGrid");
+        gridFunctionForm = $("#gridFunctionForm").data("kendoGrid");
         kendo.ui.progress($("#window"), false);
         Visable(true, false, false, false, false);
+        //loadUsers();
         //Enables(false);
         $("#findEmployee").on("click", function (filter) {
-            InitData();
             loadData();
             Visable(true, true, false, false, true);
             Enables(false);
@@ -1110,52 +1232,9 @@
             if ($("#txtEmployeeID").val() == '') return;
             gridFunctReportEmployees.dataSource.read({ empId: $("#txtEmployeeID").val(), functCode: functReportCode });
         });
-        
-        //$('#empIdSearch').autocomplete    
-        //    (
-        //        {
-        //            minLength: 0,
-        //            source: function (request, response) {
-        //                if (/^[a-zA-Z]+$/.test($('#empIdSearch').val()) == false) return;
-        //                $.ajax({
-        //                    url: "/Staff/SearchUserByValue",
-        //                    type: "POST",
-        //                    dataType: "json",
-        //                    data: { key: $('#empIdSearch').val() },
-        //                    success: function (data) {
-        //                        response($.map(data, function (item) {
-        //                            return { value: item.EMPID, label: item.EMPNAME };
-        //                        }))
-        //                    }
-        //                })
-        //            },
-        //            focus: function (event, ui) {
-        //                $("#empIdSearch").val(ui.item.label);
-        //                return false;
-        //            },
-        //            select: function (event, ui) {
-        //                $("#empIdSearch").val(ui.item.value);
-        //                return false;
-        //            }
-        //        }
-        //    ).data("ui-autocomplete")._renderItem = function (ul, item) {
-        //        var str = item.label;
-        //        var array = str.split(",");
-        //        console.log(array[0]);
-        //        console.log(array[1]);
-        //        var template = '<div class="row">' +
-        //            '<div class="col-md-1" id="selectedUser" data=' + array[1] + '>' +
-        //            '<i class="fa fa-user"></i> | ' + '( ' + item.value + ' ) ' + array[0] +
-        //            '</div>' +
-        //            '</div>';
-        //        item.label = array[0];
-        //        item.data = array[1];
-        //        return $('<li class="autocomplete-template">')
-        //            .data("item.autocomplete", item)
-        //            .append(template)
-        //            .appendTo(ul);
-        //    };
 
 
     });
+
+
 </script>

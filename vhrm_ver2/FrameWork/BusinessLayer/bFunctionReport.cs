@@ -89,7 +89,8 @@ namespace vhrm.FrameWork.BusinessLayer
                 {
                     //FUNCPORTCD = dtr["FUNCPORTCD"].ToString(),
                     EMPID = dtr["EMPID"].ToString(),
-                    EMPNAME = dtr["EMPNAME"].ToString() + "," + dtr["SYS_EMPID"].ToString(),
+                    EMPNAME = dtr["EMPNAME"].ToString(),
+                    DEPTCODE = dtr["FUNCDEPT"].ToString(),
                     SYS_EMPID = dtr["SYS_EMPID"].ToString()
                 };
                 functionReports.Add(item);

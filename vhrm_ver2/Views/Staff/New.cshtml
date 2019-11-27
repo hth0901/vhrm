@@ -218,9 +218,10 @@
                             <div class="form-em-col">
                                 @Html.HiddenFor(model => model.GEODIRECTREPORT)
                                 <div class="row">
-                                    <div class="col-md-4" style="">        @* HIEUHT EDITED *@
-                                        <div class="autocomplete" style="width:100%;">
-                                            <input id="GEODIRECTSYSIDREPORT_Code" name="GEODIRECTSYSIDREPORT_Code" type="text" value="" class="form-control" style="height: 30px; font-size: smaller;width: 95px; margin-right:5px;background:#007bff38" />
+                                    <div class="col-md-4" style="">
+                                        @* HIEUHT EDITED autocomplete *@
+                                        <div class="" style="width:100%;">
+                                            <input ondblclick="openGeoSearchEmployee()" id="GEODIRECTSYSIDREPORT_Code" name="GEODIRECTSYSIDREPORT_Code" type="text" value="" class="form-control" style="height: 30px; font-size: smaller;width: 95px; margin-right:5px;background:#007bff38" />
                                         </div>
                                     </div>
                                     <div class="col-md-8">
@@ -275,8 +276,8 @@
                                 @Html.HiddenFor(model => model.FUNCDIRECTREPORT)
                                 <div class="row">
                                     <div class="col-md-4" style="">        @* HIEUHT EDIT *@
-                                        <div class="autocomplete" style="width:100%;">
-                                            <input id="FUNCDIRECTSYSIDREPORT_Code" name="FUNCDIRECTSYSIDREPORT_Code" type="text" value="" class="form-control " style="height: 30px; font-size: smaller;width: 95px; margin-right:5px; background:#007bff38">
+                                        <div class="" style="width:100%;">
+                                            <input ondblclick="openFunctionSearchEmployee()" id="FUNCDIRECTSYSIDREPORT_Code" name="FUNCDIRECTSYSIDREPORT_Code" type="text" value="" class="form-control " style="height: 30px; font-size: smaller;width: 95px; margin-right:5px; background:#007bff38">
                                         </div>
                                     </div>
                                     <div class="col-md-8">
@@ -334,7 +335,8 @@
         console.log(e);
         let res = e.response;
         $('#emp_image').load('/Staff/EmployeeImage', { empid: res.sys_empid, img_url: res.img_url });
-    }
+    }   
+  
     $(document).ready(function () {
         $('#showOrganization').toggle();
         $(".region #showDeptCode").on("click", function () {
@@ -354,95 +356,7 @@
             $(".demo-section k-content").addClass("expandWidth");
             $('#showFunctionReport').toggle();
         });
-
-        $('#GEODIRECTSYSIDREPORT_Code').autocomplete
-            (
-                {
-                    minLength: 0,
-                    source: function (request, response) {
-                        $.ajax({
-                            url: "/Staff/getUserInGeoReportByDeptCode",
-                            type: "POST",
-                            dataType: "json",
-                            data: { deptCode: $("#GEOGRAPHICALORG").val() },
-                            success: function (data) {
-                                response($.map(data, function (item) {
-                                    return { value: item.EMPID, label: item.EMPNAME };
-                                }))
-                            }
-                        })
-                    },
-                    focus: function (event, ui) {
-                        $("#GEODIRECTSYSIDREPORT_Code").val(ui.item.value);
-                        return false;
-                    },
-                    select: function (event, ui) {
-                        $('#DISPLAYGEODIRECTREPORT').val(ui.item.label);
-                        $("#GEODIRECTREPORT").val(ui.item.data);
-                        return false;
-                    }
-                }
-            ).data("ui-autocomplete")._renderItem = function (ul, item) {
-                var str = item.label;
-                var array = str.split(",");
-                console.log(array[0]);
-                console.log(array[1]);
-                var template = '<div class="row">' +
-                    '<div class="col-md-1" id="selectedGeoUser" data=' + array[1] + '>' +
-                    '<i class="fa fa-user"></i> | ' + '( ' + item.value + ' ) ' + array[0] +
-                    '</div>' +
-                    '</div>';
-                item.label = array[0];
-                item.data = array[1];
-                return $('<li class="autocomplete-template">')
-                    .data("item.autocomplete", item)
-                    .append(template)
-                    .appendTo(ul);
-            };
-
-        $('#FUNCDIRECTSYSIDREPORT_Code').autocomplete
-            (
-                {
-                    minLength: 0,
-                    source: function (request, response) {
-                        $.ajax({
-                            url: "/Staff/getUserInFunctReportByDeptCode",
-                            type: "POST",
-                            dataType: "json",
-                            data: { functCode: $("#FUNCTIONALORG").val() },
-                            success: function (data) {
-                                response($.map(data, function (item) {
-                                    return { value: item.EMPID, label: item.EMPNAME };
-                                }))
-                            }
-                        })
-                    },
-                    focus: function (event, ui) {
-                        $("#FUNCDIRECTSYSIDREPORT_Code").val(ui.item.value);
-                        return false;
-                    },
-                    select: function (event, ui) {
-                        $('#DISPLAYFUNCDIRECTREPORT').val(ui.item.label);
-                        $("#FUNCDIRECTREPORT").val(ui.item.data);
-                        return false;
-                    }
-                }
-            ).data("ui-autocomplete")._renderItem = function (ul, item) {
-                var str = item.label;
-                var array = str.split(",");
-                var template = '<div class="row">' +
-                    '<div class="col-md-1" id="selectedFunctionUser" data=' + array[1] + '>' +
-                    '<i class="fa fa-user"></i> | ' + '( ' + item.value + ' ) ' + array[0] +
-                    '</div>' +
-                    '</div>';
-                item.label = array[0];
-                item.data = array[1];
-                return $('<li class="autocomplete-template">')
-                    .data("item.autocomplete", item)
-                    .append(template)
-                    .appendTo(ul);
-            };
-        InitData();
+        //loadUsers();
     });
 </script>
 

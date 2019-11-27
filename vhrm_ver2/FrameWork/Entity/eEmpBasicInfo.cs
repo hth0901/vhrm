@@ -10,5 +10,6 @@ namespace vhrm.FrameWork.Entity
         public string SYS_EMPID { get; set; }
         public string EMPID { get; set; }
         public string EMPNAME { get; set; }
+        public string DEPTCODE { get; set; }
     }
 }

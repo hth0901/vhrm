@@ -262,7 +262,8 @@ namespace vhrm.FrameWork.BusinessLayer
                 EmployeeMaster item = new EmployeeMaster
                 {
                     SYS_EMPID = dtr["SYS_EMPID"].ToString(),
-                    EMPNAME = dtr["EMPNAME"].ToString() + "," + dtr["SYS_EMPID"].ToString(),
+                    EMPNAME = dtr["EMPNAME"].ToString(), //+ "," + dtr["SYS_EMPID"].ToString(),
+                    DEPTCODE = dtr["DEPTCODE"].ToString(),
                     EMPID = dtr["EMPID"].ToString()
                 };
                 userList.Add(item);

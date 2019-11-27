@@ -152,9 +152,11 @@ namespace vhrm.Controllers
             return jsonResult;
         }
 
-        public ActionResult viewChart()
+        public ActionResult viewChart(string deptCode)
         {
-            return View("OrgChart");
+            GeoChartViewModel vm = new GeoChartViewModel();
+            vm.DEPTCODE = deptCode;
+            return View("OrgChart", vm);
         }
     }
 }

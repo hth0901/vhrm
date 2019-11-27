@@ -1,4 +1,4 @@
-﻿
+﻿@model vhrm.ViewModels.GeoChartViewModel
 @{
     Layout = null;
 }
@@ -42,11 +42,13 @@
 </head>
 <body>
     <div id="tree"></div>
+    <input id="deptcode" type="hidden" value="@Model.DEPTCODE" />
     <script>
         document.addEventListener("DOMContentLoaded", function (event)
         {
             //TUYEN DEPTCODE VAO DAY.
-            $.get("@Url.Action("_OrgChartData", "OrgConfig",new { deptcode = 100001})").done(function (response)
+            let deptCode = document.getElementById('deptcode').value;
+            $.get("@Url.Action("_OrgChartData", "OrgConfig",new { deptcode = Model.DEPTCODE })").done(function (response)
             {
                 OrgChart.REMOVE_GROUP_IF_HAS_ONE_NODE = false;
                 OrgChart.templates.empty = Object.assign({}, OrgChart.templates.base);

@@ -40,6 +40,7 @@ namespace vhrm.Controllers
         [HttpPost]
         public JsonResult getDeptCodeAndFuncCode(string empId)
         {
+            ViewBag.isMode = 1;
             if (string.IsNullOrEmpty(empId))
             {
                 return Json(null, JsonRequestBehavior.AllowGet);

@@ -216,12 +216,13 @@
                         <label for="" class="col-sm-5  title-em-info">Geo. Direct Report</label>
                         <div class="col-sm-7">
                             <div class="form-em-col">
-                                @Html.HiddenFor(model => model.GEODIRECTREPORT)
+                                @*@Html.HiddenFor(model => model.GEODIRECTREPORT)*@
                                 <div class="row">
                                     <div class="col-md-4" style="">
                                         @* HIEUHT EDITED autocomplete *@
                                         <div class="" style="width:100%;">
-                                            <input ondblclick="openGeoSearchEmployee()" id="GEODIRECTSYSIDREPORT_Code" name="GEODIRECTSYSIDREPORT_Code" type="text" value="" class="form-control" style="height: 30px; font-size: smaller;width: 95px; margin-right:5px;background:#007bff38" />
+                                            @Html.TextBoxFor(model => model.GEODIRECTREPORT, "", new { @ondblclick = "openGeoSearchEmployee()", @class = "form-control form-control-sm", style = "height: 30px; font - size: smaller; width: 95px; margin - right:5px; background:#007bff38" })
+                                            @*<input ondblclick="openGeoSearchEmployee()" id="GEODIRECTSYSIDREPORT_Code" name="GEODIRECTSYSIDREPORT_Code" type="text" value="" class="form-control" style="height: 30px; font-size: smaller;width: 95px; margin-right:5px;background:#007bff38" />*@
                                         </div>
                                     </div>
                                     <div class="col-md-8">
@@ -273,11 +274,12 @@
                         <label for="" class="col-sm-5  title-em-info">Func. Direct Report</label>
                         <div class="col-md-7">
                             <div class="form-em-col">
-                                @Html.HiddenFor(model => model.FUNCDIRECTREPORT)
+                                @*@Html.HiddenFor(model => model.FUNCDIRECTREPORT)*@
                                 <div class="row">
                                     <div class="col-md-4" style="">        @* HIEUHT EDIT *@
                                         <div class="" style="width:100%;">
-                                            <input ondblclick="openFunctionSearchEmployee()" id="FUNCDIRECTSYSIDREPORT_Code" name="FUNCDIRECTSYSIDREPORT_Code" type="text" value="" class="form-control " style="height: 30px; font-size: smaller;width: 95px; margin-right:5px; background:#007bff38">
+                                            @Html.TextBoxFor(model => model.FUNCDIRECTREPORT, "", new {@ondblclick = "openFunctionSearchEmployee()", @class = "form-control form-control-sm", style="height: 30px; font - size: smaller; width: 95px; margin - right:5px; background:#007bff38"})
+                                            @*<input ondblclick="openFunctionSearchEmployee()" id="FUNCDIRECTSYSIDREPORT_Code" name="FUNCDIRECTSYSIDREPORT_Code" type="text" value="" class="form-control " style="height: 30px; font-size: smaller;width: 95px; margin-right:5px; background:#007bff38">*@
                                         </div>
                                     </div>
                                     <div class="col-md-8">

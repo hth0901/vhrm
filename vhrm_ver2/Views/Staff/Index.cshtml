@@ -297,7 +297,7 @@ function openSearchEmployee() {
 function acceptSearchSupervisor(e) {
     let selectedRow = gridGeoForm.select()[0];
     let selectedDataItem = gridGeoForm.dataItem(selectedRow);
-    $("#GEODIRECTSYSIDREPORT_Code").val(selectedDataItem.EMPID);
+    $("#GEODIRECTREPORT").val(selectedDataItem.EMPID);
     $('#DISPLAYGEODIRECTREPORT').val(selectedDataItem.EMPNAME);
     $("#GEODIRECTREPORT").val(selectedDataItem.SYS_EMPID);
     $("#GEOGRAPHICALORG").val(selectedDataItem.DEPTCODE);
@@ -317,7 +317,7 @@ function openGeoSearchEmployee() {
 function acceptSearchFunctionor(e) {
     let selectedRow = gridFunctionForm.select()[0];
     let selectedDataItem = gridFunctionForm.dataItem(selectedRow);
-    $("#FUNCDIRECTSYSIDREPORT_Code").val(selectedDataItem.EMPID);
+    $("#FUNCDIRECTREPORT").val(selectedDataItem.EMPID);
     $('#DISPLAYFUNCDIRECTREPORT').val(selectedDataItem.EMPNAME);
     $("#FUNCDIRECTREPORT").val(selectedDataItem.SYS_EMPID);
     $("#FUNCTIONALORG").val(selectedDataItem.DEPTCODE);
@@ -340,7 +340,7 @@ function onDataGridBoundGridEmployees(e) {
         gridFunctReportEmployees.select(row);
         $("#DISPLAYFUNCDIRECTREPORT").val(dataItem["EMPNAME"])
         $("#FUNCDIRECTREPORT").val(dataItem["SYS_EMPID"]);
-        $("#FUNCDIRECTSYSIDREPORT_Code").val(dataItem["EMPID"]);
+        $("#FUNCDIRECTREPORT").val(dataItem["EMPID"]);
     });
 }
 function onSelectItemGridEmployees(evt, args) {
@@ -596,14 +596,14 @@ function loadData()
         $.post(url, { empId: empIdSearch }, function (data) {
         });
         $('#StaffPartial').load('/Staff/Edit', { empId: empIdSearch });
-        //Load Diagram.
         //Get DeptCode and FuncCode.
         $.ajax
             ({
                 url: "/Staff/getDeptCodeAndFuncCode",
                 type: 'POST',
                 data: { empId: empIdSearch },
-                OnComplete: function (respond) {
+                OnComplete: function () {
+                    Enables(false);
                 },
                 success: function (respond) {
                     var GEOGRAPHICALORG = respond.result.Data.GEOGRAPHICALORG;
@@ -632,10 +632,10 @@ function loadData()
 
                     }
                     finally {                       
-                        kendo.ui.progress($("#window"), false);
+                        kendo.ui.progress($("#window"), false);                        
+                        $("#GEODIRECTREPORT").val(GEODIRECTREPORT);
+                        $("#FUNCDIRECTREPORT").val(FUNCDIRECTREPORT);
                         Enables(false);
-                        $("#GEODIRECTSYSIDREPORT_Code").val(GEODIRECTREPORT);
-                        $("#FUNCDIRECTSYSIDREPORT_Code").val(FUNCDIRECTREPORT);
                     }
                 },
                 error: function (error) {
@@ -719,8 +719,8 @@ $(document).ready(function ()
                 url: '@Url.Action("SaveEmployee", "Staff")',
                 type: 'post',
                 data: $('form#frmEmployee').serialize(),
-                success: function (result) {
-                    $('#divPartial1').html(result);
+                 success: function (result) {    
+                     Enables(false);
                 }
             });
             loadData();

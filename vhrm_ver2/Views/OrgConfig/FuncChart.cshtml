@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Organization Chart</title>
+    <title>Function Chart</title>
     <style>
         html, body {
             margin: 0px;
@@ -23,18 +23,6 @@
             width: 100%;
             height: 100%;
         }
-
-        .supervisorimg {
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-        }
-
-        .lbsupervisor {
-            color: white;
-            /*margin-left:-23px;
-            margin-top:10px;*/
-        }
     </style>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     @*<script src="~/assets/js/orgchart.js"></script>*@
@@ -42,13 +30,13 @@
 </head>
 <body>
     <div id="tree"></div>
-    <input id="deptcode" type="hidden" value="@Model.DEPTCODE" />
+    <input id="funccode" type="hidden" value="@Model.DEPTCODE" />
     <script>
         document.addEventListener("DOMContentLoaded", function (event)
         {
             //TUYEN DEPTCODE VAO DAY.
-            let deptCode = document.getElementById('deptcode').value;
-            $.get("@Url.Action("_OrgChartData", "OrgConfig",new { deptcode = Model.DEPTCODE })").done(function (response)
+            //let funcCode = document.getElementById('funccode').value;
+            $.get("@Url.Action("_FuncChartData", "OrgConfig",new { funccode = "100001" })").done(function (response)
             {
                 OrgChart.REMOVE_GROUP_IF_HAS_ONE_NODE = false;
                 OrgChart.templates.empty = Object.assign({}, OrgChart.templates.base);

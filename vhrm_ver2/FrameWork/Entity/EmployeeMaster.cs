@@ -68,6 +68,9 @@ namespace vhrm.FrameWork.Entity
         public string FUNCDIRECTREPORT { get; set; }
 
         public string GEOEMPIDREPORT { get; set; }
+        
+        public string DEPTNAME { get; set; }
+        public string FUNCNAME { get; set; }
         public string FUNEMPIDREPORT { get; set; }
 
         public string DISPLAYGEOGRAPHICALORG { get; set; }

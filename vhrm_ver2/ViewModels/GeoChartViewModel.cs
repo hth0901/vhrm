@@ -9,4 +9,8 @@ namespace vhrm.ViewModels
     {
         public string DEPTCODE { get; set; }
     }
+    public class FunChartViewModel
+    {
+        public string FUNCCODE { get; set; }
+    }
 }

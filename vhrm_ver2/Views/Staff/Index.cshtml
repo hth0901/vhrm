@@ -9,8 +9,7 @@
         <input type="hidden" id="hdFunctCode" value="" />
     </div>
     <div id="GeoOrganizationListPartial" class="vhrm_employee">
-        @using (Ajax.BeginForm("SaveEmployee", "Staff", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "boxbodyNew" }, new { id = "frmEmployee", @class = "form-horizontal", style = "margin-right:10px;" }))
-        //@using (Html.BeginForm("SaveEmployee", "Staff", FormMethod.Post, new { id = "frmEmployee", @class = "form-horizontal", style = "margin-right:10px;", enctype = "multipart/form-data" }))
+        @using (Ajax.BeginForm("SaveEmployee", "Staff", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "boxbodyNew" }, new { id = "frmEmployee", @class = "form-horizontal", style = "margin-right:10px;" }))       
         {
             @Html.AntiForgeryToken()
         <div class="box-body">
@@ -642,7 +641,7 @@ function loadData()
                     $("#EMPID").val("");
                     kendo.ui.progress($("#window"), false);
                     showMessage("This EMPID = " + $("#empIdSearch").val() + " is not found!", "alert alert-info");
-
+                    Enables(false);
                 }
             });
     }
@@ -691,7 +690,7 @@ $(document).ready(function ()
         isSaveStatus = 0;
         Enables(true);
     });
-    $("#btnSave").on("click", function (event) {
+    $("#btnSave").on("click", function (event) {        
         event.preventDefault();
         $("#IMAGE").val($("#imageShort").attr("src"));
         var isvalidate = true;
@@ -719,8 +718,13 @@ $(document).ready(function ()
                 url: '@Url.Action("SaveEmployee", "Staff")',
                 type: 'post',
                 data: $('form#frmEmployee').serialize(),
-                 success: function (result) {    
-                     Enables(false);
+                 success: function (result) { 
+                     try {
+
+                     } finally {
+                         Enables(false);
+                     }
+                     
                 }
             });
             loadData();

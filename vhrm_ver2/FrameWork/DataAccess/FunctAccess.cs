@@ -52,6 +52,23 @@ namespace vhrm.FrameWork.DataAccess
             param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_DEPTFUNCT.SP_NEWFUNCTIONCODE_DEPTFUNCT", param);
         }
+
+        public DataTable GetChildsByFunccodeIsActive(string functCode)
+        {
+            OracleParameter[] param = new OracleParameter[3];
+            param[0] = new OracleParameter("pFUNCCODE", functCode);
+            param[1] = new OracleParameter("ISACTIVE", "1");
+            param[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            return DBHelper.getDataTable_SP("HR_DEPTFUNCT.SP_GETCHILDBYFUNCCODE_ISACTIVE", param);
+        }
+        public DataTable GetByFuncCodeIsActive(string functCode)
+        {
+            OracleParameter[] param = new OracleParameter[3];
+            param[0] = new OracleParameter("pFUNCCODE", functCode);
+            param[1] = new OracleParameter("ISACTIVE", "1");
+            param[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            return DBHelper.getDataTable_SP("HR_DEPTFUNCT.SP_GETBYFUNCCODE_ISACTIVE", param);
+        }
         #endregion
     }
 }

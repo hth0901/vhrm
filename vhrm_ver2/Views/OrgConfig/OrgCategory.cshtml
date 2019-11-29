@@ -100,72 +100,117 @@
 
 <div class="container-fluid">
     @*<div id="trvDept" class="k-content" style="float:left; overflow: auto;width: 500px; max-height: 650px;">
-        @(Html.Kendo().TreeView()
-            .Name("treeViewDept")
-            .DataTextField("Name")
-            .DataSource(dataSource => dataSource
-                .Read(read => read
-                    .Action("getDeptTreeVer2", "OrgConfig")
+            @(Html.Kendo().TreeView()
+                .Name("treeViewDept")
+                .DataTextField("Name")
+                .DataSource(dataSource => dataSource
+                    .Read(read => read
+                        .Action("getDeptTreeVer2", "OrgConfig")
+                    )
                 )
+                .Events(evs =>
+                {
+                    //evs.Change("trvMenuChange");
+                    evs.Select("trvMenuSelect");
+                    //evs.DataBound("trvDeptBound");
+                })
+                .HighlightPath(true)
             )
-            .Events(evs =>
-            {
-                //evs.Change("trvMenuChange");
-                evs.Select("trvMenuSelect");
-                //evs.DataBound("trvDeptBound");
-            })
-            .HighlightPath(true)
-        )
-    </div>*@
+        </div>*@
     <div>
         @(Html.Kendo().Dialog()
-            .Name("dialog")
-            .Visible(false)
-            .Title("Department Tree")
-            .Content(
-                Html.Kendo().TreeView()
-                    .Name("treeViewDept")
-                    .DataTextField("Name")
-                    .DataSource(dataSource => dataSource
-                        .Read(read => read
-                            .Action("getDeptTreeVer2", "OrgConfig")
-                        )
-                    )
-                    .Events(evs =>
-                    {
+                    .Name("dialog")
+                    .Visible(false)
+                    .Title("Department Tree")
+                    .Content(
+                        Html.Kendo().TreeView()
+                            .Name("treeViewDept")
+                            .DataTextField("Name")
+                            .DataSource(dataSource => dataSource
+                                .Read(read => read
+                                    .Action("getDeptTreeVer2", "OrgConfig")
+                                )
+                            )
+                            .Events(evs =>
+                            {
                         //evs.Change("trvMenuChange");
                         evs.Select("trvMenuSelect");
                         //evs.DataBound("trvDeptBound");
                     })
-                    .HighlightPath(true)
-                    .ToHtmlString()
-            )
-            .Width(400)
-            .Height(500)
-            .Modal(true)
-            .Closable(true)
-            .Actions(act =>
-            {
-                act.Add().Text("Cancel");
-                act.Add().Text("OK").Primary(true).Action("actionOK");
-            })
+                            .HighlightPath(true)
+                            .ToHtmlString()
+                    )
+                    .Width(400)
+                    .Height(500)
+                    .Modal(true)
+                    .Closable(true)
+                    .Actions(act =>
+                    {
+                        act.Add().Text("Cancel");
+                        act.Add().Text("OK").Primary(true).Action("actionOK");
+                    })
         )
     </div>
     <div>
         @(Html.Kendo().Window()
-            .Name("windowChart")
-            .Title("Org Chart")
-            .Content(
-                //@"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
-                ""
-            )
-            .Draggable()
-            .Resizable()
-            .Width(900)
-            .Height(700)
-            .Actions(actions => actions.Close())
-            .Visible(false)
-            .Modal(true)
+                                            .Name("windowOrgChart")
+                                            .Title("Organization Chart")
+                                            .Content(
+                                                //@"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
+                                                ""
+                                            )
+                                            .Draggable()
+                                            .Resizable()
+                                            .Width(900)
+                                            .Height(700)
+                                            .Actions(actions => actions.Close())
+                                            .Visible(false)
+                                            .Modal(true)
+        )
+        @(Html.Kendo().Window()
+                                           .Name("windowFunctionChart")
+                                           .Title("Function Chart")
+                                           .Content(
+                                               //@"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
+                                               ""
+                                           )
+                                           .Draggable()
+                                           .Resizable()
+                                           .Width(900)
+                                           .Height(700)
+                                           .Actions(actions => actions.Close())
+                                           .Visible(false)
+                                           .Modal(true)
+        )
+        @(Html.Kendo().Window()
+                                           .Name("windowGeoChart")
+                                           .Title("Geo Reporter Chart")
+                                           .Content(
+                                               //@"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
+                                               ""
+                                           )
+                                           .Draggable()
+                                           .Resizable()
+                                           .Width(900)
+                                           .Height(700)
+                                           .Actions(actions => actions.Close())
+                                           .Visible(false)
+                                           .Modal(true)
+        )
+        @(Html.Kendo().Window()
+                                   .Name("windowFunctChart")
+                                   .Title("Func Reporter Chart")
+                                   .Content(
+                                       //@"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
+                                       ""
+                                   )
+                                   .Draggable()
+                                   .Resizable()
+                                   .Width(900)
+                                   .Height(700)
+                                   .Actions(actions => actions.Close())
+                                   .Visible(false)
+                                   .Modal(true)
         )
     </div>
     <div id="div_grid" style=" margin-top:20px">
@@ -183,87 +228,96 @@
                 </div>
             </div>
             <div class="col">
-                <input class="btn btn-secondary float-md-right" type="button" value="Show Chart" onclick="onShowChart()">
+                <input class="btn btn-secondary float-md-right" type="button" value="Organization Chart" onclick="onShowOrgChart()">
+            </div>
+            <div class="col">
+                <input class="btn btn-secondary float-md-right" type="button" value="Function Chart" onclick="onShowFunctionChart()">
+            </div>
+            <div class="col">
+                <input class="btn btn-secondary float-md-right" type="button" value="Geo Reporter Chart" onclick="onShowGeoChart()">
+            </div>
+            <div class="col">
+                <input class="btn btn-secondary float-md-right" type="button" value="Funct Reporter Chart" onclick="onShowFuncChart()">
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm-12">
                 @(Html.Kendo().Grid<vhrm.FrameWork.Entity.eReporterItem>()
-                    .Name("reportGrid")
-                    .AutoBind(false)
-                    .Columns(columns =>
-                    {
-                        columns.Bound(c => c.EMPNAME).Width(200).Filterable(ftb =>
-                        {
-                            ftb.Cell(cell => cell.Operator("contains").ShowOperators(false));
-                        });
-                        columns.Bound(c => c.EMPID).Width(90);
-                        columns.Bound(c => c.DEPTNODE_CODE).Width(135).Title("DEPT CODE");
-                        columns.Bound(c => c.FUNCNODE_CODE).Width(135).Title("FUNC CODE");
-                        columns.Bound(c => c.LEVEL0).Width(100);
-                        columns.Bound(c => c.LEVEL1).Width(100);
-                        columns.Group(gr =>
-                        {
-                            gr.Title("GEO Supervisor");
-                            gr.Columns(info =>
+                            .Name("reportGrid")
+                            .AutoBind(false)
+                            .Columns(columns =>
                             {
-                                info.Bound(c => c.GEO_RP_EMPNAME).Width(200).Title("EMP NAME");
-                                info.Bound(c => c.GEO_RP_EMPID).Width(90).Title("EMPID");
-                                info.Bound(c => c.GEO_RP_CODE).Width(135).Title("DEPTCODE");
-                            });
-                        });
-                        columns.Group(gr =>
-                        {
-                            gr.Title("FUNC Supervisor");
-                            gr.Columns(info =>
+                                columns.Bound(c => c.EMPNAME).Width(200).Filterable(ftb =>
+                                {
+                                    ftb.Cell(cell => cell.Operator("contains").ShowOperators(false));
+                                });
+                                columns.Bound(c => c.EMPID).Width(90);
+                                columns.Bound(c => c.DEPTNODE_CODE).Width(135).Title("DEPT CODE");
+                                columns.Bound(c => c.FUNCNODE_CODE).Width(135).Title("FUNC CODE");
+                                columns.Bound(c => c.LEVEL0).Width(100);
+                                columns.Bound(c => c.LEVEL1).Width(100);
+                                columns.Group(gr =>
+                                {
+                                    gr.Title("GEO Supervisor");
+                                    gr.Columns(info =>
+                                    {
+                                        info.Bound(c => c.GEO_RP_EMPNAME).Width(200).Title("EMP NAME");
+                                        info.Bound(c => c.GEO_RP_EMPID).Width(90).Title("EMPID");
+                                        info.Bound(c => c.GEO_RP_CODE).Width(135).Title("DEPTCODE");
+                                    });
+                                });
+                                columns.Group(gr =>
+                                {
+                                    gr.Title("FUNC Supervisor");
+                                    gr.Columns(info =>
+                                    {
+                                        info.Bound(c => c.FUNC_RP_EMPNAME).Width(200).Title("EMP NAME");
+                                        info.Bound(c => c.FUNC_RP_EMPID).Width(90).Title("EMPID");
+                                        info.Bound(c => c.FUNC_RP_CODE).Width(135).Title("DEPTCODE");
+                                    });
+                                });
+                            })
+                            .ToolBar(toolbar =>
                             {
-                                info.Bound(c => c.FUNC_RP_EMPNAME).Width(200).Title("EMP NAME");
-                                info.Bound(c => c.FUNC_RP_EMPID).Width(90).Title("EMPID");
-                                info.Bound(c => c.FUNC_RP_CODE).Width(135).Title("DEPTCODE");
-                            });
-                        });
-                    })
-                    .ToolBar(toolbar =>
-                    {
-                    //toolbar.Create();
-                    toolbar.Excel();
-                    })
-                    .Excel(excel =>
-                    {
-                    //excel.Filterable(true);
-                    excel.AllPages(true);
-                    })
-                    .Filterable(ftb =>
-                    {
-                        ftb.Mode(GridFilterMode.Menu);
-                        ftb.Enabled(false);
+                                //toolbar.Create();
+                                toolbar.Excel();
+                            })
+                            .Excel(excel =>
+                            {
+                                //excel.Filterable(true);
+                                excel.AllPages(true);
+                            })
+                            .Filterable(ftb =>
+                            {
+                                ftb.Mode(GridFilterMode.Menu);
+                                ftb.Enabled(false);
 
-                    })
-                    //.Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("GeoReportItemEditor"))
-                    .HtmlAttributes(new { style = "height: 600px;" })
-                    .Scrollable()
-                    .Pageable(pageable => pageable
-                        .Refresh(true)
-                        .PageSizes(false)
-                        .ButtonCount(5))
-                    .Selectable(slt => slt
-                        .Mode(GridSelectionMode.Single))
-                    .Events(evs =>
-                    {
-                    //.Change("onSelectGridItem")
-                    //.DataBound("onDataGridBound")
-                    //.DataBinding("onDataBinding")
-                    //.Page("onPaging")
-                    //.Edit("onEditForm")
-                    //.Save("onSave")
-                })
-                    .DataSource(dataSource => dataSource
-                        .Ajax()
-                        .Read(read => read.Action("getEmpReportByDept", "OrgConfig").Data("addDitionalQuery"))
-                        .ServerOperation(false)
-                        .PageSize(10)
-                    )
+                            })
+                            //.Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("GeoReportItemEditor"))
+                            .HtmlAttributes(new { style = "height: 600px;" })
+                            .Scrollable()
+                            .Pageable(pageable => pageable
+                                .Refresh(true)
+                                .PageSizes(false)
+                                .ButtonCount(5))
+                            .Selectable(slt => slt
+                                .Mode(GridSelectionMode.Single))
+                            .Events(evs =>
+                            {
+                                //.Change("onSelectGridItem")
+                                //.DataBound("onDataGridBound")
+                                //.DataBinding("onDataBinding")
+                                //.Page("onPaging")
+                                //.Edit("onEditForm")
+                                //.Save("onSave")
+                            })
+                            .DataSource(dataSource => dataSource
+                                .Ajax()
+                                .Read(read => read.Action("getEmpReportByDept", "OrgConfig").Data("addDitionalQuery"))
+                                .ServerOperation(false)
+                                .PageSize(10)
+                            )
                 )
             </div>
         </div>
@@ -315,10 +369,37 @@
         $("#dialog").data("kendoDialog").open();
     });
 
-    function onShowChart() {
-        let wd = $("#windowChart").data("kendoWindow");
+    function onShowOrgChart() {
+        let wd = $("#windowOrgChart").data("kendoWindow");
         let deptcode = document.getElementById("dept_code").value;
         let chartContent = "<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart?deptCode=" + deptcode + "' frameborder='0' style='height: 95%; width: 100%'></iframe>";
+        //wd.content("<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart?deptCode=' frameborder='0' style='height: 95%; width: 100%'></iframe>");
+        wd.content(chartContent);
+        wd.open()
+        wd.center();
+    }
+    function onShowFunctionChart() {
+        let wd = $("#windowFunctionChart").data("kendoWindow");
+        let deptcode = document.getElementById("dept_code").value;
+        let chartContent = "<iframe scrolling='no' id='dkm' src='/orgconfig/viewFunctionChart?deptCode=" + deptcode + "' frameborder='0' style='height: 95%; width: 100%'></iframe>";
+        //wd.content("<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart?deptCode=' frameborder='0' style='height: 95%; width: 100%'></iframe>");
+        wd.content(chartContent);
+        wd.open()
+        wd.center();
+    }
+    function onShowGeoChart() {
+        let wd = $("#windowGeoChart").data("kendoWindow");
+        let deptcode = document.getElementById("dept_code").value;
+        let chartContent = "<iframe scrolling='no' id='dkm' src='/orgconfig/viewGeoChart?deptCode=" + deptcode + "' frameborder='0' style='height: 95%; width: 100%'></iframe>";
+        //wd.content("<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart?deptCode=' frameborder='0' style='height: 95%; width: 100%'></iframe>");
+        wd.content(chartContent);
+        wd.open()
+        wd.center();
+    }
+    function onShowFuncChart() {
+        let wd = $("#windowFunctChart").data("kendoWindow");
+        let deptcode = document.getElementById("dept_code").value;
+        let chartContent = "<iframe scrolling='no' id='dkm' src='/orgconfig/viewFuncChart?deptCode=" + deptcode + "' frameborder='0' style='height: 95%; width: 100%'></iframe>";
         //wd.content("<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart?deptCode=' frameborder='0' style='height: 95%; width: 100%'></iframe>");
         wd.content(chartContent);
         wd.open()

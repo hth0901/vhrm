@@ -267,6 +267,8 @@ namespace vhrm.FrameWork.BusinessLayer
                     JOBCODE = dtr["JOBCODE"].ToString(),
                     JOBFIELD = dtr["JOBFIELD"].ToString(),
                     DUTY = dtr["DUTY"].ToString(),
+                    DEPTNAME = dtr["DEPTNAME"].ToString(),
+                    FUNCNAME = dtr["FUNCNAME"].ToString(),
                     BIRTHDATE = aa,//DateTime.ParseExact(dtr["BIRTHDATE"].ToString(), "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture),
                     BIRTHPLACE = dtr["BIRTHPLACE"].ToString(),
                     GENDER = dtr["GENDER"].ToString(),

@@ -47,9 +47,34 @@ namespace vhrm.Controllers
             //return View("OrgCategory_hieuhtbk");
             return View("OrgCategory");
         }
+        
+        public JsonResult _SupervisorChartData(string deptcode)
+        {
+            List<JObject> data = bDept.getSupervisorDataForChart(deptcode);
+            string jsonData = JsonConvert.SerializeObject(data);            
+            return Json(new { nodes = jsonData}, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult _FunctionorChartData(string funccode)
+        {
+            List<JObject> data = bDept.getFunctionorDataForChart(funccode);
+            string jsonData = JsonConvert.SerializeObject(data);
+            return Json(new { nodes = jsonData }, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult _OrgChartData(string deptcode)
         {
-            KeyValuePair<JObject, List<JObject>> data = bDept.getDataForChart(deptcode);
+            KeyValuePair<JObject, List<JObject>> data = bDept.getDataForOrgChart(deptcode);
+            JObject tagData = data.Key;
+            List<JObject> nodeData = data.Value;
+            string jsonG = JsonConvert.SerializeObject(tagData);
+            string jsonN = JsonConvert.SerializeObject(nodeData);
+            jsonN = jsonN.Replace("\"[", "[");
+            jsonN = jsonN.Replace("]\"", "]");
+            jsonN = jsonN.Replace("'", "\"");
+            return Json(new { nodes = jsonN, groups = jsonG }, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult _FuncChartData(string funccode)
+        {
+            KeyValuePair<JObject, List<JObject>> data = bDept.getDataForFuncChart(funccode);
             JObject tagData = data.Key;
             List<JObject> nodeData = data.Value;
             string jsonG = JsonConvert.SerializeObject(tagData);
@@ -157,6 +182,25 @@ namespace vhrm.Controllers
             GeoChartViewModel vm = new GeoChartViewModel();
             vm.DEPTCODE = deptCode;
             return View("OrgChart", vm);
+        }
+        public ActionResult viewFunctionChart(string deptCode)
+        {
+            GeoChartViewModel vm = new GeoChartViewModel();
+            vm.DEPTCODE = deptCode;
+            return View("FuncChart", vm);
+        }
+        public ActionResult viewGeoChart(string deptCode)
+        {
+            GeoChartViewModel vm = new GeoChartViewModel();
+            vm.DEPTCODE = deptCode;
+            return View("SupervisorChart", vm);
+        }
+        
+        public ActionResult viewFuncChart(string deptCode)
+        {
+            GeoChartViewModel vm = new GeoChartViewModel();
+            vm.DEPTCODE = deptCode;
+            return View("FunctionorChart", vm);
         }
     }
 }

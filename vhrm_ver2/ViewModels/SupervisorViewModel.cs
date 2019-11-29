@@ -15,4 +15,14 @@ namespace vhrm.ViewModels
         public string POSITION { get; set; }
         public string IMAGE { get; set; }
     }
+    public class FunctionerViewModel
+    {
+        public string SYS_EMPID { get; set; }
+        public string DEPTCODEFUN { get; set; }
+        public string EMPID { get; set; }
+        public string EMPNAME { get; set; }
+        public string EMAIL { get; set; }
+        public string POSITION { get; set; }
+        public string IMAGE { get; set; }
+    }
 }

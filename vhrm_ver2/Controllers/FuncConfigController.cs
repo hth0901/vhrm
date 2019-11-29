@@ -49,7 +49,7 @@ namespace vhrm.Controllers
         }
         public JsonResult _OrgChartData(string deptcode)
         {
-            KeyValuePair<JObject, List<JObject>> data = bDept.getDataForChart(deptcode);
+            KeyValuePair<JObject, List<JObject>> data = bDept.getDataForFuncChart(deptcode);
             JObject tagData = data.Key;
             List<JObject> nodeData = data.Value;
             string jsonG = JsonConvert.SerializeObject(tagData);

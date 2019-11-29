@@ -96,5 +96,19 @@ namespace vhrm.FrameWork.DataAccess
             return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GET_REPORT_BY_FUNCCODE", param);
         }
 
+        public static DataTable GetFunctionorByFuncCode(string funccode)
+        {
+            OracleParameter[] param = new OracleParameter[2];
+            param[0] = new OracleParameter("PFUNCTCODE", funccode);
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GET_F_ROOT_BY_DEPT", param);
+        }
+        public static DataTable GetFunctionorsBySysFun(string sys_empidfunc)
+        {
+            OracleParameter[] param = new OracleParameter[2];
+            param[0] = new OracleParameter("pSYS_EMPIDFUN", sys_empidfunc);
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GET_F_CHART_BY_SYSGEO", param);
+        }
     }
 }

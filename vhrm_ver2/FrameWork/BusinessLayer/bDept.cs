@@ -14,6 +14,91 @@ namespace vhrm.FrameWork.BusinessLayer
 {
     public class bDept
     {
+        public static List<JObject> getSupervisorDataForChartV2(string deptCode)
+        {
+            List<JObject> elements = new List<JObject>();
+            DataTable dtResult = GeoReportAccess.GetSupervisorByDeptCode(deptCode);
+            List<string> sys_empidgeo = new List<string>();
+            string sys_parent = string.Empty;
+            if (dtResult.Rows.Count > 1)
+            {
+                DeptAccess deptAccess = new DeptAccess();
+                DataTable depResult = deptAccess.GetByDeptCodeIsActive(deptCode);
+                foreach (DataRow dtr in depResult.Rows)
+                {
+                    JObject rootSupervisor = new JObject();
+                    rootSupervisor["id"] = dtr["DEPTCODE"].ToString();
+                    rootSupervisor["pid"] = "null";
+                    rootSupervisor["EMPID"] = "";
+                    rootSupervisor["EMPNAME"] = "";
+                    rootSupervisor["DEPTNAME"] = dtr["DEPTNAME"].ToString();
+                    rootSupervisor["POSITION"] = "";
+                    rootSupervisor["EMAIL"] = "";
+                    rootSupervisor["IMAGE"] = "/FileServer/Photos/default.jpg";
+                    elements.Add(rootSupervisor);
+                    sys_parent = dtr["DEPTCODE"].ToString();
+                    break;
+                }
+            }
+            foreach (DataRow dtr in dtResult.Rows)
+            {
+                if(!sys_empidgeo.Contains(dtr["SYS_EMPIDGEO"].ToString()))
+                    sys_empidgeo.Add(dtr["SYS_EMPIDGEO"].ToString());
+            }
+            if (sys_empidgeo != null && sys_empidgeo.Count() > 0)
+            {                
+                foreach (var sys_geo in sys_empidgeo)
+                {
+                    DataTable geos = GeoReportAccess.GetSupervisorsBySysGeo(sys_geo);
+                    foreach (DataRow dtr in geos.Rows)
+                    {
+                        JObject subSupervisor = new JObject();
+                        subSupervisor["id"] = dtr["SYS_EMPID"].ToString();
+                        subSupervisor["pid"] = dtr["SYS_EMPIDGEO"].ToString();
+                        subSupervisor["EMPID"] = dtr["EMPID"].ToString();
+                        subSupervisor["EMPNAME"] = dtr["EMPNAME"].ToString();
+                        subSupervisor["DEPTNAME"] = dtr["DEPTNAME"].ToString();
+                        subSupervisor["POSITION"] = dtr["POSITION"].ToString();
+                        subSupervisor["EMAIL"] = dtr["EMAIL"].ToString();
+                        subSupervisor["IMAGE"] = "/FileServer/Photos/" + dtr["IMAGE"].ToString();
+                        elements.Add(subSupervisor);
+                    }
+                    //Get root.                    
+                    EmployeeMaster root = bEmployeeMaster.getEmployeeBySysEmpid(sys_geo);
+                    JObject rootSupervisor = new JObject();
+                    rootSupervisor["id"] = sys_geo;
+                    rootSupervisor["pid"] = sys_parent;
+                    rootSupervisor["EMPID"] = root.EMPID;
+                    rootSupervisor["EMPNAME"] = root.EMPNAME;
+                    rootSupervisor["DEPTNAME"] = root.DEPTNAME;
+                    rootSupervisor["POSITION"] = root.POSITION;
+                    rootSupervisor["EMAIL"] = root.EMAIL;
+                    rootSupervisor["IMAGE"] = "/FileServer/Photos/" + root.IMAGE;
+                    elements.Add(rootSupervisor);
+                }               
+            }
+            if (elements.Count() == 0)
+            {
+                DeptAccess deptAccess = new DeptAccess();
+                DataTable depResult = deptAccess.GetByDeptCodeIsActive(deptCode);
+                foreach (DataRow dtr in depResult.Rows)
+                {
+                    JObject rootSupervisor = new JObject();
+                    rootSupervisor["id"] = dtr["DEPTCODE"].ToString();
+                    rootSupervisor["pid"] = "null";
+                    rootSupervisor["EMPID"] = "";
+                    rootSupervisor["EMPNAME"] = "Doesn't have SUPERVISOR";
+                    rootSupervisor["DEPTNAME"] = dtr["DEPTNAME"].ToString();
+                    rootSupervisor["POSITION"] = "";
+                    rootSupervisor["EMAIL"] = "";
+                    rootSupervisor["IMAGE"] = "/FileServer/Photos/default.jpg";
+                    elements.Add(rootSupervisor);
+                    sys_parent = dtr["DEPTCODE"].ToString();
+                    break;
+                }
+            }
+            return elements;
+        }
         public static List<JObject> getSupervisorDataForChart(string deptCode)
         {
             List<JObject> elements = new List<JObject>();

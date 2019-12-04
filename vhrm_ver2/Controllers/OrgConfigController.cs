@@ -50,7 +50,7 @@ namespace vhrm.Controllers
         
         public JsonResult _SupervisorChartData(string deptcode)
         {
-            List<JObject> data = bDept.getSupervisorDataForChart(deptcode);
+            List<JObject> data = bDept.getSupervisorDataForChartV2(deptcode);
             string jsonData = JsonConvert.SerializeObject(data);            
             return Json(new { nodes = jsonData}, JsonRequestBehavior.AllowGet);
         }

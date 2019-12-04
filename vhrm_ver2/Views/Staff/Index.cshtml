@@ -701,6 +701,8 @@ $(document).ready(function ()
         $("#showDeptCode").removeAttr("disabled");
         $("#btnShowGeoOrganizationReport").removeAttr("disabled");
         $("#btnShowFunctionDirectReport").removeAttr("disabled");
+        $("#FUNEMPIDREPORT").removeAttr("disabled");
+        $("#GEOEMPIDREPORT").removeAttr("disabled");
         isSaveStatus = 0;
         Enables(true);
     });
@@ -740,11 +742,15 @@ $(document).ready(function ()
                          $("#showDeptCode").attr("disabled", "disabled");
                          $("#btnShowGeoOrganizationReport").attr("disabled", "disabled");
                          $("#btnShowFunctionDirectReport").attr("disabled", "disabled");
+                         $("#FUNEMPIDREPORT").attr("disabled", "disabled");
+                         $("#GEOEMPIDREPORT").attr("disabled", "disabled");
                      } finally {
                          Enables(false);
                          $("#showDeptCode").attr("disabled", "disabled");
                          $("#btnShowGeoOrganizationReport").attr("disabled", "disabled");
                          $("#btnShowFunctionDirectReport").attr("disabled", "disabled");
+                         $("#FUNEMPIDREPORT").attr("disabled", "disabled");
+                         $("#GEOEMPIDREPORT").attr("disabled", "disabled");
                      }
                      
                 }
@@ -773,6 +779,11 @@ $(document).ready(function ()
             Visable(true, true, false, false, true);
         }
         Enables(false);
+        $("#showDeptCode").attr("disabled", "disabled");
+        $("#btnShowGeoOrganizationReport").attr("disabled", "disabled");
+        $("#btnShowFunctionDirectReport").attr("disabled", "disabled");
+        $("#FUNEMPIDREPORT").attr("disabled", "disabled");
+        $("#GEOEMPIDREPORT").attr("disabled", "disabled");
     });
     $("#btnSignEmployeeToOrg").on("click", function (event) {
         event.preventDefault();

@@ -4918,6 +4918,9 @@
     <Content Include="Views\OrgConfig\OrgChart.cshtml" />
     <Content Include="Views\OrgConfig\OrgCategory_hieuhtbk.cshtml" />
     <Content Include="Views\FuncConfig\FuncConfigIndex.cshtml" />
+    <Content Include="Views\OrgConfig\FuncChart.cshtml" />
+    <Content Include="Views\OrgConfig\FunctionorChart.cshtml" />
+    <Content Include="Views\OrgConfig\SupervisorChart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

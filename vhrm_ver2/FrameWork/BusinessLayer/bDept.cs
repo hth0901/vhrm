@@ -60,7 +60,7 @@ namespace vhrm.FrameWork.BusinessLayer
                         subSupervisor["DEPTNAME"] = dtr["DEPTNAME"].ToString();
                         subSupervisor["POSITION"] = dtr["POSITION"].ToString();
                         subSupervisor["EMAIL"] = dtr["EMAIL"].ToString();
-                        subSupervisor["IMAGE"] = "/FileServer/Photos/" + dtr["IMAGE"].ToString();
+                        subSupervisor["IMAGE"] = dtr["IMAGE"].ToString();
                         elements.Add(subSupervisor);
                     }
                     //Get root.                    
@@ -73,7 +73,7 @@ namespace vhrm.FrameWork.BusinessLayer
                     rootSupervisor["DEPTNAME"] = root.DEPTNAME;
                     rootSupervisor["POSITION"] = root.POSITION;
                     rootSupervisor["EMAIL"] = root.EMAIL;
-                    rootSupervisor["IMAGE"] = "/FileServer/Photos/" + root.IMAGE;
+                    rootSupervisor["IMAGE"] = root.IMAGE;
                     elements.Add(rootSupervisor);
                 }               
             }
@@ -121,7 +121,7 @@ namespace vhrm.FrameWork.BusinessLayer
                     subSupervisor["DEPTNAME"] = dtr["DEPTNAME"].ToString();
                     subSupervisor["POSITION"] = dtr["POSITION"].ToString();
                     subSupervisor["EMAIL"] = dtr["EMAIL"].ToString();
-                    subSupervisor["IMAGE"] = "/FileServer/Photos/" + dtr["IMAGE"].ToString();
+                    subSupervisor["IMAGE"] = dtr["IMAGE"].ToString();
                     elements.Add(subSupervisor);
                 }
                 //Get root.
@@ -134,7 +134,7 @@ namespace vhrm.FrameWork.BusinessLayer
                 rootSupervisor["DEPTNAME"] = root.DEPTNAME;
                 rootSupervisor["POSITION"] = root.POSITION;
                 rootSupervisor["EMAIL"] = root.EMAIL;
-                rootSupervisor["IMAGE"] = "/FileServer/Photos/" + root.IMAGE;
+                rootSupervisor["IMAGE"] = root.IMAGE;
                 elements.Add(rootSupervisor);
             }
             return elements;
@@ -161,7 +161,7 @@ namespace vhrm.FrameWork.BusinessLayer
                     subSupervisor["FUNCNAME"] = dtr["FUNCNAME"].ToString();
                     subSupervisor["POSITION"] = dtr["POSITION"].ToString();
                     subSupervisor["EMAIL"] = dtr["EMAIL"].ToString();
-                    subSupervisor["IMAGE"] = "/FileServer/Photos/" + dtr["IMAGE"].ToString();
+                    subSupervisor["IMAGE"] = dtr["IMAGE"].ToString();
                     elements.Add(subSupervisor);
                 }
                 //Get root.
@@ -174,7 +174,7 @@ namespace vhrm.FrameWork.BusinessLayer
                 rootSupervisor["FUNCNAME"] = root.FUNCNAME;
                 rootSupervisor["POSITION"] = root.POSITION;
                 rootSupervisor["EMAIL"] = root.EMAIL;
-                rootSupervisor["IMAGE"] = "/FileServer/Photos/" + root.IMAGE;
+                rootSupervisor["IMAGE"] = root.IMAGE;
                 elements.Add(rootSupervisor);
             }
             return elements;
@@ -301,7 +301,7 @@ namespace vhrm.FrameWork.BusinessLayer
                 group["EMPID"] = geo.EMPID;
                 group["EMAIL"] = geo.EMAIL;
                 group["POSITION"] = geo.POSITION;
-                group["IMAGE"] = "/FileServer/Photos/" + geo.IMAGE;
+                group["IMAGE"] = geo.IMAGE;
                 nodeElements.Add(group);
             }
             #endregion
@@ -467,7 +467,7 @@ namespace vhrm.FrameWork.BusinessLayer
                 group["EMPID"] = geo.EMPID;
                 group["EMAIL"] = geo.EMAIL;
                 group["POSITION"] = geo.POSITION;
-                group["IMAGE"] = "/FileServer/Photos/" + geo.IMAGE;
+                group["IMAGE"] = geo.IMAGE;
                 nodeElements.Add(group);
             }
             #endregion

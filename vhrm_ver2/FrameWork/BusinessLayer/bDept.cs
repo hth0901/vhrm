@@ -9,6 +9,8 @@ using vhrm.ViewModels;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using vhrm.FrameWork.Entity;
+using System.IO;
+using vhrm.FrameWork.Utility;
 
 namespace vhrm.FrameWork.BusinessLayer
 {
@@ -60,7 +62,16 @@ namespace vhrm.FrameWork.BusinessLayer
                         subSupervisor["DEPTNAME"] = dtr["DEPTNAME"].ToString();
                         subSupervisor["POSITION"] = dtr["POSITION"].ToString();
                         subSupervisor["EMAIL"] = dtr["EMAIL"].ToString();
-                        subSupervisor["IMAGE"] = dtr["IMAGE"].ToString();
+                        string imgPath = dtr["IMAGE"].ToString();
+                        if (string.IsNullOrEmpty(imgPath))
+                        {
+                            imgPath = "/FileServer/Photos/default.jpg";
+                        }
+                        else if (!IsFileExists(imgPath))
+                        {
+                            imgPath = "/FileServer/Photos/default.jpg";
+                        }
+                        subSupervisor["IMAGE"] = imgPath;// dtr["IMAGE"].ToString();
                         elements.Add(subSupervisor);
                     }
                     //Get root.                    
@@ -98,6 +109,12 @@ namespace vhrm.FrameWork.BusinessLayer
                 }
             }
             return elements;
+        }
+        private static bool IsFileExists(string path)
+        {
+            if (File.Exists(HttpContext.Current.Server.MapPath(path)))
+                return true;
+            return false;
         }
         public static List<JObject> getSupervisorDataForChart(string deptCode)
         {

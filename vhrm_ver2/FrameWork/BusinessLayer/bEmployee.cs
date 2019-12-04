@@ -29,7 +29,7 @@ namespace vhrm.FrameWork.BusinessLayer
                     EMPNAME = dtr["EMPNAME"].ToString(),
                     DEPARTMENT = dtr["DEPARTMENT"].ToString(),
                     STATUS = dtr["STATUS"].ToString(),
-                    IDENTITYCARD = dtr["IDENTITYCARD"].ToString(),
+                    IDENTITYCARD = dtr["UID_FOR_MES"].ToString(),
                     RFID = dtr["RFID"].ToString(),
                     DATEJOIN = dtr["DATEJOIN"].ToString()
                 };

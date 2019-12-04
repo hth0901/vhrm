@@ -154,7 +154,7 @@
     <div>
         @(Html.Kendo().Window()
                                             .Name("windowOrgChart")
-                                            .Title("Organization Chart By Corporation")
+                                            .Title("Organization Chart By Department")
                                             .Content(
                                                 //@"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
                                                 ""
@@ -228,9 +228,9 @@
                 </div>
             </div>
             <div class="col">
-                <input class="btn btn-secondary float-md-right" type="button" value="Organization Chart" onclick="onShowOrgChart()">
+                <input class="btn btn-secondary float-md-right" type="button" value="Organization Chart By Department" onclick="onShowOrgChart()">
                 <input class="btn btn-secondary float-md-right" type="button" value="Function Chart" onclick="onShowFunctionChart()">
-                <input class="btn btn-secondary float-md-right" type="button" value="Geo Reporter Chart" onclick="onShowGeoChart()">
+                <input class="btn btn-secondary float-md-right" type="button" value="Organization Chart" onclick="onShowGeoChart()">
                 <input class="btn btn-secondary float-md-right" type="button" value="Funct Reporter Chart" onclick="onShowFuncChart()">
             </div>            
         </div>

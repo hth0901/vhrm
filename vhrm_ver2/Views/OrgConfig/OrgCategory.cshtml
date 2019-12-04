@@ -89,7 +89,7 @@
         border: none;
         font-weight: bold;
         font-size: 14px;
-        width: 140px
+        /*width: 140px*/
     }
 
     #div_grid button {
@@ -157,19 +157,19 @@
     </div>
     <div>
         @(Html.Kendo().Window()
-                                            .Name("windowOrgChart")
-                                            .Title("Organization Chart By Corporation")
-                                            .Content(
-                                                //@"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
-                                                ""
-                                            )
-                                            .Draggable()
-                                            .Resizable()
-                                            .Width(900)
-                                            .Height(700)
-                                            .Actions(actions => actions.Close())
-                                            .Visible(false)
-                                            .Modal(true)
+            .Name("windowOrgChart")
+            .Title("GEO Organization Chart")
+            .Content(
+                //@"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
+                ""
+            )
+            .Draggable()
+            .Resizable()
+            .Width(900)
+            .Height(700)
+            .Actions(actions => actions.Close())
+            .Visible(false)
+            .Modal(true)
         )
         @(Html.Kendo().Window()
                                            .Name("windowFunctionChart")
@@ -232,9 +232,9 @@
                 </div>
             </div>
             <div class="col">
-                <input class="btn btn-secondary float-md-right btn_chua_chay" type="button" value="Organization Chart" onclick="onShowOrgChart()">
+                <input class="btn btn-secondary float-md-right btn_chua_chay" type="button" value="GEO Organization Chart" onclick="onShowOrgChart()">
                 <input class="btn btn-secondary float-md-right btn_chua_chay" type="button" value="Function Chart" onclick="onShowFunctionChart()">
-                <input class="btn btn-secondary float-md-right btn_chua_chay" type="button" value="Geo Reporter Chart" onclick="onShowGeoChart()">
+                <input class="btn btn-secondary float-md-right btn_chua_chay" type="button" value="Organization Chart" onclick="onShowGeoChart()">
                 <input class="btn btn-secondary float-md-right btn_chua_chay" type="button" value="Funct Reporter Chart" onclick="onShowFuncChart()">
             </div>            
         </div>

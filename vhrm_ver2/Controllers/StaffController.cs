@@ -504,6 +504,11 @@ namespace vhrm.Controllers
                     Value = country.Code
                 });
             }
+            list.Add(new SelectListItem()
+            {
+                Text = "",
+                Value = ""
+            });
             return new SelectList(list, "Value", "Text", selected);
         }
         [NonAction]
@@ -519,6 +524,11 @@ namespace vhrm.Controllers
                     Value = country.Code
                 });
             }
+            list.Add(new SelectListItem()
+            {
+                Text = "",
+                Value = ""
+            });
             return new SelectList(list, "Value", "Text", selected);
         }
         [NonAction]
@@ -534,6 +544,11 @@ namespace vhrm.Controllers
                     Value = country.Code
                 });
             }
+            list.Add(new SelectListItem()
+            {
+                Text = "",
+                Value = ""
+            });
             return new SelectList(list, "Value", "Text", selected);
         }
         [NonAction]
@@ -565,6 +580,11 @@ namespace vhrm.Controllers
                     Value = academic.Code
                 });
             }
+            list.Add(new SelectListItem()
+            {
+                Text = "",
+                Value = ""
+            });
             return new SelectList(list, "Value", "Text", selected);
         }
 

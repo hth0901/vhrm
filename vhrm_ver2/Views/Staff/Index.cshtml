@@ -26,8 +26,8 @@
                 </div>
                 <div id="window"></div>
                 <div class="emp-search-button">
-                    <button type="button" id="newEmployee" class="btn btn-default btn-sm btnOpacity pull-right" title="New"><i class="fa fa-plus"></i></button>
-                    <button type="button" id="btnDeleteEmployee" class="btn btn-default btn-sm btnOpacity pull-right" title="Delete employee"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    @*<button type="button" id="newEmployee" class="btn btn-default btn-sm btnOpacity pull-right" title="New"><i class="fa fa-plus"></i></button>
+                    <button type="button" id="btnDeleteEmployee" class="btn btn-default btn-sm btnOpacity pull-right" title="Delete employee"><i class="fa fa-times" aria-hidden="true"></i></button>*@
                     <button type="button" id="btnEdit" class="btn btn-default btn-sm btnOpacity pull-right" title="Edit"><i class="fa fa-edit"></i></button>
                     <button type="button" id="btnSave" class="btn btn-default btn-sm btnOpacity pull-right" title="Save"><i class="fa fa-save"></i></button>
                     <button type="button" id="btnCancel" class="btn btn-default btn-sm btnOpacity pull-right" title="Cancel"><i class="fa fa-ban"></i></button>
@@ -296,16 +296,16 @@ function openSearchEmployee() {
 function acceptSearchSupervisor(e) {
     let selectedRow = gridGeoForm.select()[0];
     let selectedDataItem = gridGeoForm.dataItem(selectedRow);
-    $("#GEODIRECTREPORT").val(selectedDataItem.EMPID);
+    $("#GEOEMPIDREPORT").val(selectedDataItem.EMPID);
     $('#DISPLAYGEODIRECTREPORT').val(selectedDataItem.EMPNAME);
-    $("#GEODIRECTREPORT").val(selectedDataItem.SYS_EMPID);
+    $('#GEODIRECTREPORT').val(selectedDataItem.SYS_EMPID);  
     $("#GEOGRAPHICALORG").val(selectedDataItem.DEPTCODE);
     //HIEN THI CAY VA ACTIVE SELECTED NODE
     treeGeoReport.dataSource.filter({});
     treeGeoReport.value(selectedDataItem.DEPTCODE);
 }
-function openGeoDialogForm() {
-    gridGeoForm.dataSource.read({ deptcode: $("#GEOGRAPHICALORG").val() });
+    function openGeoDialogForm() {
+        gridGeoForm.dataSource.read({ deptcode: $("#GEOGRAPHICALORG").val(), empid: $("#GEOEMPIDREPORT").val()});
 }
 function openGeoSearchEmployee() {
     $("#formGeoDialog").data("kendoDialog").open();
@@ -316,7 +316,7 @@ function openGeoSearchEmployee() {
 function acceptSearchFunctionor(e) {
     let selectedRow = gridFunctionForm.select()[0];
     let selectedDataItem = gridFunctionForm.dataItem(selectedRow);
-    $("#FUNCDIRECTREPORT").val(selectedDataItem.EMPID);
+    $("#FUNEMPIDREPORT").val(selectedDataItem.EMPID);
     $('#DISPLAYFUNCDIRECTREPORT').val(selectedDataItem.EMPNAME);
     $("#FUNCDIRECTREPORT").val(selectedDataItem.SYS_EMPID);
     $("#FUNCTIONALORG").val(selectedDataItem.DEPTCODE);
@@ -325,7 +325,7 @@ function acceptSearchFunctionor(e) {
     treeFunctionReport.value(selectedDataItem.DEPTCODE);
 }
 function openFunctionDialogForm() {
-    gridFunctionForm.dataSource.read({ deptcode: $("#FUNCTIONALORG").val() });
+    gridFunctionForm.dataSource.read({ funccode: $("#FUNCTIONALORG").val(), empid: $("#FUNEMPIDREPORT").val() });
 }
 function openFunctionSearchEmployee() {
     $("#formFunctionDialog").data("kendoDialog").open();
@@ -339,7 +339,7 @@ function onDataGridBoundGridEmployees(e) {
         gridFunctReportEmployees.select(row);
         $("#DISPLAYFUNCDIRECTREPORT").val(dataItem["EMPNAME"])
         $("#FUNCDIRECTREPORT").val(dataItem["SYS_EMPID"]);
-        $("#FUNCDIRECTREPORT").val(dataItem["EMPID"]);
+        $("#FUNEMPIDREPORT").val(dataItem["EMPID"]);
     });
 }
 function onSelectItemGridEmployees(evt, args) {
@@ -382,6 +382,7 @@ function onSelectdtreeFunctReport(e) {
 
     var dataItem = this.dataItem(e.node);
     $("#FUNCTIONALORG").val(dataItem.FUNCCODE);
+    console.log("FUNCTIONALORG =" + dataItem.FUNCCODE);
     var displayTree = [];
     displayTree.push(dataItem.FUNCNAME);
     while (dataItem.parentNode()) {
@@ -437,6 +438,7 @@ function onSelectdtreeemployeeOfOrg(e) {
 function onSelectdDeptGeo(e) {
     var dataItem = this.dataItem(e.node);
     $("#GEOGRAPHICALORG").val(dataItem.DEPTCODE);
+    console.log(dataItem.DEPTCODE);
     var displayTree = [];
     displayTree.push(dataItem.DEPTNAME);
     while (dataItem.parentNode()) {
@@ -466,8 +468,10 @@ function clearForAddNew(value) {
     $("#DEPTCODE").val(value);
     $("#GEOGRAPHICALORG").val(value);
     $("#GEODIRECTREPORT").val(value);
+    $("#GEOEMPIDREPORT").val(value);
     $("#FUNCTIONALORG").val(value);
     $("#FUNCDIRECTREPORT").val(value);
+    $("#FUNEMPIDREPORT").val(value);
     $("span[data-valmsg-for=EMPNAME]").text(value);
     $("span[data-valmsg-for=DEPTCODE]").text(value);
     $("span[data-valmsg-for=IDENTITYCARD]").text(value);
@@ -480,17 +484,18 @@ function onDataBoundParentsOrganization(e) {
 function onDataBoundGeoDirectReport(e) {
     this.expand(".k-item");
     var dataItem = this.dataItem(e.node);
-    if (dataItem != null) {
-        console.log("childNodes[j].Key ==" + dataItem.Key);
-        if ($("#GEOGRAPHICALORG").val() == dataItem.Key) {
-            var childNodes = dataItem.children.view();
-            for (var j = 0; j < childNodes.length; j++) {
-                if (childNodes[j].Key == $("#GEODIRECTREPORT").val()) {
-                    console.log("Key ==" + childNodes[j].Key);
-                    console.log("#GEODIRECTREPORT ==" + $("#GEODIRECTREPORT").val());
+    if (dataItem != null) {       
+        
+        if ($("#GEOGRAPHICALORG").val() == dataItem.Key)
+        {           
+            var childNodes = dataItem.children.view();           
+            for (var j = 0; j < childNodes.length; j++)
+            {
+                if (childNodes[j].Key == $("#GEODIRECTREPORT").val())
+                {    
                     var selectItem = treeGeoDirectReport.findByUid(childNodes[j].uid);
                     treeGeoDirectReport.select(selectItem);
-                    break;
+                    //break;
                 }
             }
         }
@@ -506,7 +511,7 @@ function onDataBoundFunctionDirectReport(e) {
                 if (childNodes[j].Key == $("#FUNCDIRECTREPORT").val()) {
                     var selectItem = treeFunctionDirectReport.findByUid(childNodes[j].uid);
                     treeFunctionDirectReport.select(selectItem);
-                    break;
+                    //break;
                 }
             }
         }
@@ -554,30 +559,30 @@ function Visable(isNew, isDelete, isSave, isCancel, isEdit) {
 }
 function Enables(status) {
     if (status == true) {
-        $('#EMPNAME').removeAttr('disabled');
-        $('#GENDER').removeAttr('disabled');
-        $('#BIRTHDATE').removeAttr('disabled');
-        $('#NATIONALITY').removeAttr('disabled');
-        $('#IDENTITYCARD').removeAttr('disabled');
-        $('#DATEJOIN').removeAttr('disabled');
-        $('#ACADEMIC').removeAttr('disabled');
-        $('#POSITION').removeAttr('disabled');
-        $('#SKILL').removeAttr('disabled');
-        $('#MAJORREGISTER').removeAttr('disabled');
-        $('#MAJORSELECTION').removeAttr('disabled');
+        //$('#EMPNAME').removeAttr('disabled');
+        //$('#GENDER').removeAttr('disabled');
+        //$('#BIRTHDATE').removeAttr('disabled');
+        //$('#NATIONALITY').removeAttr('disabled');
+        //$('#IDENTITYCARD').removeAttr('disabled');
+        //$('#DATEJOIN').removeAttr('disabled');
+        //$('#ACADEMIC').removeAttr('disabled');
+        //$('#POSITION').removeAttr('disabled');
+        //$('#SKILL').removeAttr('disabled');
+        //$('#MAJORREGISTER').removeAttr('disabled');
+        //$('#MAJORSELECTION').removeAttr('disabled');
     }
     else {
-        $('#EMPNAME').prop("disabled", "disabled");
-        $('#GENDER').prop('disabled', 'disabled');
-        $('#BIRTHDATE').prop('disabled', 'disabled');
-        $('#NATIONALITY').prop('disabled', 'disabled');
-        $('#IDENTITYCARD').prop('disabled', 'disabled');
-        $('#DATEJOIN').prop('disabled', 'disabled');
-        $('#ACADEMIC').prop('disabled', 'disabled');
-        $('#POSITION').prop('disabled', 'disabled');
-        $('#SKILL').prop('disabled', 'disabled');
-        $('#MAJORREGISTER').prop('disabled', 'disabled');
-        $('#MAJORSELECTION').prop('disabled', 'disabled');
+        //$('#EMPNAME').prop("disabled", "disabled");
+        //$('#GENDER').prop('disabled', 'disabled');
+        //$('#BIRTHDATE').prop('disabled', 'disabled');
+        //$('#NATIONALITY').prop('disabled', 'disabled');
+        //$('#IDENTITYCARD').prop('disabled', 'disabled');
+        //$('#DATEJOIN').prop('disabled', 'disabled');
+        //$('#ACADEMIC').prop('disabled', 'disabled');
+        //$('#POSITION').prop('disabled', 'disabled');
+        //$('#SKILL').prop('disabled', 'disabled');
+        //$('#MAJORREGISTER').prop('disabled', 'disabled');
+        //$('#MAJORSELECTION').prop('disabled', 'disabled');
     }
 }
 function isDate(value) {
@@ -610,6 +615,8 @@ function loadData()
                     var FUNCTIONALORG = respond.result.Data.FUNCTIONALORG;
                     var FUNCDIRECTREPORT = respond.result.Data.FUNCDIRECTREPORT;
                     var GEOUSERNAME = respond.result.Data.DISPLAYGEODIRECTREPORT;
+                    var GEOEMPID = respond.result.Data.GEOUSER;
+                    var FUNEMPID = respond.result.Data.FUNCUSER;
                     var FUNCTUSERNAME = respond.result.Data.DISPLAYFUNCDIRECTREPORT;
                     try {
                         //Process related data.
@@ -617,7 +624,8 @@ function loadData()
                         if (GEOGRAPHICALORG != '' && GEOGRAPHICALORG != null) {
                             treeGeoDirectReport.dataSource.read({ deptcode: GEOGRAPHICALORG });
                         }
-                        else {
+                        else
+                        {
                             treeGeoDirectReport.dataSource.read({ deptcode: null });
                         }
                         //End for Geo Organization.
@@ -625,7 +633,8 @@ function loadData()
                         if (FUNCTIONALORG != '' && GEOGRAPHICALORG != null) {
                             treeFunctionDirectReport.dataSource.read({ funccode: FUNCTIONALORG });
                         }
-                        else {
+                        else
+                        {
                             treeFunctionDirectReport.dataSource.read({ funccode: null });
                         }
 
@@ -634,6 +643,8 @@ function loadData()
                         kendo.ui.progress($("#window"), false);                        
                         $("#GEODIRECTREPORT").val(GEODIRECTREPORT);
                         $("#FUNCDIRECTREPORT").val(FUNCDIRECTREPORT);
+                        $("#GEOEMPIDREPORT").val(GEOEMPID);
+                        $("#FUNEMPIDREPORT").val(FUNEMPID);
                         Enables(false);
                     }
                 },
@@ -667,7 +678,7 @@ $(document).ready(function ()
     gridGeoForm = $("#gridGeoForm").data("kendoGrid");
     gridFunctionForm = $("#gridFunctionForm").data("kendoGrid");
     //#endregion "DECLARATION VARIABLE"
-
+   
     kendo.ui.progress($("#window"), false);
     Visable(true, false, false, false, false);
 
@@ -687,6 +698,9 @@ $(document).ready(function ()
     $("#btnEdit").on("click", function (event) {
         event.preventDefault();
         Visable(false, false, true, true, false);
+        $("#showDeptCode").removeAttr("disabled");
+        $("#btnShowGeoOrganizationReport").removeAttr("disabled");
+        $("#btnShowFunctionDirectReport").removeAttr("disabled");
         isSaveStatus = 0;
         Enables(true);
     });
@@ -714,15 +728,23 @@ $(document).ready(function ()
         else
             $("span[data-valmsg-for=DATEJOIN]").text("");
         if (isvalidate == true) {
+            var disabled = $('form#frmEmployee').find(':input:disabled').removeAttr('disabled');
              $.ajax({
                 url: '@Url.Action("SaveEmployee", "Staff")',
                 type: 'post',
                 data: $('form#frmEmployee').serialize(),
                  success: function (result) { 
                      try {
-
+                         disabled.attr('disabled', 'disabled');
+                         $("#btnEdit").removeAttr('disabled');
+                         $("#showDeptCode").attr("disabled", "disabled");
+                         $("#btnShowGeoOrganizationReport").attr("disabled", "disabled");
+                         $("#btnShowFunctionDirectReport").attr("disabled", "disabled");
                      } finally {
                          Enables(false);
+                         $("#showDeptCode").attr("disabled", "disabled");
+                         $("#btnShowGeoOrganizationReport").attr("disabled", "disabled");
+                         $("#btnShowFunctionDirectReport").attr("disabled", "disabled");
                      }
                      
                 }

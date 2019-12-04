@@ -48,7 +48,7 @@
         {
             //TUYEN DEPTCODE VAO DAY.            
             //let deptCode = document.getElementById('deptcode').value;
-            $.get("@Url.Action("_FunctionorChartData", "OrgConfig",new { funccode = "500792" })").done(function (response)
+            $.get("@Url.Action("_FunctionorChartData", "OrgConfig",new { funccode = "500002" })").done(function (response)
             {
                 var nodes = JSON.parse(response.nodes);
                 console.log(response.nodes);

@@ -154,7 +154,7 @@
     <div>
         @(Html.Kendo().Window()
                                             .Name("windowOrgChart")
-                                            .Title("Organization Chart")
+                                            .Title("Organization Chart By Corporation")
                                             .Content(
                                                 //@"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
                                                 ""
@@ -184,7 +184,7 @@
         )
         @(Html.Kendo().Window()
                                            .Name("windowGeoChart")
-                                           .Title("Geo Reporter Chart")
+                                           .Title("Organization Chart")
                                            .Content(
                                                //@"<iframe scrolling='no' id='dkm' src='/orgconfig/viewchart' frameborder='0' style='height: 100%; width: 100%'></iframe>"
                                                ""
@@ -229,16 +229,10 @@
             </div>
             <div class="col">
                 <input class="btn btn-secondary float-md-right" type="button" value="Organization Chart" onclick="onShowOrgChart()">
-            </div>
-            <div class="col">
                 <input class="btn btn-secondary float-md-right" type="button" value="Function Chart" onclick="onShowFunctionChart()">
-            </div>
-            <div class="col">
                 <input class="btn btn-secondary float-md-right" type="button" value="Geo Reporter Chart" onclick="onShowGeoChart()">
-            </div>
-            <div class="col">
                 <input class="btn btn-secondary float-md-right" type="button" value="Funct Reporter Chart" onclick="onShowFuncChart()">
-            </div>
+            </div>            
         </div>
 
         <div class="row">

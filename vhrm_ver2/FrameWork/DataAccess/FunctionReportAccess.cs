@@ -36,12 +36,13 @@ namespace vhrm.FrameWork.DataAccess
             param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GETUSER_FUNC_REPORT", param);
         }
-        public DataTable GetUsersFunctionForReports(string funccode)
+        public DataTable GetUsersFunctionForReports(string funccode,string empid)
         {
-            OracleParameter[] param = new OracleParameter[2];
-            param[0] = new OracleParameter("pFUNCCODE", (object)funccode ?? DBNull.Value);
-            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
-            return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GETUSER_FUNCTION_REPORT", param);
+            OracleParameter[] param = new OracleParameter[3];
+            param[0] = new OracleParameter("pFUNCTCODE", (object)funccode ?? DBNull.Value);
+            param[1] = new OracleParameter("pEMPID", (object)empid ?? DBNull.Value);
+            param[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GETUSERFUNC_REPORT_FUNCDEPT", param);
         }
         public DataTable InsertFunctReport(string functCode, string sysEmpId)
         {

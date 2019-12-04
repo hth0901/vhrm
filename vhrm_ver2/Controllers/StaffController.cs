@@ -57,7 +57,9 @@ namespace vhrm.Controllers
                     GEOUSERNAME = employeeMaster.DISPLAYGEODIRECTREPORT,
                     FUNCTIONALORG = employeeMaster.FUNCTIONALORG,
                     FUNCDIRECTREPORT = employeeMaster.FUNCDIRECTREPORT,
-                    FUNCTUSERNAME = employeeMaster.DISPLAYFUNCDIRECTREPORT
+                    FUNCTUSERNAME = employeeMaster.DISPLAYFUNCDIRECTREPORT,
+                    GEOUSER = employeeMaster.GEOEMPIDREPORT,
+                    FUNCUSER = employeeMaster.FUNEMPIDREPORT
                 };
                 return Json(new { result = Json(data)});
             }           
@@ -167,15 +169,15 @@ namespace vhrm.Controllers
             return Json(result.ToList(), JsonRequestBehavior.AllowGet);
             //return Json(data, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult getUserInGeoReportByDeptCode([DataSourceRequest]DataSourceRequest request,string deptCode)
+        public JsonResult getUserInGeoReportByDeptCode([DataSourceRequest]DataSourceRequest request,string deptcode, string empid)
         {
-            var data = bGeoReport.getUserInGeoReportByDeptCode(deptCode);
+            var data = bGeoReport.getUserInGeoReportByDeptCode(deptcode, empid);
             return Json(data.ToDataSourceResult(request));
             //return Json(data, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult getUserInFunctReportByDeptCode([DataSourceRequest]DataSourceRequest request, string functCode)
+        public JsonResult getUserInFunctReportByDeptCode([DataSourceRequest]DataSourceRequest request, string funccode, string empid)
         {
-            var data = bFunctionReport.getUserInFunctReportByDeptCode(functCode);
+            var data = bFunctionReport.getUserInFunctReportByDeptCode(funccode, empid);
             return Json(data.ToDataSourceResult(request));
             //return Json(data, JsonRequestBehavior.AllowGet);
         }
@@ -325,6 +327,7 @@ namespace vhrm.Controllers
                     if (employeeMasterReport.Count > 0)
                     {
                         employeeMasterReport[0].DEPTCODEGEO = employeeMaster.GEOGRAPHICALORG;
+                        employeeMasterReport[0].SYS_EMPIDGEO = employeeMaster.GEODIRECTREPORT;
                         employeeMasterReport[0].SYS_EMPIDGEO = employeeMaster.GEODIRECTREPORT;
                         employeeMasterReport[0].DEPTCODEFUN = employeeMaster.FUNCTIONALORG;
                         employeeMasterReport[0].SYS_EMPIDFUN = employeeMaster.FUNCDIRECTREPORT;

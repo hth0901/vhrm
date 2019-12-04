@@ -252,11 +252,11 @@ namespace vhrm.FrameWork.BusinessLayer
             }
             return result;
         }
-        public static List<EmployeeMaster> getUserInGeoReportByDeptCode(string deptCode)
+        public static List<EmployeeMaster> getUserInGeoReportByDeptCode(string deptCode,string empid)
         {
             List<EmployeeMaster> userList = new List<EmployeeMaster>();
             GeoReportAccess access = new GeoReportAccess();
-            DataTable dtResult = access.GetUserGeoReports(deptCode);
+            DataTable dtResult = access.GetUserGeoReports(deptCode, empid);
             foreach (DataRow dtr in dtResult.Rows)
             {
                 EmployeeMaster item = new EmployeeMaster

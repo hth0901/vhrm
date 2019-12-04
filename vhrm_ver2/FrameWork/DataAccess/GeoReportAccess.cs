@@ -30,11 +30,12 @@ namespace vhrm.FrameWork.DataAccess
             return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_GETTREE_NEW_GEO_REPORT", param);
         }
 
-        public DataTable GetUserGeoReports(string funccode)
+        public DataTable GetUserGeoReports(string funccode,string empid)
         {
-            OracleParameter[] param = new OracleParameter[2];
+            OracleParameter[] param = new OracleParameter[3];
             param[0] = new OracleParameter("pDEPTCODE", (object)funccode ?? DBNull.Value);
-            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("pEMPID", (object)empid ?? DBNull.Value);
+            param[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_GET_USERGEO_REPORT_BY_DEPT", param);
         }
         public static DataTable getReportByDepartment(string deptcode)

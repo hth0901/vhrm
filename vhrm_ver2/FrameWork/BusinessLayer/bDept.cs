@@ -62,16 +62,16 @@ namespace vhrm.FrameWork.BusinessLayer
                         subSupervisor["DEPTNAME"] = dtr["DEPTNAME"].ToString();
                         subSupervisor["POSITION"] = dtr["POSITION"].ToString();
                         subSupervisor["EMAIL"] = dtr["EMAIL"].ToString();
-                        string imgPath = dtr["IMAGE"].ToString();
-                        if (string.IsNullOrEmpty(imgPath))
+                        string imgsPath = dtr["IMAGE"].ToString();
+                        if (string.IsNullOrEmpty(imgsPath))
                         {
-                            imgPath = "/FileServer/Photos/default.jpg";
+                            imgsPath = "/FileServer/Photos/default.jpg";
                         }
-                        else if (!IsFileExists(imgPath))
+                        else if (!IsFileExists(imgsPath))
                         {
-                            imgPath = "/FileServer/Photos/default.jpg";
+                            imgsPath = "/FileServer/Photos/default.jpg";
                         }
-                        subSupervisor["IMAGE"] = imgPath;// dtr["IMAGE"].ToString();
+                        subSupervisor["IMAGE"] = imgsPath;// dtr["IMAGE"].ToString();
                         elements.Add(subSupervisor);
                     }
                     //Get root.                    
@@ -84,7 +84,16 @@ namespace vhrm.FrameWork.BusinessLayer
                     rootSupervisor["DEPTNAME"] = root.DEPTNAME;
                     rootSupervisor["POSITION"] = root.POSITION;
                     rootSupervisor["EMAIL"] = root.EMAIL;
-                    rootSupervisor["IMAGE"] = root.IMAGE;
+                    string imgPath = root.IMAGE;
+                    if (string.IsNullOrEmpty(imgPath))
+                    {
+                        imgPath = "/FileServer/Photos/default.jpg";
+                    }
+                    else if (!IsFileExists(imgPath))
+                    {
+                        imgPath = "/FileServer/Photos/default.jpg";
+                    }
+                    rootSupervisor["IMAGE"] = imgPath;
                     elements.Add(rootSupervisor);
                 }               
             }
@@ -138,7 +147,16 @@ namespace vhrm.FrameWork.BusinessLayer
                     subSupervisor["DEPTNAME"] = dtr["DEPTNAME"].ToString();
                     subSupervisor["POSITION"] = dtr["POSITION"].ToString();
                     subSupervisor["EMAIL"] = dtr["EMAIL"].ToString();
-                    subSupervisor["IMAGE"] = dtr["IMAGE"].ToString();
+                    string imggPath = dtr["IMAGE"].ToString();
+                    if (string.IsNullOrEmpty(imggPath))
+                    {
+                        imggPath = "/FileServer/Photos/default.jpg";
+                    }
+                    else if (!IsFileExists(imggPath))
+                    {
+                        imggPath = "/FileServer/Photos/default.jpg";
+                    }
+                    subSupervisor["IMAGE"] = imggPath;// dtr["IMAGE"].ToString();
                     elements.Add(subSupervisor);
                 }
                 //Get root.
@@ -151,7 +169,16 @@ namespace vhrm.FrameWork.BusinessLayer
                 rootSupervisor["DEPTNAME"] = root.DEPTNAME;
                 rootSupervisor["POSITION"] = root.POSITION;
                 rootSupervisor["EMAIL"] = root.EMAIL;
-                rootSupervisor["IMAGE"] = root.IMAGE;
+                string imgPath = root.IMAGE;
+                if (string.IsNullOrEmpty(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
+                else if (!IsFileExists(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
+                rootSupervisor["IMAGE"] = imgPath;
                 elements.Add(rootSupervisor);
             }
             return elements;

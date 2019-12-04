@@ -301,8 +301,8 @@ function acceptSearchSupervisor(e) {
     $('#GEODIRECTREPORT').val(selectedDataItem.SYS_EMPID);  
     $("#GEOGRAPHICALORG").val(selectedDataItem.DEPTCODE);
     //HIEN THI CAY VA ACTIVE SELECTED NODE
-    treeGeoReport.dataSource.filter({});
-    treeGeoReport.value(selectedDataItem.DEPTCODE);
+    //treeGeoReport.dataSource.filter({});
+    //treeGeoReport.value(selectedDataItem.DEPTCODE);
 }
     function openGeoDialogForm() {
         gridGeoForm.dataSource.read({ deptcode: $("#GEOGRAPHICALORG").val(), empid: $("#GEOEMPIDREPORT").val()});
@@ -321,8 +321,8 @@ function acceptSearchFunctionor(e) {
     $("#FUNCDIRECTREPORT").val(selectedDataItem.SYS_EMPID);
     $("#FUNCTIONALORG").val(selectedDataItem.DEPTCODE);
     //HIEN THI CAY VA ACTIVE SELECTED NODE
-    treeFunctionReport.dataSource.filter({});
-    treeFunctionReport.value(selectedDataItem.DEPTCODE);
+    //treeFunctionReport.dataSource.filter({});
+    //treeFunctionReport.value(selectedDataItem.DEPTCODE);
 }
 function openFunctionDialogForm() {
     gridFunctionForm.dataSource.read({ funccode: $("#FUNCTIONALORG").val(), empid: $("#FUNEMPIDREPORT").val() });

@@ -637,7 +637,7 @@ function loadData()
                         {
                             treeFunctionDirectReport.dataSource.read({ funccode: null });
                         }
-                        $("#imageShort").attr("src", $("#IMAGE").val());
+                        
                     }
                     finally {                       
                         kendo.ui.progress($("#window"), false);                        
@@ -645,7 +645,8 @@ function loadData()
                         $("#FUNCDIRECTREPORT").val(FUNCDIRECTREPORT);
                         $("#GEOEMPIDREPORT").val(GEOEMPID);
                         $("#FUNEMPIDREPORT").val(FUNEMPID);
-                        $("#imageShort").attr("src", $("#IMAGE").val());
+                        //$("#imageShort").attr("src", $("#IMAGE").val());
+                        
                         Enables(false);
                     }
                 },
@@ -656,6 +657,8 @@ function loadData()
                     Enables(false);
                 }
             });
+            $("#imageShort").attr("src", $("#IMAGE").val());
+            console.log($("#imageShort").attr("src"));
     }
     function showMessage(message, style) {
         var ostyle = $("#messageInfor").attr("class");

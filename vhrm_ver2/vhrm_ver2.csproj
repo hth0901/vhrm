@@ -3928,6 +3928,7 @@
     <Content Include="libs_ver3\js\jquery.sparkline.min.js" />
     <Content Include="libs_ver3\js\nice-scrollbar.js" />
     <Content Include="libs_ver3\js\npm.js" />
+    <Content Include="libs_ver3\js\orgchart.js" />
     <Content Include="libs_ver3\js\pace.min.js" />
     <Content Include="libs_ver3\js\peity-demo.js" />
     <Content Include="libs_ver3\js\sparkline-demo.js" />

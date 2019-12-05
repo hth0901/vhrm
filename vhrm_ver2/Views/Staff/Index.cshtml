@@ -495,7 +495,7 @@ function onDataBoundGeoDirectReport(e) {
                 {    
                     var selectItem = treeGeoDirectReport.findByUid(childNodes[j].uid);
                     treeGeoDirectReport.select(selectItem);
-                    //break;
+                    break;
                 }
             }
         }
@@ -511,7 +511,7 @@ function onDataBoundFunctionDirectReport(e) {
                 if (childNodes[j].Key == $("#FUNCDIRECTREPORT").val()) {
                     var selectItem = treeFunctionDirectReport.findByUid(childNodes[j].uid);
                     treeFunctionDirectReport.select(selectItem);
-                    //break;
+                    break;
                 }
             }
         }

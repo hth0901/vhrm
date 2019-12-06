@@ -390,7 +390,7 @@ function onSelectdtreeFunctReport(e) {
         displayTree.push(dataItem.FUNCNAME);
     }
     $("#DISPLAYFUNCTIONALORG").val(displayTree.join(" > "));
-    $("#DISPLAYFUNCDIRECTREPORT").val("");
+    //$("#DISPLAYFUNCDIRECTREPORT").val("");
 }
 function onSelectdtreeFunctionReport(e) {
     var dataItem = this.dataItem(e.node);
@@ -449,7 +449,7 @@ function onSelectdDeptGeo(e) {
 
     $("#DISPLAYGEOGRAPHICALORG").val(displayTree.join(" > "));
 
-    $("#DISPLAYGEODIRECTREPORT").val("");
+    //$("#DISPLAYGEODIRECTREPORT").val("");
 }
 function onChangedtreeemployeeOfOrg(e) {
 
@@ -592,7 +592,7 @@ function isDate(value) {
 }
 function loadData()
 {
-     if ($("#empIdSearch").val().length == 0) return false;
+      if ($("#empIdSearch").val().length == 0) return false;
         var empIdSearch = $("#empIdSearch").val().trim();
         //Waiting process.
         kendo.ui.progress($("#window"), true);
@@ -756,10 +756,11 @@ $(document).ready(function ()
                          $("#FUNEMPIDREPORT").attr("disabled", "disabled");
                          $("#GEOEMPIDREPORT").attr("disabled", "disabled");
                      }
-                     
+                     //showMessage("This EMPID = " + $("#empIdSearch").val() + " is not found!", "alert alert-info");
                 }
             });
-            loadData();
+            //loadData();
+            LoadRight();
             Visable(true, true, false, false, true);
             Enables(false);
             showMessage("You create successful!", "alert alert-success");           
@@ -799,4 +800,65 @@ $(document).ready(function ()
     });
     //#endregion "FUNCTIONS"
 });
+    function LoadRight() {
+        if ($("#empIdSearch").val().length == 0) return false;
+        var empIdSearch = $("#empIdSearch").val().trim();
+        //Waiting process.
+        kendo.ui.progress($("#window"), true);
+        //Get DeptCode and FuncCode.
+        $.ajax
+            ({
+                url: "/Staff/getDeptCodeAndFuncCode",
+                type: 'POST',
+                data: { empId: empIdSearch },
+                OnComplete: function () {                     
+                    Enables(false);
+                },
+                success: function (respond) {
+                    var GEOGRAPHICALORG = respond.result.Data.GEOGRAPHICALORG;
+                    var GEODIRECTREPORT = respond.result.Data.GEODIRECTREPORT;
+                    var FUNCTIONALORG = respond.result.Data.FUNCTIONALORG;
+                    var FUNCDIRECTREPORT = respond.result.Data.FUNCDIRECTREPORT;
+                    var GEOUSERNAME = respond.result.Data.DISPLAYGEODIRECTREPORT;
+                    var GEOEMPID = respond.result.Data.GEOUSER;
+                    var FUNEMPID = respond.result.Data.FUNCUSER;
+                    var FUNCTUSERNAME = respond.result.Data.DISPLAYFUNCDIRECTREPORT;
+                    try {
+                        //Process related data.
+                        //Process for Geo Organization.
+                        if (GEOGRAPHICALORG != '' && GEOGRAPHICALORG != null) {
+                            treeGeoDirectReport.dataSource.read({ deptcode: GEOGRAPHICALORG });
+                        }
+                        else
+                        {
+                            treeGeoDirectReport.dataSource.read({ deptcode: null });
+                        }
+                        //End for Geo Organization.
+                        //Process for Funct Report.
+                        if (FUNCTIONALORG != '' && GEOGRAPHICALORG != null) {
+                            treeFunctionDirectReport.dataSource.read({ funccode: FUNCTIONALORG });
+                        }
+                        else
+                        {
+                            treeFunctionDirectReport.dataSource.read({ funccode: null });
+                        }
+                        
+                    }
+                    finally {               
+                        $("#GEODIRECTREPORT").val(GEODIRECTREPORT);
+                        $("#FUNCDIRECTREPORT").val(FUNCDIRECTREPORT);
+                        $("#GEOEMPIDREPORT").val(GEOEMPID);
+                        $("#FUNEMPIDREPORT").val(FUNEMPID);
+                        kendo.ui.progress($("#window"), false);  
+                        Enables(false);
+                    }
+                },
+                error: function (error) {
+                    kendo.ui.progress($("#window"), false);                    
+                    Enables(false);
+                }
+            });
+        $("#imageShort").attr("src", $("#IMAGE").val());
+
+    }
 </script>

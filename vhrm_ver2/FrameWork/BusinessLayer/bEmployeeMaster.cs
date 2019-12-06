@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using vhrm.FrameWork.DataAccess;
@@ -67,6 +68,15 @@ namespace vhrm.FrameWork.BusinessLayer
                         }
 
                 }
+                string imgPath = dtr["IMAGE"].ToString();
+                if (string.IsNullOrEmpty(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
+                else if (!IsFileExists(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
                 EmployeeMaster item = new EmployeeMaster
                 {
                     SYS_EMPID = dtr["SYS_EMPID"].ToString(),
@@ -94,7 +104,7 @@ namespace vhrm.FrameWork.BusinessLayer
                     DATERESIGNED = dtr["DATERESIGNED"].ToString(),
                     FINGERPRINT = dtr["FINGERPRINT"].ToString(),
                     FINGERINDEX = dtr["FINGERINDEX"].ToString(),
-                    IMAGE = dtr["IMAGE"].ToString(),
+                    IMAGE = imgPath,
                     POSITION = dtr["POSITION"].ToString(),
                     SKILL = dtr["SKILL"].ToString(),
                     SYS_EMPIDOLD = dtr["SYS_EMPIDOLD"].ToString(),
@@ -256,6 +266,15 @@ namespace vhrm.FrameWork.BusinessLayer
                         }
 
                 }
+                string imgPath = dtr["IMAGE"].ToString();
+                if (string.IsNullOrEmpty(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
+                else if (!IsFileExists(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
                 EmployeeMaster item = new EmployeeMaster
                 {
                     SYS_EMPID = dtr["SYS_EMPID"].ToString(),
@@ -284,7 +303,7 @@ namespace vhrm.FrameWork.BusinessLayer
                     DATERESIGNED = dtr["DATERESIGNED"].ToString(),
                     FINGERPRINT = dtr["FINGERPRINT"].ToString(),
                     FINGERINDEX = dtr["FINGERINDEX"].ToString(),
-                    IMAGE = dtr["IMAGE"].ToString(),
+                    IMAGE = imgPath,
                     POSITION = dtr["POSITION"].ToString(),
                     SKILL = dtr["SKILL"].ToString(),
                     SYS_EMPIDOLD = dtr["SYS_EMPIDOLD"].ToString(),
@@ -355,6 +374,15 @@ namespace vhrm.FrameWork.BusinessLayer
                         }
 
                 }
+                string imgPath = dtr["IMAGE"].ToString();
+                if (string.IsNullOrEmpty(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
+                else if (!IsFileExists(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
                 EmployeeMaster item = new EmployeeMaster
                 {
                     SYS_EMPID = dtr["SYS_EMPID"].ToString(),
@@ -380,8 +408,8 @@ namespace vhrm.FrameWork.BusinessLayer
                     ACADEMIC = dtr["ACADEMIC"].ToString(),
                     DATERESIGNED = dtr["DATERESIGNED"].ToString(),
                     FINGERPRINT = dtr["FINGERPRINT"].ToString(),
-                    FINGERINDEX = dtr["FINGERINDEX"].ToString(),
-                    IMAGE = dtr["IMAGE"].ToString(),
+                    FINGERINDEX = dtr["FINGERINDEX"].ToString(),                 
+                    IMAGE = imgPath,
                     POSITION = dtr["POSITION"].ToString(),
                     SKILL = dtr["SKILL"].ToString(),
                     SYS_EMPIDOLD = dtr["SYS_EMPIDOLD"].ToString(),
@@ -473,7 +501,12 @@ namespace vhrm.FrameWork.BusinessLayer
             }                         
             return null;
         }
-       
+        private static bool IsFileExists(string path)
+        {
+            if (File.Exists(HttpContext.Current.Server.MapPath(path)))
+                return true;
+            return false;
+        }
         public static List<EmployeeMaster> getEmployeesByDeptCode()
         {
             return getAllEmployees();

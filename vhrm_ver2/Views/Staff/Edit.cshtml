@@ -16,7 +16,16 @@
                         <div class="img_emp" style="text-align: center;">
                             <div class="img_emp_content" id="img_emp_content">
                                 @Html.HiddenFor(model => model.IMAGE)
-                                <img src="@Url.Content(Model.IMAGE + "?" + (new Random()).Next(0,100))" id="imageShort" style="width:100%; height: 100%" />
+                                @*<img src="@Url.Content(Model.IMAGE + "?" + (new Random()).Next(0,100))" id="imageShort" style="width:100%; height: 100%" />*@
+                                @Html.HiddenFor(model => model.IMAGE)
+                                @if (Model == null)
+                                {
+                                    <img src="/FileServer/Photos/default.jpg" id="imageShort" style="width:100%; height: 100%">
+                                }
+                                else
+                                {
+                                    <img src="@Url.Content(Model.IMAGE + "?" + (new Random()).Next(0,100))" id="imageShort" style="width:100%; height: 100%" />
+                                }
                             </div>
                             <input type="button" class="btn btn-primary btn-sm btn-fixed-width" value="Upload" onclick="clickUpload()">
                             <span class="field-validation-valid text-danger" data="EMPNAME" data-valmsg-for="sizeofimage" data-valmsg-replace="true"></span>

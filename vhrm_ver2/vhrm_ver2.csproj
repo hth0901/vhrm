@@ -155,6 +155,7 @@
     <Compile Include="Controllers\OrgConfigController.cs" />
     <Compile Include="Controllers\OrgController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="FrameWork\BusinessLayer\bAddressCategory.cs" />
     <Compile Include="FrameWork\BusinessLayer\bCategoryConfig.cs" />
@@ -366,7 +367,6 @@
     <Content Include="FileServer\Photos\00000030.jpg" />
     <Content Include="FileServer\Photos\00000033.jpg" />
     <Content Include="FileServer\Photos\00000073.jpg" />
-    <Content Include="FileServer\Photos\24190001.jpg" />
     <Content Include="FileServer\Photos\24190003.jpg" />
     <Content Include="FileServer\Photos\24190004.jpg" />
     <Content Include="FileServer\Photos\24190005.jpg" />
@@ -4922,6 +4922,7 @@
     <Content Include="Views\OrgConfig\FuncChart.cshtml" />
     <Content Include="Views\OrgConfig\FunctionorChart.cshtml" />
     <Content Include="Views\OrgConfig\SupervisorChart.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

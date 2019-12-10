@@ -222,6 +222,7 @@
     <Compile Include="FrameWork\Entity\EmployeeMasterReport.cs" />
     <Compile Include="FrameWork\Entity\eReporterItem.cs" />
     <Compile Include="FrameWork\Entity\eUser.cs" />
+    <Compile Include="FrameWork\Entity\eUserVhrm.cs" />
     <Compile Include="FrameWork\Entity\FamilyInfoEntity.cs" />
     <Compile Include="FrameWork\Entity\FormEntity.cs" />
     <Compile Include="FrameWork\Entity\FunctionReport.cs" />
@@ -4923,6 +4924,8 @@
     <Content Include="Views\OrgConfig\FunctionorChart.cshtml" />
     <Content Include="Views\OrgConfig\SupervisorChart.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\User\UserList.cshtml" />
+    <Content Include="Views\Test\AddUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

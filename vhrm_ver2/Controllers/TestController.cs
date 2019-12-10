@@ -13,5 +13,10 @@ namespace vhrm.Controllers
         {
             return View();
         }
+
+        public ActionResult AddUser()
+        {
+            return View();
+        }
     }
 }

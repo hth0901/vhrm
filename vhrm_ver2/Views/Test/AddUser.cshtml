@@ -1,0 +1,65 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddUser</title>
+    <link href="~/libs_ver3/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/libs_ver3/js/jquery-2.1.1.js"></script>
+    <script src="~/libs_ver3/js/bootstrap.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+</head>
+<body>
+    @using (Ajax.BeginForm(actionName: "createNewUser", controllerName: "User", routeValues: null, ajaxOptions: new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnSuccess = "onSuccess",
+        OnFailure = "onFailure"
+    }, htmlAttributes: new
+    {
+        id = "userForm"
+    }))
+    {
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="Username">Empid</label>
+                    <input type="text" class="form-control" id="Username" name="Username" placeholder="Empid">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="Password">Password</label>
+                    <input type="password" class="form-control" id="Password" name="Password" placeholder="Password">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                    <input class="btn btn-secondary" type="button" value="New">
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+    <script>
+        function onFailure(data) {
+            //alert('HTTP Status Code: ' + data.param1 + "  " + data.param2);
+            alert('failed!!!');
+        }
+        function onSuccess(data) {
+            alert(`${data.param2} ---- ${data.param3}`);
+        }
+    </script>
+</body>
+</html>

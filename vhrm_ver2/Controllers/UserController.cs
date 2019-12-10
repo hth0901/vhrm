@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using vhrm.FrameWork.DataAccess;
 using vhrm.FrameWork.BusinessLayer;
 using vhrm.FrameWork.Entity;
+using vhrm.FrameWork.Utility;
+using Oracle.ManagedDataAccess.Client;
 
 namespace vhrm.Controllers
 {
@@ -79,6 +81,102 @@ namespace vhrm.Controllers
             jsonResult.MaxJsonLength = int.MaxValue;
             //return Json(lstResult.ToDataSourceResult(request));
             return jsonResult;
+        }
+
+        [HttpPost]
+        public ActionResult updateUserPassword(string UserId, string oldPassword, string newPassword, string newPasswordConfirm)
+        {
+            dynamic showMessageString = string.Empty;
+            showMessageString = new
+            {
+                param1 = "OK",
+                param2 = "Update success!!"
+            };
+            if (string.IsNullOrEmpty(oldPassword) || string.IsNullOrEmpty(newPassword) || string.IsNullOrEmpty(newPasswordConfirm))
+            {
+                showMessageString = new
+                {
+                    param1 = "Error",
+                    param2 = "Please Check Data"
+                };
+                return Json(showMessageString, JsonRequestBehavior.AllowGet);
+            }
+
+            if (newPassword != newPasswordConfirm)
+            {
+                showMessageString = new
+                {
+                    param1 = "Error",
+                    param2 = "New password not match"
+                };
+                return Json(showMessageString, JsonRequestBehavior.AllowGet);
+            }
+            string oldpass = ED5Helper.Encrypt(oldPassword);
+            string newpass = ED5Helper.Encrypt(newPassword);
+
+            UserAccess uAccess = new UserAccess();
+            DataTable dtResult = new DataTable();
+            dtResult = uAccess.ChangePasswrod(UserId, oldPassword, newPassword);
+            if (dtResult.Rows[0][0].ToString() != "OK")
+            {
+                showMessageString = new
+                {
+                    param1 = "Error",
+                    param2 = "Change password failed!!"
+                };
+                return Json(showMessageString, JsonRequestBehavior.AllowGet);
+            }
+            return Json(showMessageString, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult createNewUser(string Username, string Password)
+        {
+            dynamic showMessageString = string.Empty;
+            string sqlQuery = "sp_insert_new_user";
+            string pw = ED5Helper.Encrypt(Password);
+
+            showMessageString = new
+            {
+                param1 = 200,
+                param2 = "insert success",
+                param3 = Username,
+                param4 = pw
+            };
+
+            OracleParameter[] sqlParams = new OracleParameter[3];
+            sqlParams[0] = new OracleParameter("PEMPID", Username);
+            sqlParams[1] = new OracleParameter("PPASSWORD", OracleDbType.NVarchar2) { Value = pw };
+            sqlParams[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            DataTable dtResult = new DataTable();
+
+            try
+            {
+                dtResult = DBHelper.getDataTable_SP(sqlQuery, sqlParams);
+            }
+            catch(Exception ex)
+            {
+                showMessageString = new
+                {
+                    param1 = 404,
+                    param2 = "proccess error",
+                    param3 = Username,
+                    param4 = pw
+                };
+            }
+
+            if (dtResult.Rows[0][0].ToString() != "OK")
+            {
+                showMessageString = new
+                {
+                    param1 = 404,
+                    param2 = "proccess error",
+                    param3 = Username,
+                    param4 = pw
+                };
+            }
+
+            return Json(showMessageString, JsonRequestBehavior.AllowGet);
         }
     }
 }

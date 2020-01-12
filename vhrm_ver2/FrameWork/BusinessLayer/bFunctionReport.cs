@@ -78,18 +78,19 @@ namespace vhrm.FrameWork.BusinessLayer
             }          
            
         }
-        public static List<EmployeeMaster> getUserInFunctReportByDeptCode(string functCode)
+        public static List<EmployeeMaster> getUserInFunctReportByDeptCode(string functCode,string empid)
         {
             List<EmployeeMaster> functionReports = new List<EmployeeMaster>();
             FunctionReportAccess access = new FunctionReportAccess();
-            DataTable dtResult = access.GetUsersFunctionForReports(functCode);
+            DataTable dtResult = access.GetUsersFunctionForReports(functCode,empid);
             foreach (DataRow dtr in dtResult.Rows)
             {
                 EmployeeMaster item = new EmployeeMaster
                 {
                     //FUNCPORTCD = dtr["FUNCPORTCD"].ToString(),
                     EMPID = dtr["EMPID"].ToString(),
-                    EMPNAME = dtr["EMPNAME"].ToString() + "," + dtr["SYS_EMPID"].ToString(),
+                    EMPNAME = dtr["EMPNAME"].ToString(),
+                    DEPTCODE = dtr["FUNCDEPT"].ToString(),
                     SYS_EMPID = dtr["SYS_EMPID"].ToString()
                 };
                 functionReports.Add(item);

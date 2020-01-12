@@ -1,0 +1,107 @@
+﻿@model vhrm.ViewModels.GeoChartViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Geo Reporter Chart</title>
+    <style>
+        html, body {
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+            font-family: Helvetica;
+            overflow: hidden;
+        }
+
+        #tree {
+            width: 100%;
+            height: 100%;
+        }
+
+        .supervisorimg {
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+        }
+
+        .lbsupervisor {
+            color: white;
+            /*margin-left:-23px;
+            margin-top:10px;*/
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    @*<script src="~/assets/js/orgchart.js"></script>*@
+    @*<script src="https://balkangraph.com/js/latest/OrgChart.js"></script>*@
+    <script src="~/libs_ver3/js/orgchart.js"></script>
+</head>
+<body>
+    <div id="tree"></div>
+    <input id="deptcode" type="hidden" value="@Model.DEPTCODE" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event)
+        {
+            //TUYEN DEPTCODE VAO DAY.            
+            let deptCode = document.getElementById('deptcode').value;
+            $.get("@Url.Action("_SupervisorChartData", "OrgConfig",new { deptcode = Model.DEPTCODE})").done(function (response)
+            {
+                var nodes = JSON.parse(response.nodes);
+                console.log(response.nodes);
+                OrgChart.templates.rony.field_0 = '<text style="font-size: 14px;" fill="#F57C00" x="90" y="200" text-anchor="middle">{val}</text>';
+                OrgChart.templates.rony.field_1 = '<text style="font-size: 14px;" fill="#F57C00" x="90" y="220" text-anchor="middle">{val}</text>';
+                OrgChart.templates.rony.field_2 = '<text text-overflow="multiline" style="font-size: 14px;" fill="#039BE5" x="90" y="28" text-anchor="middle">{val}</text>';
+                OrgChart.templates.rony.img_0 =
+                    '<clipPath id="ulaImg">'
+                + '<circle cx="90" cy="120" r="60"></circle>'
+                    + '</clipPath>'
+                + '<image preserveAspectRatio="xMidYMid slice" clip-path="url(#ulaImg)" xlink:href="{val}" x="30" y="60" width="120" height="120">'
+                    + '</image>'; 
+                OrgChart.templates.rony.field_number_children = '<circle cx="90" cy="50" r="15" fill="#F57C00"></circle><text fill="#ffffff" x="90" y="55" text-anchor="middle">{val}</text>';
+
+                for (var i = 0; i < nodes.length; i++) {
+                    nodes[i].field_number_children = childCount(nodes[i].id);
+                }
+
+                function childCount(id) {
+                    let count = 0;
+                    for (var i = 0; i < nodes.length; i++) {
+                        if (nodes[i].pid == id) {
+                            count++;
+                            //count += childCount(nodes[i].id);
+                        }
+                    }
+
+                    return count;
+                }                
+                var chart = new OrgChart(document.getElementById("tree"), {
+                    template: "rony",                     
+                    layout: OrgChart.treeLeftOffset,
+                    menu: {
+                        pdf: { text: "Export PDF" },
+                        png: { text: "Export PNG" }
+                    },
+                    nodeBinding: {
+                        field_0: "EMPNAME",
+                        field_1: "EMPID",
+                        field_2: "DEPTNAME",
+                        field_3: "EMAIL",
+                        field_4: "POSITION",
+                        img_0: "IMAGE",
+                        field_number_children: "field_number_children"
+                        
+                    },
+                    nodes: nodes
+                });
+            });
+
+        });
+        
+    </script>
+</body>
+</html>

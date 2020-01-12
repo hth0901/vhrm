@@ -41,7 +41,7 @@ namespace vhrm.FrameWork.Entity
         //[DataType(DataType.Date)]
         //[DisplayFormat(DataFormatString = "dd-MM-yyyy", ApplyFormatInEditMode = true)]
         public DateTime DATEJOIN { get; set; }
-        [Display(Name = "EMP ID CARD No.")]
+        [Display(Name = "UID Hexadecimal")]
         //[RegularExpression("([0-9]+)", ErrorMessage = "Please enter valid Number")]
         public string IDENTITYCARD { get; set; }
         public string IDISSUEDPLACE { get; set; }
@@ -68,6 +68,9 @@ namespace vhrm.FrameWork.Entity
         public string FUNCDIRECTREPORT { get; set; }
 
         public string GEOEMPIDREPORT { get; set; }
+        
+        public string DEPTNAME { get; set; }
+        public string FUNCNAME { get; set; }
         public string FUNEMPIDREPORT { get; set; }
 
         public string DISPLAYGEOGRAPHICALORG { get; set; }

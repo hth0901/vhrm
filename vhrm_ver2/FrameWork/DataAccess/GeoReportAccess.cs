@@ -27,14 +27,15 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] param = new OracleParameter[1];
             param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
-            return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_GETTREE_GEO_REPORT", param);
+            return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_GETTREE_NEW_GEO_REPORT", param);
         }
 
-        public DataTable GetUserGeoReports(string funccode)
+        public DataTable GetUserGeoReports(string funccode,string empid)
         {
-            OracleParameter[] param = new OracleParameter[2];
+            OracleParameter[] param = new OracleParameter[3];
             param[0] = new OracleParameter("pDEPTCODE", (object)funccode ?? DBNull.Value);
-            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            param[1] = new OracleParameter("pEMPID", (object)empid ?? DBNull.Value);
+            param[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_GET_USERGEO_REPORT_BY_DEPT", param);
         }
         public static DataTable getReportByDepartment(string deptcode)
@@ -58,7 +59,7 @@ namespace vhrm.FrameWork.DataAccess
             //return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_INSERT_GEO_REPORT", sqlParam);
             return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_INSERT_GEO_REPORT_VER2", sqlParam);
         }
-
+        
         public static DataTable updateGeoReport(eGeoReportItem eReport, string userId)
         {
             OracleParameter[] sqlParam = new OracleParameter[7];
@@ -70,6 +71,20 @@ namespace vhrm.FrameWork.DataAccess
             sqlParam[5] = new OracleParameter("PUSER", userId);
             sqlParam[6] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_UPDATE_GEO_REPORT", sqlParam);
+        }
+        public static DataTable GetSupervisorByDeptCode(string deptcode)
+        {
+            OracleParameter[] param = new OracleParameter[2];
+            param[0] = new OracleParameter("DEPTCODE", deptcode);
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };           
+            return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_GET_GEO_ROOT_BY_DEPT", param);
+        }
+        public static DataTable GetSupervisorsBySysGeo(string sys_empidgeo)
+        {
+            OracleParameter[] param = new OracleParameter[2];
+            param[0] = new OracleParameter("pSYS_EMPIDGEO", sys_empidgeo);
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            return DBHelper.getDataTable_SP("HR_GEO_REPORT.SP_GET_GEO_CHART_BY_SYSGEO", param);
         }
     }
 }

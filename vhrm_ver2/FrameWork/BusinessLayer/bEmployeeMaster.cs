@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using vhrm.FrameWork.DataAccess;
@@ -67,6 +68,15 @@ namespace vhrm.FrameWork.BusinessLayer
                         }
 
                 }
+                string imgPath = dtr["IMAGE"].ToString();
+                if (string.IsNullOrEmpty(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
+                else if (!IsFileExists(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
                 EmployeeMaster item = new EmployeeMaster
                 {
                     SYS_EMPID = dtr["SYS_EMPID"].ToString(),
@@ -87,14 +97,14 @@ namespace vhrm.FrameWork.BusinessLayer
                     NATIONALITY = dtr["NATIONALITY"].ToString(),
                     DATEJOIN = bb,//DateTime.ParseExact(dtr["DATEJOIN"].ToString(), "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture),
                     //DATEJOIN = DateTime.Parse(string.IsNullOrEmpty(dtr["DATEJOIN"].ToString()) ? "1-1-1999" : dtr["DATEJOIN"].ToString()),
-                    IDENTITYCARD = dtr["IDENTITYCARD"].ToString(),
+                    IDENTITYCARD = dtr["UID_FOR_MES"].ToString(),
                     IDISSUEDPLACE = dtr["IDISSUEDPLACE"].ToString(),
                     IDISSUEDDATE = dtr["IDISSUEDDATE"].ToString(),
                     ACADEMIC = dtr["ACADEMIC"].ToString(),
                     DATERESIGNED = dtr["DATERESIGNED"].ToString(),
                     FINGERPRINT = dtr["FINGERPRINT"].ToString(),
                     FINGERINDEX = dtr["FINGERINDEX"].ToString(),
-                    IMAGE = dtr["IMAGE"].ToString(),
+                    IMAGE = imgPath,
                     POSITION = dtr["POSITION"].ToString(),
                     SKILL = dtr["SKILL"].ToString(),
                     SYS_EMPIDOLD = dtr["SYS_EMPIDOLD"].ToString(),
@@ -256,6 +266,15 @@ namespace vhrm.FrameWork.BusinessLayer
                         }
 
                 }
+                string imgPath = dtr["IMAGE"].ToString();
+                if (string.IsNullOrEmpty(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
+                else if (!IsFileExists(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
                 EmployeeMaster item = new EmployeeMaster
                 {
                     SYS_EMPID = dtr["SYS_EMPID"].ToString(),
@@ -267,6 +286,8 @@ namespace vhrm.FrameWork.BusinessLayer
                     JOBCODE = dtr["JOBCODE"].ToString(),
                     JOBFIELD = dtr["JOBFIELD"].ToString(),
                     DUTY = dtr["DUTY"].ToString(),
+                    DEPTNAME = dtr["DEPTNAME"].ToString(),
+                    FUNCNAME = dtr["FUNCNAME"].ToString(),
                     BIRTHDATE = aa,//DateTime.ParseExact(dtr["BIRTHDATE"].ToString(), "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture),
                     BIRTHPLACE = dtr["BIRTHPLACE"].ToString(),
                     GENDER = dtr["GENDER"].ToString(),
@@ -275,14 +296,14 @@ namespace vhrm.FrameWork.BusinessLayer
                     PHONE = dtr["PHONE"].ToString(),
                     NATIONALITY = dtr["NATIONALITY"].ToString(),
                     DATEJOIN = bb,//DateTime.ParseExact(dtr["DATEJOIN"].ToString(), "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture),
-                    IDENTITYCARD = dtr["IDENTITYCARD"].ToString(),
+                    IDENTITYCARD = dtr["UID_FOR_MES"].ToString(),
                     IDISSUEDPLACE = dtr["IDISSUEDPLACE"].ToString(),
                     IDISSUEDDATE = dtr["IDISSUEDDATE"].ToString(),
                     ACADEMIC = dtr["ACADEMIC"].ToString(),
                     DATERESIGNED = dtr["DATERESIGNED"].ToString(),
                     FINGERPRINT = dtr["FINGERPRINT"].ToString(),
                     FINGERINDEX = dtr["FINGERINDEX"].ToString(),
-                    IMAGE = dtr["IMAGE"].ToString(),
+                    IMAGE = imgPath,
                     POSITION = dtr["POSITION"].ToString(),
                     SKILL = dtr["SKILL"].ToString(),
                     SYS_EMPIDOLD = dtr["SYS_EMPIDOLD"].ToString(),
@@ -353,6 +374,15 @@ namespace vhrm.FrameWork.BusinessLayer
                         }
 
                 }
+                string imgPath = dtr["IMAGE"].ToString();
+                if (string.IsNullOrEmpty(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
+                else if (!IsFileExists(imgPath))
+                {
+                    imgPath = "/FileServer/Photos/default.jpg";
+                }
                 EmployeeMaster item = new EmployeeMaster
                 {
                     SYS_EMPID = dtr["SYS_EMPID"].ToString(),
@@ -372,14 +402,14 @@ namespace vhrm.FrameWork.BusinessLayer
                     PHONE = dtr["PHONE"].ToString(),
                     NATIONALITY = dtr["NATIONALITY"].ToString(),
                     DATEJOIN = bb,//DateTime.ParseExact(dtr["DATEJOIN"].ToString(), "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture),
-                    IDENTITYCARD = dtr["IDENTITYCARD"].ToString(),
+                    IDENTITYCARD = dtr["UID_FOR_MES"].ToString(),
                     IDISSUEDPLACE = dtr["IDISSUEDPLACE"].ToString(),
                     IDISSUEDDATE = dtr["IDISSUEDDATE"].ToString(),
                     ACADEMIC = dtr["ACADEMIC"].ToString(),
                     DATERESIGNED = dtr["DATERESIGNED"].ToString(),
                     FINGERPRINT = dtr["FINGERPRINT"].ToString(),
-                    FINGERINDEX = dtr["FINGERINDEX"].ToString(),
-                    IMAGE = dtr["IMAGE"].ToString(),
+                    FINGERINDEX = dtr["FINGERINDEX"].ToString(),                 
+                    IMAGE = imgPath,
                     POSITION = dtr["POSITION"].ToString(),
                     SKILL = dtr["SKILL"].ToString(),
                     SYS_EMPIDOLD = dtr["SYS_EMPIDOLD"].ToString(),
@@ -471,7 +501,12 @@ namespace vhrm.FrameWork.BusinessLayer
             }                         
             return null;
         }
-       
+        private static bool IsFileExists(string path)
+        {
+            if (File.Exists(HttpContext.Current.Server.MapPath(path)))
+                return true;
+            return false;
+        }
         public static List<EmployeeMaster> getEmployeesByDeptCode()
         {
             return getAllEmployees();

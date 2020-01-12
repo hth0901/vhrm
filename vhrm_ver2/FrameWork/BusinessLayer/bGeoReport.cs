@@ -103,7 +103,7 @@ namespace vhrm.FrameWork.BusinessLayer
             {
                 GeoDeptViewModel item = new GeoDeptViewModel
                 {
-                    GEOREPORTCD = dtr["GEOREPORTCD"].ToString(),
+                    GEOREPORTCD = dtr["REPORTCD"].ToString(),
                     DEPTNAME = dtr["DEPTNAME"].ToString(),
                     DEPTCODE = dtr["DEPTCODE"].ToString(),
                     DEPTPARENT = dtr["DEPTPARENT"].ToString()
@@ -123,9 +123,9 @@ namespace vhrm.FrameWork.BusinessLayer
                 OriganizationUsersViewModel item = new OriganizationUsersViewModel
                 {
                     Display = dtr["DEPTNAME"].ToString(),
-                    Key = dtr["GEOREPORTCD"].ToString(),
+                    Key = dtr["REPORTCD"].ToString(),
                     Flag = 0,
-                    GEOREPORTCD = dtr["GEOREPORTCD"].ToString(),
+                    GEOREPORTCD = dtr["REPORTCD"].ToString(),
                     SYS_EMPID = dtr["SYS_EMPID"].ToString(),
                     DEPTNAME = dtr["DEPTNAME"].ToString(),
                     DEPTCODE = dtr["DEPTCODE"].ToString(),
@@ -252,17 +252,18 @@ namespace vhrm.FrameWork.BusinessLayer
             }
             return result;
         }
-        public static List<EmployeeMaster> getUserInGeoReportByDeptCode(string deptCode)
+        public static List<EmployeeMaster> getUserInGeoReportByDeptCode(string deptCode,string empid)
         {
             List<EmployeeMaster> userList = new List<EmployeeMaster>();
             GeoReportAccess access = new GeoReportAccess();
-            DataTable dtResult = access.GetUserGeoReports(deptCode);
+            DataTable dtResult = access.GetUserGeoReports(deptCode, empid);
             foreach (DataRow dtr in dtResult.Rows)
             {
                 EmployeeMaster item = new EmployeeMaster
                 {
                     SYS_EMPID = dtr["SYS_EMPID"].ToString(),
-                    EMPNAME = dtr["EMPNAME"].ToString() + "," + dtr["SYS_EMPID"].ToString(),
+                    EMPNAME = dtr["EMPNAME"].ToString(), //+ "," + dtr["SYS_EMPID"].ToString(),
+                    DEPTCODE = dtr["DEPTCODE"].ToString(),
                     EMPID = dtr["EMPID"].ToString()
                 };
                 userList.Add(item);

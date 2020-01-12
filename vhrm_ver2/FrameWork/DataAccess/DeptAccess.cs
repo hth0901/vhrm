@@ -18,7 +18,24 @@ namespace vhrm.FrameWork.DataAccess
             param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_DEPARTMENT.SP_GETALL_ISACTIVE_T_HR_DEPT", param);
         }
-   
+
+        public DataTable GetChildsByDeptCodeIsActive(string deptcode)
+        {
+            OracleParameter[] param = new OracleParameter[3];
+            param[0] = new OracleParameter("pDEPTCODE", deptcode);
+            param[1] = new OracleParameter("ISACTIVE", "1");
+            param[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            return DBHelper.getDataTable_SP("HR_DEPARTMENT.SP_GETCHILDBYDEPTCODE_ISACTIVE", param);
+        }
+        public DataTable GetByDeptCodeIsActive(string deptcode)
+        {
+            OracleParameter[] param = new OracleParameter[3];
+            param[0] = new OracleParameter("pDEPTCODE", deptcode);
+            param[1] = new OracleParameter("ISACTIVE", "1");
+            param[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            return DBHelper.getDataTable_SP("HR_DEPARTMENT.SP_GETBYDEPTCODE_ISACTIVE", param);
+        }
+
         public DataTable InsertDepartments(DeptViewModel deptViewModel)
         {           
             OracleParameter[] param = new OracleParameter[9];

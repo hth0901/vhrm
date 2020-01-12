@@ -26,7 +26,7 @@ namespace vhrm.FrameWork.DataAccess
         {
             OracleParameter[] param = new OracleParameter[1];
             param[0] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
-            return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GETTREE_FUNC_REPORT", param);
+            return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GETTREE_NEW_FUNC_REPORT", param);
         }
         
         public DataTable GetUsersFunctionReports(string funccode)
@@ -36,12 +36,13 @@ namespace vhrm.FrameWork.DataAccess
             param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GETUSER_FUNC_REPORT", param);
         }
-        public DataTable GetUsersFunctionForReports(string funccode)
+        public DataTable GetUsersFunctionForReports(string funccode,string empid)
         {
-            OracleParameter[] param = new OracleParameter[2];
-            param[0] = new OracleParameter("pFUNCCODE", (object)funccode ?? DBNull.Value);
-            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
-            return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GETUSER_FUNCTION_REPORT", param);
+            OracleParameter[] param = new OracleParameter[3];
+            param[0] = new OracleParameter("pFUNCTCODE", (object)funccode ?? DBNull.Value);
+            param[1] = new OracleParameter("pEMPID", (object)empid ?? DBNull.Value);
+            param[2] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GETUSERFUNC_REPORT_FUNCDEPT", param);
         }
         public DataTable InsertFunctReport(string functCode, string sysEmpId)
         {
@@ -96,5 +97,19 @@ namespace vhrm.FrameWork.DataAccess
             return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GET_REPORT_BY_FUNCCODE", param);
         }
 
+        public static DataTable GetFunctionorByFuncCode(string funccode)
+        {
+            OracleParameter[] param = new OracleParameter[2];
+            param[0] = new OracleParameter("PFUNCTCODE", funccode);
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GET_F_ROOT_BY_DEPT", param);
+        }
+        public static DataTable GetFunctionorsBySysFun(string sys_empidfunc)
+        {
+            OracleParameter[] param = new OracleParameter[2];
+            param[0] = new OracleParameter("pSYS_EMPIDFUN", sys_empidfunc);
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            return DBHelper.getDataTable_SP("HR_FUNC_REPORT.SP_GET_F_CHART_BY_SYSGEO", param);
+        }
     }
 }

@@ -29,6 +29,62 @@
     <script src="~/libs_ver3/js/fusioncharts.usa.js"></script>
 </head>
 <body class="pace-running">
+
+    <div class="modal fade bootstrapmodal" id="userModal">
+        <div class="modal-dialog" style="width: 320px">
+            @using (Ajax.BeginForm(actionName: "updateUserPassword", controllerName: "User", routeValues: null, ajaxOptions: new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnSuccess = "onSuccess",
+                OnFailure = "onFailure"
+            }, htmlAttributes: new
+            {
+                id = "userForm"
+            }))
+            {
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                        <h4 class="modal-title">Change Password</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="oldPassword">Old Password</label>
+                                        <input type="hidden" name="UserId" value="@Model.UserId" />
+                                        <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Old Password">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="newPassword">New Password</label>
+                                        <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="New Password">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="newPasswordConfirm">New Password Confirm</label>
+                                        <input type="password" class="form-control" id="newPasswordConfirm" name="newPasswordConfirm" placeholder="New Password Confirm">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
             @{
@@ -49,8 +105,9 @@
                                         <input type="hidden" id="userLogin" />
                                         <ul class="dropdown-menu  manager" aria-labelledby="dLabel">
                                             @*<li><a href="#"><i class="icon-user-following icons"></i> My Profile</a></li>
-                                            <li><a href="#"><i class="icon-calendar icons"></i> My Calender</a></li>
-                                            <li><a href="#"><i class="icon-envelope-open icons"></i> My Inbox</a></li>*@
+                                            <li><a href="#"><i class="icon-calendar icons"></i> My Calender</a></li>*@
+                                            <li><a data-toggle="modal" data-target=".bootstrapmodal"><i class="glyphicon glyphicon-cog"></i>Change Password</a></li>
+                                            @*<a class="btn btn-success" data-toggle="modal" data-target=".bootstrapmodal">hihihaha</a>*@
                                             <li class="last"><a href="/login/logout"><i class="icon-logout icons"></i> Log Out</a></li>
                                         </ul>
                                     </div>
@@ -114,8 +171,35 @@
         </div>
     </div>
 
+    <script>
+        function onFailure(data) {
+            console.log('failed!!!');
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('newPasswordConfirm').value = '';
+            $("#userModal").modal('hide');
+            alert('Proccess Error!!');
+        }
+        function onSuccess(data) {
+            console.log('success!!!!');
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('newPasswordConfirm').value = '';
+            $("#userModal").modal('hide');
+            alert(data.param2);
+        }
+
+        document.getElementById('btnClose').addEventListener('click', function () {
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('newPasswordConfirm').value = '';
+            $("#userModal").modal('hide');
+        })
+    </script>
+
 
     <!-- Mainly scripts -->
+    @*<script src="~/libs_ver3/js/jquery-2.1.1.js"></script>*@
     <script src="~/libs_ver3/js/jquery-2.1.1.js"></script>
     <script src="~/libs_ver3/js/bootstrap.min.js"></script>
     <script src="~/libs_ver3/js/jquery.metisMenu.js"></script>
@@ -127,6 +211,8 @@
 
     <!-- jQuery UI -->
     <script src="~/libs_ver3/js/jquery-ui.min.js"></script>
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 
     <script src="~/libs_ver3/js/config.js"></script>
 </body>

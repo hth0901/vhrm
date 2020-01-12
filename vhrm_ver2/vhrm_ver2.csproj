@@ -155,6 +155,7 @@
     <Compile Include="Controllers\OrgConfigController.cs" />
     <Compile Include="Controllers\OrgController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="FrameWork\BusinessLayer\bAddressCategory.cs" />
     <Compile Include="FrameWork\BusinessLayer\bCategoryConfig.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="FrameWork\Entity\EmployeeMasterReport.cs" />
     <Compile Include="FrameWork\Entity\eReporterItem.cs" />
     <Compile Include="FrameWork\Entity\eUser.cs" />
+    <Compile Include="FrameWork\Entity\eUserVhrm.cs" />
     <Compile Include="FrameWork\Entity\FamilyInfoEntity.cs" />
     <Compile Include="FrameWork\Entity\FormEntity.cs" />
     <Compile Include="FrameWork\Entity\FunctionReport.cs" />
@@ -310,6 +312,7 @@
     <Compile Include="ViewModels\CategoryItemViewModel.cs" />
     <Compile Include="ViewModels\DepartmentTreeViewItem.cs" />
     <Compile Include="ViewModels\DeptViewModel.cs" />
+    <Compile Include="ViewModels\ElementViewModel.cs" />
     <Compile Include="ViewModels\EmployeeDiagramViewModel.cs" />
     <Compile Include="ViewModels\EmployeeImageViewModel.cs" />
     <Compile Include="ViewModels\EmployeeItemViewModel.cs" />
@@ -319,6 +322,7 @@
     <Compile Include="ViewModels\FunctionReportViewModel.cs" />
     <Compile Include="ViewModels\FunctionUsersViewModel.cs" />
     <Compile Include="ViewModels\FunctViewModel.cs" />
+    <Compile Include="ViewModels\GeoChartViewModel.cs" />
     <Compile Include="ViewModels\GeoDeptViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuFirstLevel.cs" />
@@ -367,7 +371,6 @@
     <Content Include="FileServer\Photos\00000030.jpg" />
     <Content Include="FileServer\Photos\00000033.jpg" />
     <Content Include="FileServer\Photos\00000073.jpg" />
-    <Content Include="FileServer\Photos\24190001.jpg" />
     <Content Include="FileServer\Photos\24190003.jpg" />
     <Content Include="FileServer\Photos\24190004.jpg" />
     <Content Include="FileServer\Photos\24190005.jpg" />
@@ -3929,6 +3932,7 @@
     <Content Include="libs_ver3\js\jquery.sparkline.min.js" />
     <Content Include="libs_ver3\js\nice-scrollbar.js" />
     <Content Include="libs_ver3\js\npm.js" />
+    <Content Include="libs_ver3\js\orgchart.js" />
     <Content Include="libs_ver3\js\pace.min.js" />
     <Content Include="libs_ver3\js\peity-demo.js" />
     <Content Include="libs_ver3\js\sparkline-demo.js" />
@@ -4919,6 +4923,12 @@
     <Content Include="Views\OrgConfig\OrgChart.cshtml" />
     <Content Include="Views\OrgConfig\OrgCategory_hieuhtbk.cshtml" />
     <Content Include="Views\FuncConfig\FuncConfigIndex.cshtml" />
+    <Content Include="Views\OrgConfig\FuncChart.cshtml" />
+    <Content Include="Views\OrgConfig\FunctionorChart.cshtml" />
+    <Content Include="Views\OrgConfig\SupervisorChart.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\User\UserList.cshtml" />
+    <Content Include="Views\Test\AddUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

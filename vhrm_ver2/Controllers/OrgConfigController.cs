@@ -1,5 +1,7 @@
 ﻿using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -55,11 +57,42 @@ namespace vhrm.Controllers
             //return View("OrgCategory_hieuhtbk");
             return View("OrgCategory");
         }
-        public JsonResult _OrgChartData()
+        
+        public JsonResult _SupervisorChartData(string deptcode)
         {
-            //if (string.IsNullOrEmpty(deptcode)) return Json(0, JsonRequestBehavior.AllowGet);
-            List<OrgNodeViewModel> data = bDept.getOrganizationChartData("000002");
-            return Json(new { nodes = data }, JsonRequestBehavior.AllowGet);
+            List<JObject> data = bDept.getSupervisorDataForChartV2(deptcode);
+            string jsonData = JsonConvert.SerializeObject(data);            
+            return Json(new { nodes = jsonData}, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult _FunctionorChartData(string funccode)
+        {
+            List<JObject> data = bDept.getFunctionorDataForChart(funccode);
+            string jsonData = JsonConvert.SerializeObject(data);
+            return Json(new { nodes = jsonData }, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult _OrgChartData(string deptcode)
+        {
+            KeyValuePair<JObject, List<JObject>> data = bDept.getDataForOrgChart(deptcode);
+            JObject tagData = data.Key;
+            List<JObject> nodeData = data.Value;
+            string jsonG = JsonConvert.SerializeObject(tagData);
+            string jsonN = JsonConvert.SerializeObject(nodeData);
+            jsonN = jsonN.Replace("\"[", "[");
+            jsonN = jsonN.Replace("]\"", "]");
+            jsonN = jsonN.Replace("'", "\"");
+            return Json(new { nodes = jsonN, groups = jsonG }, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult _FuncChartData(string funccode)
+        {
+            KeyValuePair<JObject, List<JObject>> data = bDept.getDataForFuncChart(funccode);
+            JObject tagData = data.Key;
+            List<JObject> nodeData = data.Value;
+            string jsonG = JsonConvert.SerializeObject(tagData);
+            string jsonN = JsonConvert.SerializeObject(nodeData);
+            jsonN = jsonN.Replace("\"[", "[");
+            jsonN = jsonN.Replace("]\"", "]");
+            jsonN = jsonN.Replace("'", "\"");
+            return Json(new { nodes = jsonN, groups = jsonG }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult getDeptDetail(string deptcode)
@@ -154,9 +187,30 @@ namespace vhrm.Controllers
             return jsonResult;
         }
 
-        public ActionResult viewChart()
+        public ActionResult viewChart(string deptCode)
         {
-            return View("OrgChart");
+            GeoChartViewModel vm = new GeoChartViewModel();
+            vm.DEPTCODE = deptCode;
+            return View("OrgChart", vm);
+        }
+        public ActionResult viewFunctionChart(string deptCode)
+        {
+            GeoChartViewModel vm = new GeoChartViewModel();
+            vm.DEPTCODE = deptCode;
+            return View("FuncChart", vm);
+        }
+        public ActionResult viewGeoChart(string deptCode)
+        {
+            GeoChartViewModel vm = new GeoChartViewModel();
+            vm.DEPTCODE = deptCode;
+            return View("SupervisorChart", vm);
+        }
+        
+        public ActionResult viewFuncChart(string deptCode)
+        {
+            GeoChartViewModel vm = new GeoChartViewModel();
+            vm.DEPTCODE = deptCode;
+            return View("FunctionorChart", vm);
         }
     }
 }

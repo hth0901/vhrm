@@ -153,7 +153,7 @@ namespace vhrm.FrameWork.DataAccess
         public DataTable GetEmployeeByEmpID(string empID)
         {
             OracleParameter[] param = new OracleParameter[2];
-            param[0] = new OracleParameter("pEmpID", empID);
+            param[0] = new OracleParameter("pEMPID", empID);
             param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_EMPLOYEE.SP_SEARCH_EMPLOYEE", param);
         }
@@ -177,6 +177,13 @@ namespace vhrm.FrameWork.DataAccess
             param[0] = new OracleParameter("pSYS_EMPID", sysEmpid);
             param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
             return DBHelper.getDataTable_SP("HR_EMPLOYEE.SP_GEBYSYS_EMPID_EMPLOYEE", param);
+        }
+        public DataTable SearchBySysEmpID(string sysEmpid)
+        {
+            OracleParameter[] param = new OracleParameter[2];
+            param[0] = new OracleParameter("pSYS_EMPID", sysEmpid);
+            param[1] = new OracleParameter("T_TABLE", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
+            return DBHelper.getDataTable_SP("HR_EMPLOYEE.SP_SEARCHBYSYS_EMPID_EMPLOYEE", param);
         }
         #endregion
 

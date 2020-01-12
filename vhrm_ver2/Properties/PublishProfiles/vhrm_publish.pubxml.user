@@ -60,6 +60,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="assets/js/custom_hrm_ver2.js">
       <publishTime>11/20/2019 16:20:57</publishTime>
     </File>
+    <File Include="assets/js/orgchart.js">
+      <publishTime>11/23/2019 08:23:48</publishTime>
+    </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
@@ -166,10 +169,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/23/2019 10:08:40</publishTime>
     </File>
     <File Include="bin/vhrm_ver2.dll">
-      <publishTime>11/22/2019 09:50:00</publishTime>
+      <publishTime>12/06/2019 17:04:32</publishTime>
     </File>
     <File Include="bin/vhrm_ver2.pdb">
-      <publishTime>11/22/2019 09:50:00</publishTime>
+      <publishTime>12/06/2019 17:04:32</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>01/23/2014 13:57:34</publishTime>
@@ -13417,7 +13420,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/20/2019 03:33:44</publishTime>
     </File>
     <File Include="libs_ver3/css/style.css">
-      <publishTime>11/21/2019 17:38:04</publishTime>
+      <publishTime>11/22/2019 14:10:11</publishTime>
     </File>
     <File Include="libs_ver3/css/template.css">
       <publishTime>11/21/2019 17:38:04</publishTime>
@@ -13501,7 +13504,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/20/2019 03:33:44</publishTime>
     </File>
     <File Include="libs_ver3/js/config.js">
-      <publishTime>11/21/2019 14:32:13</publishTime>
+      <publishTime>11/22/2019 15:53:34</publishTime>
     </File>
     <File Include="libs_ver3/js/fusioncharts.charts.js">
       <publishTime>11/20/2019 03:33:44</publishTime>
@@ -13525,7 +13528,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/20/2019 03:33:44</publishTime>
     </File>
     <File Include="libs_ver3/js/inspinia.js">
-      <publishTime>11/20/2019 03:33:44</publishTime>
+      <publishTime>12/04/2019 18:21:58</publishTime>
     </File>
     <File Include="libs_ver3/js/jquery-2.1.1.js">
       <publishTime>11/20/2019 03:33:44</publishTime>
@@ -13568,6 +13571,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="libs_ver3/js/npm.js">
       <publishTime>11/20/2019 03:33:44</publishTime>
+    </File>
+    <File Include="libs_ver3/js/orgchart.js">
+      <publishTime>12/04/2019 14:58:50</publishTime>
     </File>
     <File Include="libs_ver3/js/pace.min.js">
       <publishTime>11/20/2019 03:33:44</publishTime>
@@ -13681,7 +13687,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/21/2019 13:34:22</publishTime>
     </File>
     <File Include="Views/Form/Index.cshtml">
-      <publishTime>11/21/2019 11:24:01</publishTime>
+      <publishTime>11/22/2019 14:22:20</publishTime>
+    </File>
+    <File Include="Views/FuncConfig/FuncConfigIndex.cshtml">
+      <publishTime>11/23/2019 08:23:48</publishTime>
     </File>
     <File Include="Views/FuncReportConfig/EditorTemplates/FunctReportItemEditor.cshtml">
       <publishTime>11/20/2019 03:33:44</publishTime>
@@ -13729,31 +13738,40 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/20/2019 03:33:44</publishTime>
     </File>
     <File Include="Views/Main/MainViewVer3.cshtml">
-      <publishTime>11/20/2019 03:33:44</publishTime>
+      <publishTime>12/04/2019 18:18:23</publishTime>
     </File>
     <File Include="Views/Main/MenuPartial.cshtml">
       <publishTime>11/20/2019 03:33:44</publishTime>
     </File>
     <File Include="Views/Main/MenuPartialVer3.cshtml">
-      <publishTime>11/21/2019 13:38:43</publishTime>
+      <publishTime>12/04/2019 18:06:54</publishTime>
     </File>
     <File Include="Views/MenuConfig/Index.cshtml">
       <publishTime>11/21/2019 17:38:04</publishTime>
     </File>
+    <File Include="Views/OrgConfig/FuncChart.cshtml">
+      <publishTime>12/05/2019 08:43:01</publishTime>
+    </File>
+    <File Include="Views/OrgConfig/FunctionorChart.cshtml">
+      <publishTime>12/05/2019 08:43:21</publishTime>
+    </File>
     <File Include="Views/OrgConfig/OrgCategory.cshtml">
-      <publishTime>11/22/2019 08:58:55</publishTime>
+      <publishTime>12/04/2019 14:22:28</publishTime>
     </File>
     <File Include="Views/OrgConfig/OrgCategory_hieuhtbk.cshtml">
       <publishTime>11/22/2019 08:45:09</publishTime>
     </File>
     <File Include="Views/OrgConfig/OrgChart.cshtml">
-      <publishTime>11/22/2019 10:32:29</publishTime>
+      <publishTime>12/05/2019 08:43:38</publishTime>
     </File>
     <File Include="Views/OrgConfig/OrgChart_.html">
-      <publishTime>11/21/2019 16:08:21</publishTime>
+      <publishTime>11/27/2019 08:13:10</publishTime>
     </File>
     <File Include="Views/OrgConfig/OrgConfigIndex.cshtml">
       <publishTime>11/21/2019 17:38:04</publishTime>
+    </File>
+    <File Include="Views/OrgConfig/SupervisorChart.cshtml">
+      <publishTime>12/05/2019 08:43:50</publishTime>
     </File>
     <File Include="Views/Shared/EditorTemplates/Boolean.cshtml">
       <publishTime>11/20/2019 03:33:44</publishTime>
@@ -13795,7 +13813,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/20/2019 03:33:44</publishTime>
     </File>
     <File Include="Views/Shared/vhrmLayout.cshtml">
-      <publishTime>11/20/2019 22:06:53</publishTime>
+      <publishTime>11/27/2019 08:17:54</publishTime>
     </File>
     <File Include="Views/Shared/vhrmLayoutBlock.cshtml">
       <publishTime>11/21/2019 17:38:04</publishTime>
@@ -13804,7 +13822,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/20/2019 03:33:44</publishTime>
     </File>
     <File Include="Views/Staff/Edit.cshtml">
-      <publishTime>11/21/2019 17:38:04</publishTime>
+      <publishTime>12/06/2019 10:57:22</publishTime>
     </File>
     <File Include="Views/Staff/EmpImagePartial.cshtml">
       <publishTime>11/20/2019 03:33:44</publishTime>
@@ -13834,10 +13852,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/20/2019 03:33:44</publishTime>
     </File>
     <File Include="Views/Staff/Index.cshtml">
-      <publishTime>11/21/2019 17:38:04</publishTime>
+      <publishTime>12/06/2019 10:57:22</publishTime>
     </File>
     <File Include="Views/Staff/New.cshtml">
-      <publishTime>11/17/2019 21:17:04</publishTime>
+      <publishTime>12/04/2019 18:29:15</publishTime>
+    </File>
+    <File Include="Views/Test/Index.cshtml">
+      <publishTime>12/06/2019 16:42:26</publishTime>
     </File>
     <File Include="Views/User/Index.cshtml">
       <publishTime>11/20/2019 03:33:44</publishTime>

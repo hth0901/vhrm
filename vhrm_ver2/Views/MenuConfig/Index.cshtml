@@ -79,6 +79,7 @@
         width: 270px;
         height: 70px;
     }
+
 </style>
 
 @(Html.Kendo().Notification()
@@ -101,7 +102,7 @@
 </script>
 
 <div class="hrm-block-tree">
-    <div class="k-content hrm-tree-left">
+    <div class="k-content hrm-tree-left" style="max-height: 100vh">
         @(Html.Kendo().TreeView()
                     .Name("treeviewMenu")
                     .DataTextField("Name")

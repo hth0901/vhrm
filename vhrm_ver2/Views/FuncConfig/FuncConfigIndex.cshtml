@@ -1,4 +1,4 @@
-﻿
+﻿@model vhrm.ViewModels.FunctionConfigViewModel
 @{
     ViewBag.Title = "FuncConfigIndex";
     Layout = "~/Views/Shared/vhrmLayoutBlock.cshtml";
@@ -164,7 +164,7 @@
                     .DataTextField("Name")
                     .DataSource(dataSource => dataSource
                         .Read(read => read
-                            .Action("getDeptTreeVer2", "OrgConfig")
+                            .Action("getDeptTreeVer2", "FuncConfig")
                         )
                     )
                     .Events(evs =>
@@ -178,7 +178,7 @@
     </div>
 
     <div class="hrm-block-right" style="height:100vh">
-        @using (Ajax.BeginForm("updateDept", "OrgConfig", new AjaxOptions()
+        @using (Ajax.BeginForm("updateDept", "FuncConfig", new AjaxOptions()
         {
             HttpMethod = "PUT",
             OnSuccess = "onUpdateSuccess",
@@ -195,14 +195,14 @@
                     <div class="col-sm-6">
                         <div class='form-group'>
                             <label for='full_name'>Full Name</label>
-                            <input type='text' class='form-control' name="DEPTNAME" id="dept_name_update">
-                            <input type="hidden" name="DEPTCODE" id="dept_id_update" />
+                            <input type='text' class='form-control' name="FUNCNAME" id="dept_name_update">
+                            <input type="hidden" name="FUNCCODE" id="dept_id_update" />
                         </div>
                     </div>
                     <div class='col-sm-6'>
                         <div class='form-group'>
                             <label for='short_name'>Short Name</label>
-                            <input type='text' class='form-control' name="DEPTSHORTNAME" id="dept_shortname_update">
+                            <input type='text' class='form-control' name="SHORTNAME" id="dept_shortname_update">
                         </div>
                     </div>
                 </div>
@@ -231,7 +231,7 @@
 
                         <input type="submit" id="btnSave" class="btn btn-primary" value="Save" disabled />
 
-                        <input type="button" class="btn btn-primary" id="btnAddNew" value="Add New Child" />
+                        <input type="button" class="btn btn-primary" style="display:@Model.displayAdd" id="btnAddNew" value="Add New Child" />
                     </div>
                 </div>
             </div>
@@ -287,7 +287,7 @@
     function trvMenuSelect(e) {
         let treeview = $("#treeViewDept").data("kendoTreeView");
         let data = treeview.dataItem(e.node);
-        $.get('/OrgConfig/getDeptDetail', { deptcode: data.id }, fillInfo);
+        $.get('/FuncConfig/getDeptDetail', { deptcode: data.id }, fillInfo);
     }
 
     function actionOK(e) {
@@ -298,13 +298,13 @@
         let isActive = document.getElementById('is_active_value').value;
 
         let entity = {
-            DEPTNAME: deptname,
-            DEPTPARENT: parentCode,
-            DEPTSHORTNAME: deptShortName,
+            FUNCNAME: deptname,
+            FUNCPARENT: parentCode,
+            SHORTNAME: deptShortName,
             ISACTIVE: isActive
         }
 
-        $.post("/OrgConfig/insertNewDept", entity, function (result) {
+        $.post("/FuncConfig/insertNewDept", entity, function (result) {
             console.log(result);
             let status = result.param1;
             let strResult = result.param2;

@@ -18,7 +18,17 @@ namespace vhrm.Controllers
         // GET: OrgConfig
         public ActionResult Index()
         {
-            return View("OrgConfigIndex");
+            string userId = Session["UserId"].ToString();
+            OrgConfigViewModel vm = new OrgConfigViewModel();
+            if (userId == "super")
+            {
+                vm.displayAdd = "inline-block";
+            }
+            else
+            {
+                vm.displayAdd = "none";
+            }
+            return View("OrgConfigIndex", vm);
         }
 
         public JsonResult getDeptTreeVer2(string id)

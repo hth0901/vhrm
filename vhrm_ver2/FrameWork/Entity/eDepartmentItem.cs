@@ -23,4 +23,21 @@ namespace vhrm.FrameWork.Entity
         public string DEPTSHORTNAME { get; set; }
         public string ISLEAF { get; set; }
     }
+
+    public class eFunctionItem
+    {
+        public string FUNCCODE { get; set; }
+        public string FUNCNAME { get; set; }
+        public string FUNCPARENT { get; set; }
+        public string FUNCLEVEL { get; set; }
+        public string ORDERINDEX { get; set; }
+        public string ISACTIVE { get; set; }
+        public string REMARK { get; set; }
+        public string CREATE_UID { get; set; }
+        public string CREATE_DT { get; set; }
+        public string UPDATE_UID { get; set; }
+        public string UPDATE_DT { get; set; }
+        public string SHORTNAME { get; set; }
+        public string ISLEAF { get; set; }
+    }
 }

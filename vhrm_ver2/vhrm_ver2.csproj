@@ -173,6 +173,7 @@
     <Compile Include="FrameWork\DataAccess\aDepartmentItemAccess.cs" />
     <Compile Include="FrameWork\DataAccess\aDeptAccessVer2.cs" />
     <Compile Include="FrameWork\DataAccess\aDeptDetailAccess.cs" />
+    <Compile Include="FrameWork\DataAccess\aFunctionAccess.cs" />
     <Compile Include="FrameWork\DataAccess\CategoryAccess.cs" />
     <Compile Include="FrameWork\DataAccess\DeptAccess.cs" />
     <Compile Include="FrameWork\DataAccess\EmployeeMasterAccess.cs" />
@@ -317,6 +318,7 @@
     <Compile Include="ViewModels\EmployeeItemViewModel.cs" />
     <Compile Include="ViewModels\EmployeeListViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
+    <Compile Include="ViewModels\FunctionConfigViewModel.cs" />
     <Compile Include="ViewModels\FunctionReportViewModel.cs" />
     <Compile Include="ViewModels\FunctionUsersViewModel.cs" />
     <Compile Include="ViewModels\FunctViewModel.cs" />
@@ -327,6 +329,7 @@
     <Compile Include="ViewModels\MenuLevel1ViewModel.cs" />
     <Compile Include="ViewModels\MenuSecondLevel.cs" />
     <Compile Include="ViewModels\MenuThirdLevel.cs" />
+    <Compile Include="ViewModels\OrgConfigViewModel.cs" />
     <Compile Include="ViewModels\OrgNodeViewModel.cs" />
     <Compile Include="ViewModels\OriganizationUsersViewModel.cs" />
     <Compile Include="ViewModels\SupervisorViewModel.cs" />

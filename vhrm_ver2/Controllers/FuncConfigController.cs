@@ -20,22 +20,49 @@ namespace vhrm.Controllers
         // GET: FuncConfig
         public ActionResult Index()
         {
-            return View("FuncConfigIndex");
+            string userId = Session["UserId"].ToString();
+            FunctionConfigViewModel vm = new FunctionConfigViewModel();
+            if (userId == "super")
+            {
+                vm.displayAdd = "inline-block";
+            }
+            else
+            {
+                vm.displayAdd = "none";
+            }
+            return View("FuncConfigIndex", vm);
+        }
+
+        private static List<eFunctionItem> getFunctionTree()
+        {
+            List<eFunctionItem> lstResult = new List<eFunctionItem>();
+            DataTable dtResult = new DataTable();
+            dtResult = aFunctionAccess.getAllFunction();
+            foreach (DataRow dtr in dtResult.Rows)
+            {
+                eFunctionItem item = new eFunctionItem();
+                item.FUNCCODE = dtr["FUNCCODE"].ToString();
+                item.FUNCNAME = dtr["FUNCNAME"].ToString();
+                item.FUNCPARENT = dtr["FUNCPARENT"].ToString();
+                item.ISLEAF = dtr["ISLEAF"].ToString();
+                lstResult.Add(item);
+            }
+            return lstResult;
         }
 
         public JsonResult getDeptTreeVer2(string id)
         {
-            List<eDepartmentItem> lstResult = new List<eDepartmentItem>();
-            if (Session["dept_tree_ver2"] == null)
-                Session["dept_tree_ver2"] = bDepartment.getDeptTreeVer2();
-            lstResult = Session["dept_tree_ver2"] as List<eDepartmentItem>;
+            List<eFunctionItem> lstResult = new List<eFunctionItem>();
+            if (Session["func_tree"] == null)
+                Session["func_tree"] = getFunctionTree();
+            lstResult = Session["func_tree"] as List<eFunctionItem>;
 
             var result = from e in lstResult
-                         where (!string.IsNullOrEmpty(id) ? e.DEPTPARENT == id : string.IsNullOrEmpty(e.DEPTPARENT))
+                         where (!string.IsNullOrEmpty(id) ? e.FUNCPARENT == id : string.IsNullOrEmpty(e.FUNCPARENT))
                          select new
                          {
-                             id = e.DEPTCODE,
-                             Name = e.DEPTNAME,
+                             id = e.FUNCCODE,
+                             Name = e.FUNCNAME,
                              hasChildren = e.ISLEAF == "0"
                          };
 
@@ -62,27 +89,27 @@ namespace vhrm.Controllers
         [HttpGet]
         public JsonResult getDeptDetail(string deptcode)
         {
-            eDepartmentItem eResult = new eDepartmentItem();
-            DataTable dtResult = aDeptAccessVer2.getDeptDetail(deptcode);
+            eFunctionItem eResult = new eFunctionItem();
+            DataTable dtResult = aFunctionAccess.getFunctionDetail(deptcode);
             dynamic strResult = string.Empty;
             strResult = new
             {
-                parent_name = dtResult.Rows[0]["parentname"].ToString(),
-                deptcode = dtResult.Rows[0]["deptcode"].ToString(),
-                deptName = dtResult.Rows[0]["deptname"].ToString(),
-                deptParent = dtResult.Rows[0]["deptparent"].ToString(),
-                deptShortName = dtResult.Rows[0]["deptshortname"].ToString(),
-                isActive = dtResult.Rows[0]["isactive"].ToString()
+                parent_name = dtResult.Rows[0]["PARENTNAME"].ToString(),
+                deptcode = dtResult.Rows[0]["FUNCCODE"].ToString(),
+                deptName = dtResult.Rows[0]["FUNCNAME"].ToString(),
+                deptParent = dtResult.Rows[0]["FUNCPARENT"].ToString(),
+                deptShortName = dtResult.Rows[0]["SHORTNAME"].ToString(),
+                isActive = dtResult.Rows[0]["ISACTIVE"].ToString()
             };
             return Json(strResult, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult insertNewDept(eDepartmentItem dept, string userId)
+        public ActionResult insertNewDept(eFunctionItem dept, string userId)
         {
             dept.CREATE_UID = Session["UserId"].ToString();
             dynamic showMessageString = string.Empty;
-            DataTable dtResult = aDeptAccessVer2.insertNewDept(dept);
+            DataTable dtResult = aFunctionAccess.insertNewFunction(dept);
             string strResult = dtResult.Rows[0][0].ToString();
             string strMes = dtResult.Rows[0][1].ToString();
             showMessageString = new
@@ -94,7 +121,7 @@ namespace vhrm.Controllers
 
             try
             {
-                Session["dept_tree_ver2"] = null;
+                Session["func_tree"] = null;
                 return Json(showMessageString, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -111,11 +138,11 @@ namespace vhrm.Controllers
         }
 
         [HttpPut]
-        public ActionResult updateDept(eDepartmentItem dept, string userId)
+        public ActionResult updateDept(eFunctionItem dept, string userId)
         {
             dept.UPDATE_UID = Session["UserId"].ToString();
             dynamic showMessageString = string.Empty;
-            DataTable dtResult = aDeptAccessVer2.updateDept(dept);
+            DataTable dtResult = aFunctionAccess.updateFunction(dept);
             string strResult = dtResult.Rows[0][0].ToString();
             string strMes = dtResult.Rows[0][1].ToString();
             showMessageString = new
@@ -127,7 +154,7 @@ namespace vhrm.Controllers
 
             try
             {
-                Session["dept_tree_ver2"] = null;
+                Session["func_tree"] = null;
                 return Json(showMessageString, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

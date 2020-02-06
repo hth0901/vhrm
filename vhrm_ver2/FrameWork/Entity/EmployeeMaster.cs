@@ -81,5 +81,15 @@ namespace vhrm.FrameWork.Entity
         public string DISPLAYGEODIRECTREPORTNAME { get; set; }
         public string DISPLAYFUNCDIRECTREPORTNAME { get; set; }
 
+        //hue_20200206
+        [Display(Name = "Process Type")]
+        public string ProcessType { get; set; }
+        [Display(Name = "Job Type")]
+        public string JobType { get; set; }
+        [Display(Name = "Skill Level")]
+        public string SkillLevel { get; set; }
+        public string skillFrom { get; set; }
+        public string skillTo { get; set; }
+
     }
 }

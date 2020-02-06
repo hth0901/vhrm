@@ -270,7 +270,8 @@ namespace vhrm.FrameWork.BusinessLayer
                 dtResult = access.GetByDeptCodeIsActive(deptCode);
                 foreach (DataRow dtr in dtResult.Rows)
                 {
-                    int.TryParse(dtr["DEPTLEVEL"].ToString(), out var oLevel);
+                    int oLevel;
+                    int.TryParse(dtr["DEPTLEVEL"].ToString(), out oLevel);
                     JObject group = new JObject();
                     group["group"] = true;
                     group["groupName"] = dtr["DEPTNAME"].ToString();
@@ -437,7 +438,8 @@ namespace vhrm.FrameWork.BusinessLayer
                 dtResult = access.GetByFuncCodeIsActive(funccode);
                 foreach (DataRow dtr in dtResult.Rows)
                 {
-                    int.TryParse(dtr["FUNCLEVEL"].ToString(), out var oLevel);
+                    int oLevel;
+                    int.TryParse(dtr["FUNCLEVEL"].ToString(), out oLevel);
                     JObject group = new JObject();
                     group["group"] = true;
                     group["groupName"] = dtr["FUNCNAME"].ToString();

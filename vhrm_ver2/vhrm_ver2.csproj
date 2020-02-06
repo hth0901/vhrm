@@ -4929,6 +4929,7 @@
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\User\UserList.cshtml" />
     <Content Include="Views\Test\AddUser.cshtml" />
+    <Content Include="Views\Staff\EditBK20200206.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
